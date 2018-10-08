@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.ruoyi</groupId>
-	<artifactId>RuoYi-fast</artifactId>
+	<artifactId>RuoYi</artifactId>
 	<version>3.0.0</version>
 	<packaging>jar</packaging>
 
