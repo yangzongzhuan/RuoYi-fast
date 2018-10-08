@@ -174,10 +174,13 @@ public class DeptServiceImpl implements IDeptService
     public int updateDept(Dept dept)
     {
         Dept info = deptMapper.selectDeptById(dept.getParentId());
-        String ancestors = info.getAncestors() + "," + dept.getParentId();
+        if (StringUtils.isNotNull(info))
+        {
+            String ancestors = info.getAncestors() + "," + dept.getParentId();
+            dept.setAncestors(ancestors);
+            updateDeptChildren(dept.getDeptId(), ancestors);
+        }
         dept.setUpdateBy(ShiroUtils.getLoginName());
-        dept.setAncestors(ancestors);
-        updateDeptChildren(dept.getDeptId(), ancestors);
         return deptMapper.updateDept(dept);
     }
 
