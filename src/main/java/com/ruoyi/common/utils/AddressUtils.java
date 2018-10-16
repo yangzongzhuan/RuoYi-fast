@@ -20,6 +20,11 @@ public class AddressUtils
     public static String getRealAddressByIP(String ip)
     {
         String address = "XX XX";
+        // 内网不查询
+        if (IpUtils.internalIp(ip))
+        {
+            return "内网IP";
+        }
         if (RuoYiConfig.isAddressEnabled())
         {
             String rspStr = HttpUtils.sendPost(IP_URL, "ip=" + ip);
