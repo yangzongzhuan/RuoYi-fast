@@ -145,4 +145,14 @@ public class JobController extends BaseController
     {
         return toAjax(jobService.updateJobCron(job));
     }
+    
+    /**
+     * 校验cron表达式是否有效
+     */
+    @PostMapping("/checkCronExpressionIsValid")
+    @ResponseBody
+    public boolean checkCronExpressionIsValid(Job job)
+    {
+        return jobService.checkCronExpressionIsValid(job.getCronExpression());
+    }
 }

@@ -11,6 +11,7 @@ import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.monitor.job.domain.Job;
 import com.ruoyi.project.monitor.job.mapper.JobMapper;
+import com.ruoyi.project.monitor.job.util.CronUtils;
 import com.ruoyi.project.monitor.job.util.ScheduleUtils;
 
 /**
@@ -207,5 +208,16 @@ public class JobServiceImpl implements IJobService
             ScheduleUtils.updateScheduleJob(scheduler, job);
         }
         return rows;
+    }
+    
+    /**
+     * 校验cron表达式是否有效
+     * 
+     * @param cronExpression 表达式
+     * @return 结果
+     */
+    public boolean checkCronExpressionIsValid(String cronExpression)
+    {
+        return CronUtils.isValid(cronExpression);
     }
 }
