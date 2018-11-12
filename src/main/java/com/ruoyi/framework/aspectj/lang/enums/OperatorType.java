@@ -16,7 +16,6 @@ public enum OperatorType
     /**
      * 后台用户
      */
-
     MANAGE,
 
     /**
