@@ -1,9 +1,8 @@
 package com.ruoyi.framework.web.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
+import java.beans.PropertyEditorSupport;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import com.github.pagehelper.PageHelper;
@@ -11,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.framework.web.page.TableSupport;
@@ -29,9 +29,15 @@ public class BaseController
     @InitBinder
     public void initBinder(WebDataBinder binder)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        // Date 类型转换
+        binder.registerCustomEditor(Date.class, new PropertyEditorSupport()
+        {
+            @Override
+            public void setAsText(String text)
+            {
+                setValue(DateUtils.parseDate(text));
+            }
+        });
     }
 
     /**
