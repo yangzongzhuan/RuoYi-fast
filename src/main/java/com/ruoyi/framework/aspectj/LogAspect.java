@@ -75,7 +75,7 @@ public class LogAspect
             }
 
             // 获取当前的用户
-            User currentUser = ShiroUtils.getUser();
+            User currentUser = ShiroUtils.getSysUser();
 
             // *========数据库日志=========*//
             OperLog operLog = new OperLog();

@@ -48,7 +48,7 @@ public class ProfileController extends BaseController
     @GetMapping()
     public String profile(ModelMap mmap)
     {
-        User user = getUser();
+        User user = getSysUser();
         user.setSex(dict.getLabel("sys_user_sex", user.getSex()));
         mmap.put("user", user);
         mmap.put("roleGroup", userService.selectUserRoleGroup(user.getUserId()));
@@ -60,7 +60,7 @@ public class ProfileController extends BaseController
     @ResponseBody
     public boolean checkPassword(String password)
     {
-        User user = getUser();
+        User user = getSysUser();
         String encrypt = new Md5Hash(user.getLoginName() + password + user.getSalt()).toHex().toString();
         if (user.getPassword().equals(encrypt))
         {
@@ -84,7 +84,7 @@ public class ProfileController extends BaseController
         int rows = userService.resetUserPwd(user);
         if (rows > 0)
         {
-            setUser(userService.selectUserById(user.getUserId()));
+            setSysUser(userService.selectUserById(user.getUserId()));
             return success();
         }
         return error();
@@ -120,7 +120,7 @@ public class ProfileController extends BaseController
     {
         if (userService.updateUserInfo(user) > 0)
         {
-            setUser(userService.selectUserById(user.getUserId()));
+            setSysUser(userService.selectUserById(user.getUserId()));
             return success();
         }
         return error();
@@ -142,7 +142,7 @@ public class ProfileController extends BaseController
                 user.setAvatar(avatar);
                 if (userService.updateUserInfo(user) > 0)
                 {
-                    setUser(userService.selectUserById(user.getUserId()));
+                    setSysUser(userService.selectUserById(user.getUserId()));
                     return success();
                 }
             }

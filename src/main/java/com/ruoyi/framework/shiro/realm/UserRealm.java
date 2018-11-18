@@ -57,7 +57,7 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0)
     {
-        User user = ShiroUtils.getUser();
+        User user = ShiroUtils.getSysUser();
         // 角色列表
         Set<String> roles = new HashSet<String>();
         // 功能列表
@@ -129,7 +129,8 @@ public class UserRealm extends AuthorizingRealm
             log.info("对用户[" + username + "]进行登录验证..验证未通过{}", e.getMessage());
             throw new AuthenticationException(e.getMessage(), e);
         }
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
+        ShiroUtils.getSession().setAttribute("sysUser", user);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getLoginName(), password, getName());
         return info;
     }
 

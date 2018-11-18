@@ -52,7 +52,7 @@ public class OnlineSessionFilter extends AccessControlFilter
             boolean isGuest = onlineSession.getUserId() == null || onlineSession.getUserId() == 0L;
             if (isGuest == true)
             {
-                User user = ShiroUtils.getUser();
+                User user = ShiroUtils.getSysUser();
                 if (user != null)
                 {
                     onlineSession.setUserId(user.getUserId());

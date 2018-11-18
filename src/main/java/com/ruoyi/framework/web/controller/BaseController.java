@@ -127,23 +127,23 @@ public class BaseController
         return StringUtils.format("redirect:{}", url);
     }
 
-    public User getUser()
+    public User getSysUser()
     {
-        return ShiroUtils.getUser();
+        return (User) ShiroUtils.getSession().getAttribute("sysUser");
     }
 
-    public void setUser(User user)
+    public void setSysUser(User user)
     {
-        ShiroUtils.setUser(user);
+        ShiroUtils.setSysUser(user);
     }
 
     public Long getUserId()
     {
-        return getUser().getUserId();
+        return getSysUser().getUserId();
     }
 
     public String getLoginName()
     {
-        return getUser().getLoginName();
+        return getSysUser().getLoginName();
     }
 }
