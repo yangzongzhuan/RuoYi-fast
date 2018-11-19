@@ -129,7 +129,7 @@ public class BaseController
 
     public User getSysUser()
     {
-        return (User) ShiroUtils.getSession().getAttribute("sysUser");
+        return ShiroUtils.getSysUser();
     }
 
     public void setSysUser(User user)
