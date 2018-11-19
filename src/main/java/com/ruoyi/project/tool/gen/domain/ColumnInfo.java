@@ -1,5 +1,8 @@
 package com.ruoyi.project.tool.gen.domain;
 
+import com.alibaba.fastjson.JSON;
+import com.ruoyi.common.utils.StringUtils;
+
 /**
  * ry数据库表列信息
  * 
@@ -15,6 +18,9 @@ public class ColumnInfo
 
     /** 列描述 */
     private String columnComment;
+
+    /** 列配置 */
+    private ColumnConfigInfo configInfo;
 
     /** Java属性类型 */
     private String attrType;
@@ -52,7 +58,16 @@ public class ColumnInfo
 
     public void setColumnComment(String columnComment)
     {
-        this.columnComment = columnComment;
+        // 根据列描述解析列的配置信息
+        if (StringUtils.isNoneEmpty(columnComment) && columnComment.startsWith("{"))
+        {
+            this.configInfo = JSON.parseObject(columnComment, ColumnConfigInfo.class);
+            this.columnComment = configInfo.getTitle();
+        }
+        else
+        {
+            this.columnComment = columnComment;
+        }
     }
 
     public String getAttrName()
@@ -83,5 +98,15 @@ public class ColumnInfo
     public void setAttrType(String attrType)
     {
         this.attrType = attrType;
+    }
+
+    public ColumnConfigInfo getConfigInfo()
+    {
+        return configInfo;
+    }
+
+    public void setConfigInfo(ColumnConfigInfo configInfo)
+    {
+        this.configInfo = configInfo;
     }
 }
