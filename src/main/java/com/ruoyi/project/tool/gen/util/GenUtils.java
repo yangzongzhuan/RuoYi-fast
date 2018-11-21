@@ -65,7 +65,7 @@ public class GenUtils
         velocityContext.put("primaryKey", table.getPrimaryKey());
         velocityContext.put("className", table.getClassName());
         velocityContext.put("classname", table.getClassname());
-        velocityContext.put("moduleName", GenUtils.getModuleName(packageName));
+        velocityContext.put("moduleName", getModuleName(packageName));
         velocityContext.put("columns", table.getColumns());
         velocityContext.put("package", packageName + "." + table.getClassname());
         velocityContext.put("author", GenConfig.getAuthor());
