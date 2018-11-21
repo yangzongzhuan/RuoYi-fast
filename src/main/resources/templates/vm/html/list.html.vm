@@ -85,7 +85,13 @@
 		            checkbox: true
 		        },
 #foreach($column in $columns)
-#if($column.columnName != $primaryKey.columnName)
+#if($column.columnName == $primaryKey.columnName)
+				{
+					field : '${column.attrname}', 
+					title : '${column.columnComment}',
+					visible: false
+				},
+#elseif($column.columnName != $primaryKey.columnName)
 #if(${column.configInfo} && ${column.configInfo.type} == 'dict')
 				{
 					field : '${column.attrname}', 
