@@ -4,6 +4,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.framework.shiro.realm.UserRealm;
@@ -34,7 +36,7 @@ public class ShiroUtils
     public static User getSysUser()
     {
         User user = null;
-        Object obj = getSession().getAttribute("sysUser");
+        Object obj = getSubjct().getPrincipal();
         if (StringUtils.isNotNull(obj))
         {
             user = new User();
@@ -45,7 +47,12 @@ public class ShiroUtils
 
     public static void setSysUser(User user)
     {
-        ShiroUtils.getSession().setAttribute("sysUser", user);
+        Subject subject = getSubjct();
+        PrincipalCollection principalCollection = subject.getPrincipals();
+        String realmName = principalCollection.getRealmNames().iterator().next();
+        PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(user, realmName);
+        // 重新加载Principal
+        subject.runAs(newPrincipalCollection);
     }
 
     public static void clearCachedAuthorizationInfo()
