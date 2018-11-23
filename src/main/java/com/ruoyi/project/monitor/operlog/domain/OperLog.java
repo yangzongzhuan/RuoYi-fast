@@ -32,7 +32,7 @@ public class OperLog extends BaseEntity
     private String method;
 
     /** 操作人类别 */
-    @Excel(name = "操作类别")
+    @Excel(name = "操作类别", readConverterExp = "0=其它,1=后台用户,2=手机端用户")
     private Integer operatorType;
 
     /** 操作人员 */

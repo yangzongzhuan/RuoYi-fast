@@ -142,11 +142,17 @@ public class Logininfor extends BaseEntity
     }
 
     @Override
-    public String toString()
-    {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("infoId", getInfoId())
-                .append("loginName", getLoginName()).append("ipaddr", getIpaddr())
-                .append("loginLocation", getLoginLocation()).append("browser", getBrowser()).append("os", getOs())
-                .append("status", getStatus()).append("msg", getMsg()).append("loginTime", getLoginTime()).toString();
+    public String toString() {
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("infoId", getInfoId())
+            .append("loginName", getLoginName())
+            .append("ipaddr", getIpaddr())
+            .append("loginLocation", getLoginLocation())
+            .append("browser", getBrowser())
+            .append("os", getOs())
+            .append("status", getStatus())
+            .append("msg", getMsg())
+            .append("loginTime", getLoginTime())
+            .toString();
     }
 }

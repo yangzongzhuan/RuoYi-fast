@@ -26,8 +26,6 @@ public @interface Excel
 
     /**
      * 读取内容转表达式 (如: 0=男,1=女,2=未知)
-     *
-     * @return 读取内容转表达式
      */
     public abstract String readConverterExp() default "";
 
