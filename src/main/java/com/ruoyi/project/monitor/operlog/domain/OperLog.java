@@ -24,7 +24,7 @@ public class OperLog extends BaseEntity
     private String title;
 
     /** 操作业务类型 */
-    @Excel(name = "业务类型")
+    @Excel(name = "业务类型", readConverterExp = "0=其它,1=新增,2=修改,3=删除,4=授权,5=导出,6=导入,7=强退,8=生成代码,9=清空数据")
     private Integer businessType;
 
     /** 请求方法 */
@@ -60,7 +60,7 @@ public class OperLog extends BaseEntity
     private String operParam;
 
     /** 状态0正常 1异常 */
-    @Excel(name = "状态")
+    @Excel(name = "状态", readConverterExp = "0=正常,1=异常")
     private Integer status;
 
     /** 错误消息 */
@@ -68,7 +68,7 @@ public class OperLog extends BaseEntity
     private String errorMsg;
 
     /** 操作时间 */
-    @Excel(name = "操作时间")
+    @Excel(name = "操作时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date operTime;
 
     public Long getOperId()
