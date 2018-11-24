@@ -19,15 +19,23 @@ import com.ruoyi.framework.aspectj.lang.enums.OperatorType;
 @Documented
 public @interface Log
 {
-    /** 模块 */
-    String title() default "";
+    /**
+     * 模块 
+     */
+    public String title() default "";
 
-    /** 功能 */
-    BusinessType businessType() default BusinessType.OTHER;
+    /**
+     * 功能
+     */
+    public BusinessType businessType() default BusinessType.OTHER;
 
-    /** 操作人类别 */
-    OperatorType operatorType() default OperatorType.MANAGE;
+    /**
+     * 操作人类别
+     */
+    public OperatorType operatorType() default OperatorType.MANAGE;
 
-    /** 是否保存请求的参数 */
-    boolean isSaveRequestData() default true;
+    /**
+     * 是否保存请求的参数
+     */
+    public boolean isSaveRequestData() default true;
 }
