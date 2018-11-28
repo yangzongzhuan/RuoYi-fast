@@ -77,7 +77,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 通过手机号码查询用户
      * 
-     * @param userName 用户名
+     * @param phoneNumber 手机号码
      * @return 用户对象信息
      */
     @Override
@@ -279,7 +279,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 校验用户名称是否唯一
      *
-     * @param phonenumber 用户名
+     * @param user 用户信息
      * @return
      */
     @Override
@@ -297,7 +297,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 校验email是否唯一
      *
-     * @param email 用户名
+     * @param user 用户信息
      * @return
      */
     @Override

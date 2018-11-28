@@ -41,7 +41,7 @@ public class MenuServiceImpl implements IMenuService
     /**
      * 根据用户查询菜单
      * 
-     * @param userId 用户信息
+     * @param user 用户信息
      * @return 菜单列表
      */
     @Override
@@ -233,7 +233,7 @@ public class MenuServiceImpl implements IMenuService
     /**
      * 查询子菜单数量
      * 
-     * @param menuId 菜单ID
+     * @param parentId 菜单ID
      * @return 结果
      */
     @Override
