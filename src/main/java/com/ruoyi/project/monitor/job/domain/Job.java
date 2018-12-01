@@ -1,11 +1,14 @@
 package com.ruoyi.project.monitor.job.domain;
 
+import java.io.Serializable;
+import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import java.io.Serializable;
 import com.ruoyi.common.constant.ScheduleConstants;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import com.ruoyi.project.monitor.job.util.CronUtils;
 
 /**
  * 定时任务调度信息 sys_job
@@ -107,6 +110,15 @@ public class Job extends BaseEntity implements Serializable
     {
         this.cronExpression = cronExpression;
     }
+    
+    public Date getNextValidTime()
+    {
+        if (StringUtils.isNotEmpty(cronExpression))
+        {
+            return CronUtils.getNextExecution(cronExpression);
+        }
+        return null;
+    }
 
     public String getMisfirePolicy()
     {
@@ -137,6 +149,7 @@ public class Job extends BaseEntity implements Serializable
             .append("methodName", getMethodName())
             .append("methodParams", getMethodParams())
             .append("cronExpression", getCronExpression())
+            .append("nextValidTime", getNextValidTime())
             .append("misfirePolicy", getMisfirePolicy())
             .append("status", getStatus())
             .append("createBy", getCreateBy())

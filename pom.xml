@@ -5,7 +5,7 @@
 
 	<groupId>com.ruoyi</groupId>
 	<artifactId>RuoYi</artifactId>
-	<version>3.0.0</version>
+	<version>3.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>RuoYi</name>
@@ -38,6 +38,7 @@
 		<swagger.version>2.7.0</swagger.version>
 		<jsoup.version>1.11.3</jsoup.version>
 		<poi.version>3.17</poi.version>
+		<oshi.version>3.9.1</oshi.version>
 	</properties>
 
 	<dependencies>
@@ -227,6 +228,23 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swagger.version}</version>
+		</dependency>
+		
+		<!-- 获取系统信息 -->
+		<dependency>
+			<groupId>com.github.oshi</groupId>
+			<artifactId>oshi-core</artifactId>
+			<version>${oshi.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna-platform</artifactId>
 		</dependency>
 
 		<!-- HTML解析器 -->
