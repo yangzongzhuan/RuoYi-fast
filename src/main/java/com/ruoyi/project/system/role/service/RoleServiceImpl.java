@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
@@ -141,7 +142,7 @@ public class RoleServiceImpl implements IRoleService
      * @throws Exception
      */
     @Override
-    public int deleteRoleByIds(String ids) throws Exception
+    public int deleteRoleByIds(String ids) throws BusinessException
     {
         Long[] roleIds = Convert.toLongArray(ids);
         for (Long roleId : roleIds)
@@ -149,7 +150,7 @@ public class RoleServiceImpl implements IRoleService
             Role role = selectRoleById(roleId);
             if (countUserRoleByRoleId(roleId) > 0)
             {
-                throw new Exception(String.format("%1$s已分配,不能删除", role.getRoleName()));
+                throw new BusinessException(String.format("%1$s已分配,不能删除", role.getRoleName()));
             }
         }
         return roleMapper.deleteRoleByIds(roleIds);

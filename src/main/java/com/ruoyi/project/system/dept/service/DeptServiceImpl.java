@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.DataScope;
@@ -162,6 +163,11 @@ public class DeptServiceImpl implements IDeptService
     public int insertDept(Dept dept)
     {
         Dept info = deptMapper.selectDeptById(dept.getParentId());
+        // 如果父节点不为"正常"状态,则不允许新增子节点
+        if (!UserConstants.DEPT_NORMAL.equals(info.getStatus()))
+        {
+            throw new BusinessException("部门停用，不允许新增");
+        }
         dept.setCreateBy(ShiroUtils.getLoginName());
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
         return deptMapper.insertDept(dept);
@@ -179,12 +185,31 @@ public class DeptServiceImpl implements IDeptService
         Dept info = deptMapper.selectDeptById(dept.getParentId());
         if (StringUtils.isNotNull(info))
         {
-            String ancestors = info.getAncestors() + "," + dept.getParentId();
+            String ancestors = info.getAncestors() + "," + info.getDeptId();
             dept.setAncestors(ancestors);
             updateDeptChildren(dept.getDeptId(), ancestors);
         }
         dept.setUpdateBy(ShiroUtils.getLoginName());
-        return deptMapper.updateDept(dept);
+        int result = deptMapper.updateDept(dept);
+        if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()))
+        {
+            // 如果该部门是启用状态，则启用该部门的所有上级部门
+            updateParentDeptStatus(dept);
+        }
+        return result;
+    }
+
+    /**
+     * 修改该部门的父级部门状态
+     * 
+     * @param dept 当前部门
+     */
+    private void updateParentDeptStatus(Dept dept)
+    {
+        String updateBy = dept.getUpdateBy();
+        dept = deptMapper.selectDeptById(dept.getDeptId());
+        dept.setUpdateBy(updateBy);
+        deptMapper.updateDeptStatus(dept);
     }
 
     /**
