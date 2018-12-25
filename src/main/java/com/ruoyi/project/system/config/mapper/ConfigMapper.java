@@ -13,7 +13,7 @@ public interface ConfigMapper
     /**
      * 查询参数配置信息
      * 
-     * @param configId 参数配置信息
+     * @param config 参数配置信息
      * @return 参数配置信息
      */
     public Config selectConfig(Config config);
