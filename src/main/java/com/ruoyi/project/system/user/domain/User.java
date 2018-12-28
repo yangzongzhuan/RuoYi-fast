@@ -1,9 +1,9 @@
 package com.ruoyi.project.system.user.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
@@ -74,6 +74,7 @@ public class User extends BaseEntity
     private Date loginDate;
 
     /** 部门对象 */
+    @Excel(name = "部门名称", targetAttr = "deptName")
     private Dept dept;
 
     /** 角色集合 */

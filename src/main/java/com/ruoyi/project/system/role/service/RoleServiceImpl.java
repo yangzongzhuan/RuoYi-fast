@@ -67,7 +67,7 @@ public class RoleServiceImpl implements IRoleService
         Set<String> permsSet = new HashSet<>();
         for (Role perm : perms)
         {
-            if (StringUtils.isNotNull(perms))
+            if (StringUtils.isNotNull(perm))
             {
                 permsSet.addAll(Arrays.asList(perm.getRoleKey().trim().split(",")));
             }
