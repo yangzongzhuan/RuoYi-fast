@@ -12,7 +12,6 @@ import com.ruoyi.common.utils.StringUtils;
  * 类型转换器
  * 
  * @author ruoyi
- * 
  */
 public class Convert
 {
@@ -291,7 +290,7 @@ public class Convert
     /**
      * 转换为Integer数组<br>
      * 
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static Integer[] toIntArray(String str)
@@ -302,7 +301,7 @@ public class Convert
     /**
      * 转换为Long数组<br>
      * 
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static Long[] toLongArray(String str)
@@ -336,8 +335,8 @@ public class Convert
     /**
      * 转换为Long数组<br>
      * 
-     * @param isIgnoreConvertError 是否忽略转换错误，忽略则给值null
-     * @param values 被转换的值
+     * @param split 分隔符
+     * @param str 被转换的值
      * @return 结果
      */
     public static Long[] toLongArray(String split, String str)
@@ -359,7 +358,7 @@ public class Convert
     /**
      * 转换为String数组<br>
      * 
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static String[] toStrArray(String str)
@@ -995,7 +994,6 @@ public class Convert
             }
             s = p.replaceAll("(零.)*零$", "").replaceAll("^$", "零") + unit[0][i] + s;
         }
-        return head + s.replaceAll("(零.)*零元", "元").replaceFirst("(零.)+", "").replaceAll("(零.)+", "零").replaceAll("^整$",
-                "零元整");
+        return head + s.replaceAll("(零.)*零元", "元").replaceFirst("(零.)+", "").replaceAll("(零.)+", "零").replaceAll("^整$", "零元整");
     }
 }

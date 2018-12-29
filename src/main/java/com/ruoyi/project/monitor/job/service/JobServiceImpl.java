@@ -118,7 +118,7 @@ public class JobServiceImpl implements IJobService
     @Override
     public int deleteJob(Job job)
     {
-        int rows = jobMapper.deleteJobById(job);
+        int rows = jobMapper.deleteJobById(job.getJobId());
         if (rows > 0)
         {
             ScheduleUtils.deleteScheduleJob(scheduler, job.getJobId());

@@ -39,7 +39,7 @@ public interface JobMapper
      * @param jobId 调度ID
      * @return 结果
      */
-    public int deleteJobById(Job job);
+    public int deleteJobById(Long jobId);
 
     /**
      * 批量删除调度任务信息
