@@ -1,22 +1,22 @@
 package com.ruoyi.project.system.user.controller;
 
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.framework.shiro.service.PasswordService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.service.DictService;
@@ -40,6 +40,9 @@ public class ProfileController extends BaseController
     private IUserService userService;
 
     @Autowired
+    private PasswordService passwordService;
+
+    @Autowired
     private DictService dict;
 
     /**
@@ -61,52 +64,63 @@ public class ProfileController extends BaseController
     public boolean checkPassword(String password)
     {
         User user = getSysUser();
-        String encrypt = new Md5Hash(user.getLoginName() + password + user.getSalt()).toHex().toString();
-        if (user.getPassword().equals(encrypt))
+        if (passwordService.matches(user, password))
         {
             return true;
         }
         return false;
     }
 
-    @GetMapping("/resetPwd/{userId}")
-    public String resetPwd(@PathVariable("userId") Long userId, ModelMap mmap)
+    @GetMapping("/resetPwd")
+    public String resetPwd(ModelMap mmap)
     {
-        mmap.put("user", userService.selectUserById(userId));
+        User user = getSysUser();
+        mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/resetPwd";
     }
 
     @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     @PostMapping("/resetPwd")
     @ResponseBody
-    public AjaxResult resetPwd(User user)
+    public AjaxResult resetPwd(String oldPassword, String newPassword)
     {
-        int rows = userService.resetUserPwd(user);
-        if (rows > 0)
+        User user = getSysUser();
+        if (StringUtils.isNotEmpty(newPassword) && passwordService.matches(user, oldPassword))
         {
-            setSysUser(userService.selectUserById(user.getUserId()));
-            return success();
+            user.setPassword(newPassword);
+            if (userService.resetUserPwd(user) > 0)
+            {
+                setSysUser(userService.selectUserById(user.getUserId()));
+                return success();
+            }
+            return error();
         }
-        return error();
+        else
+        {
+            return error("修改密码失败，旧密码错误");
+        }
+
     }
 
     /**
      * 修改用户
      */
-    @GetMapping("/edit/{userId}")
-    public String edit(@PathVariable("userId") Long userId, ModelMap mmap)
+    @GetMapping("/edit")
+    public String edit(ModelMap mmap)
     {
-        mmap.put("user", userService.selectUserById(userId));
+        User user = getSysUser();
+        mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/edit";
     }
 
     /**
      * 修改头像
      */
-    @GetMapping("/avatar/{userId}")
-    public String avatar(@PathVariable("userId") Long userId, ModelMap mmap)
+    @GetMapping("/avatar")
+    public String avatar(ModelMap mmap)
     {
-        mmap.put("user", userService.selectUserById(userId));
+        User user = getSysUser();
+        mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/avatar";
     }
 
@@ -118,9 +132,14 @@ public class ProfileController extends BaseController
     @ResponseBody
     public AjaxResult update(User user)
     {
-        if (userService.updateUserInfo(user) > 0)
+        User currentUser = getSysUser();
+        currentUser.setUserName(user.getUserName());
+        currentUser.setEmail(user.getEmail());
+        currentUser.setPhonenumber(user.getPhonenumber());
+        currentUser.setSex(user.getSex());
+        if (userService.updateUserInfo(currentUser) > 0)
         {
-            setSysUser(userService.selectUserById(user.getUserId()));
+            setSysUser(userService.selectUserById(currentUser.getUserId()));
             return success();
         }
         return error();
@@ -132,17 +151,18 @@ public class ProfileController extends BaseController
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PostMapping("/updateAvatar")
     @ResponseBody
-    public AjaxResult updateAvatar(User user, @RequestParam("avatarfile") MultipartFile file)
+    public AjaxResult updateAvatar(@RequestParam("avatarfile") MultipartFile file)
     {
+        User currentUser = getSysUser();
         try
         {
             if (!file.isEmpty())
             {
                 String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file);
-                user.setAvatar(avatar);
-                if (userService.updateUserInfo(user) > 0)
+                currentUser.setAvatar(avatar);
+                if (userService.updateUserInfo(currentUser) > 0)
                 {
-                    setSysUser(userService.selectUserById(user.getUserId()));
+                    setSysUser(userService.selectUserById(currentUser.getUserId()));
                     return success();
                 }
             }
