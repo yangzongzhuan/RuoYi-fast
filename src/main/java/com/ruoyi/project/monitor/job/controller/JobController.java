@@ -58,7 +58,7 @@ public class JobController extends BaseController
     {
         List<Job> list = jobService.selectJobList(job);
         ExcelUtil<Job> util = new ExcelUtil<Job>(Job.class);
-        return util.exportExcel(list, "job");
+        return util.exportExcel(list, "定时任务");
     }
 
     @Log(title = "定时任务", businessType = BusinessType.DELETE)

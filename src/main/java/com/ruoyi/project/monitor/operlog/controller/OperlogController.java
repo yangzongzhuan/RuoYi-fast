@@ -58,7 +58,7 @@ public class OperlogController extends BaseController
     {
         List<OperLog> list = operLogService.selectOperLogList(operLog);
         ExcelUtil<OperLog> util = new ExcelUtil<OperLog>(OperLog.class);
-        return util.exportExcel(list, "operLog");
+        return util.exportExcel(list, "操作日志");
     }
 
     @RequiresPermissions("monitor:operlog:remove")

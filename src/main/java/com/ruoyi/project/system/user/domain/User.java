@@ -259,6 +259,10 @@ public class User extends BaseEntity
 
     public Dept getDept()
     {
+        if (dept == null)
+        {
+            dept = new Dept();
+        }
         return dept;
     }
 
@@ -319,6 +323,7 @@ public class User extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
+            .append("dept", getDept())
             .toString();
     }
 }

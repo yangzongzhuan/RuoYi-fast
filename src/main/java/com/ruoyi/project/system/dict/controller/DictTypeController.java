@@ -59,7 +59,7 @@ public class DictTypeController extends BaseController
 
         List<DictType> list = dictTypeService.selectDictTypeList(dictType);
         ExcelUtil<DictType> util = new ExcelUtil<DictType>(DictType.class);
-        return util.exportExcel(list, "dictType");
+        return util.exportExcel(list, "字典类型");
     }
 
     /**

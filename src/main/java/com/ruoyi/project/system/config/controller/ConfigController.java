@@ -61,7 +61,7 @@ public class ConfigController extends BaseController
     {
         List<Config> list = configService.selectConfigList(config);
         ExcelUtil<Config> util = new ExcelUtil<Config>(Config.class);
-        return util.exportExcel(list, "config");
+        return util.exportExcel(list, "参数数据");
     }
 
     /**

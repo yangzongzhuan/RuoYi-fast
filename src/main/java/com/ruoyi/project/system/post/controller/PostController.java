@@ -58,7 +58,7 @@ public class PostController extends BaseController
     {
         List<Post> list = postService.selectPostList(post);
         ExcelUtil<Post> util = new ExcelUtil<Post>(Post.class);
-        return util.exportExcel(list, "post");
+        return util.exportExcel(list, "岗位数据");
     }
 
     @RequiresPermissions("system:post:remove")

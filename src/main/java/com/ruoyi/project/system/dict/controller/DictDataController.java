@@ -58,7 +58,7 @@ public class DictDataController extends BaseController
     {
         List<DictData> list = dictDataService.selectDictDataList(dictData);
         ExcelUtil<DictData> util = new ExcelUtil<DictData>(DictData.class);
-        return util.exportExcel(list, "dictData");
+        return util.exportExcel(list, "字典数据");
     }
 
     /**

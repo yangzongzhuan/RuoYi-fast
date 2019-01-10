@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -68,7 +69,28 @@ public class UserController extends BaseController
     {
         List<User> list = userService.selectUserList(user);
         ExcelUtil<User> util = new ExcelUtil<User>(User.class);
-        return util.exportExcel(list, "user");
+        return util.exportExcel(list, "用户数据");
+    }
+    
+    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
+    @RequiresPermissions("system:user:import")
+    @PostMapping("/importData")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        ExcelUtil<User> util = new ExcelUtil<User>(User.class);
+        List<User> userList = util.importExcel(file.getInputStream());
+        String message = userService.importUser(userList, updateSupport);
+        return AjaxResult.success(message);
+    }
+
+    @RequiresPermissions("system:user:view")
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult importTemplate()
+    {
+        ExcelUtil<User> util = new ExcelUtil<User>(User.class);
+        return util.importTemplateExcel("用户数据");
     }
 
     /**

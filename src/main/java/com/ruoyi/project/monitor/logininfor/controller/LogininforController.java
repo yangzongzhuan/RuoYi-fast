@@ -56,7 +56,7 @@ public class LogininforController extends BaseController
     {
         List<Logininfor> list = logininforService.selectLogininforList(logininfor);
         ExcelUtil<Logininfor> util = new ExcelUtil<Logininfor>(Logininfor.class);
-        return util.exportExcel(list, "logininfor");
+        return util.exportExcel(list, "登陆日志");
     }
 
     @RequiresPermissions("monitor:logininfor:remove")
