@@ -13,6 +13,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.DataScope;
 import com.ruoyi.framework.shiro.service.PasswordService;
+import com.ruoyi.project.system.config.service.IConfigService;
 import com.ruoyi.project.system.post.domain.Post;
 import com.ruoyi.project.system.post.mapper.PostMapper;
 import com.ruoyi.project.system.role.domain.Role;
@@ -48,6 +49,9 @@ public class UserServiceImpl implements IUserService
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private IConfigService configService;
 
     @Autowired
     private PasswordService passwordService;
@@ -386,6 +390,8 @@ public class UserServiceImpl implements IUserService
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
+        String operName = ShiroUtils.getLoginName();
+        String password = configService.selectConfigByKey("sys.user.initPassword");
         for (User user : userList)
         {
             try
@@ -394,12 +400,15 @@ public class UserServiceImpl implements IUserService
                 User u = userMapper.selectUserByLoginName(user.getLoginName());
                 if (StringUtils.isNull(u))
                 {
+                    user.setPassword(password);
+                    user.setCreateBy(operName);
                     this.insertUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 导入成功");
                 }
                 else if (isUpdateSupport)
                 {
+                    user.setUpdateBy(operName);
                     this.updateUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 更新成功");
