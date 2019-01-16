@@ -82,4 +82,9 @@ public class RuoYiConfig
     {
         return profile + "download/";
     }
+    
+    public static String getUploadPath()
+    {
+        return profile + "upload/";
+    }
 }

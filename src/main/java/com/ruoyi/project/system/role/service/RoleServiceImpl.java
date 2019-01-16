@@ -303,4 +303,16 @@ public class RoleServiceImpl implements IRoleService
     {
         return userRoleMapper.countUserRoleByRoleId(roleId);
     }
+
+    /**
+     * 角色状态修改
+     * 
+     * @param role 角色信息
+     * @return 结果
+     */
+    @Override
+    public int changeStatus(Role role)
+    {
+        return roleMapper.updateRole(role);
+    }
 }

@@ -147,4 +147,12 @@ public interface IUserService
      * @return 结果
      */
     public String importUser(List<User> userList, Boolean isUpdateSupport);
+
+    /**
+     * 用户状态修改
+     * 
+     * @param user 用户信息
+     * @return 结果
+     */
+    public int changeStatus(User user);
 }

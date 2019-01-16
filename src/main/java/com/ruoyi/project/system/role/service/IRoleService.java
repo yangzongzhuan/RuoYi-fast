@@ -82,7 +82,7 @@ public interface IRoleService
      * @return 结果
      */
     public int updateRole(Role role);
-    
+
     /**
      * 修改数据权限信息
      * 
@@ -98,7 +98,7 @@ public interface IRoleService
      * @return 结果
      */
     public String checkRoleNameUnique(Role role);
-    
+
     /**
      * 校验角色权限是否唯一
      * 
@@ -114,4 +114,12 @@ public interface IRoleService
      * @return 结果
      */
     public int countUserRoleByRoleId(Long roleId);
+
+    /**
+     * 角色状态修改
+     * 
+     * @param role 角色信息
+     * @return 结果
+     */
+    public int changeStatus(Role role);
 }

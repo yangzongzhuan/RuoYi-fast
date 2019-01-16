@@ -71,7 +71,7 @@ public class UserController extends BaseController
         ExcelUtil<User> util = new ExcelUtil<User>(User.class);
         return util.exportExcel(list, "用户数据");
     }
-    
+
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @RequiresPermissions("system:user:import")
     @PostMapping("/importData")
@@ -212,5 +212,17 @@ public class UserController extends BaseController
     public String checkEmailUnique(User user)
     {
         return userService.checkEmailUnique(user);
+    }
+
+    /**
+     * 用户状态修改
+     */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:user:edit")
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(User user)
+    {
+        return toAjax(userService.changeStatus(user));
     }
 }
