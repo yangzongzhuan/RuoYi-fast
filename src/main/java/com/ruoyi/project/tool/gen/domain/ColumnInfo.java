@@ -31,6 +31,9 @@ public class ColumnInfo
     /** Java属性名称(第一个字母小写)，如：user_name => userName */
     private String attrname;
 
+    /** 执行计划（包含了与索引相关的一些细节信息） */
+    private String extra;
+
     public String getColumnName()
     {
         return columnName;
@@ -98,6 +101,16 @@ public class ColumnInfo
     public void setAttrType(String attrType)
     {
         this.attrType = attrType;
+    }
+
+    public String getExtra()
+    {
+        return extra;
+    }
+
+    public void setExtra(String extra)
+    {
+        this.extra = extra;
     }
 
     public ColumnConfigInfo getConfigInfo()
