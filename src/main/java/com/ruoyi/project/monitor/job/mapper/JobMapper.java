@@ -47,7 +47,7 @@ public interface JobMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteJobLogByIds(Long[] ids);
+    public int deleteJobByIds(Long[] ids);
 
     /**
      * 修改调度任务信息
