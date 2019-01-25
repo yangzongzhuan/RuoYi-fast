@@ -144,6 +144,7 @@
             				return false;
             			}
             			var index = layer.load(2, {shade: false});
+            			$.modal.disable();
             			var formData = new FormData();
             			formData.append("file", $('#file')[0].files[0]);
             			formData.append("updateSupport", $("input[name='updateSupport']").is(':checked'));
@@ -161,6 +162,7 @@
             						$.table.refresh();
             					} else {
             						layer.close(index);
+            						$.modal.enable();
             						$.modal.alertError(result.msg);
             					}
             				}
@@ -473,11 +475,13 @@
             },
             // 禁用按钮
             disable: function() {
-	        	$("a[class*=layui-layer-btn]", window.parent.document).addClass("layer-disabled");
+            	var doc = window.top == window.parent ? window.document : window.parent.document;
+	        	$("a[class*=layui-layer-btn]", doc).addClass("layer-disabled");
             },
             // 启用按钮
             enable: function() {
-            	$("a[class*=layui-layer-btn]", window.parent.document).removeClass("layer-disabled");
+            	var doc = window.top == window.parent ? window.document : window.parent.document;
+            	$("a[class*=layui-layer-btn]", doc).removeClass("layer-disabled");
             },
             // 打开遮罩层
             loading: function (message) {
