@@ -104,7 +104,7 @@ public class GenUtils
         String tablePrefix = GenConfig.getTablePrefix();
         if (Constants.AUTO_REOMVE_PRE.equals(autoRemovePre) && StringUtils.isNotEmpty(tablePrefix))
         {
-            tableName = tableName.replaceFirst(GenConfig.getTablePrefix(), "");
+            tableName = tableName.replaceFirst(tablePrefix, "");
         }
         return StringUtils.convertToCamelCase(tableName);
     }
