@@ -161,7 +161,7 @@ public class FileUploadUtils
         long size = file.getSize();
         if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE)
         {
-            throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE);
+            throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
         }
     }
 }
