@@ -17,6 +17,7 @@ import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.monitor.online.domain.OnlineSession;
+import com.ruoyi.project.monitor.online.domain.OnlineSession.OnlineStatus;
 import com.ruoyi.project.monitor.online.domain.UserOnline;
 import com.ruoyi.project.monitor.online.service.IUserOnlineService;
 
@@ -76,9 +77,9 @@ public class UserOnlineController extends BaseController
             {
                 return error("当前登陆用户无法强退");
             }
-            onlineSession.setStatus(OnlineSession.OnlineStatus.off_line);
+            onlineSession.setStatus(OnlineStatus.off_line);
             onlineSessionDAO.update(onlineSession);
-            online.setStatus(OnlineSession.OnlineStatus.off_line);  
+            online.setStatus(OnlineStatus.off_line);
             userOnlineService.saveOnline(online);
         }
         return success();
@@ -104,9 +105,9 @@ public class UserOnlineController extends BaseController
         {
             return error("用户已下线");
         }
-        onlineSession.setStatus(OnlineSession.OnlineStatus.off_line);
+        onlineSession.setStatus(OnlineStatus.off_line);
         onlineSessionDAO.update(onlineSession);
-        online.setStatus(OnlineSession.OnlineStatus.off_line);
+        online.setStatus(OnlineStatus.off_line);
         userOnlineService.saveOnline(online);
         return success();
     }
