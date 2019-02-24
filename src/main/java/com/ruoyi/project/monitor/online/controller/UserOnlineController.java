@@ -77,7 +77,8 @@ public class UserOnlineController extends BaseController
                 return error("当前登陆用户无法强退");
             }
             onlineSession.setStatus(OnlineSession.OnlineStatus.off_line);
-            online.setStatus(OnlineSession.OnlineStatus.off_line);
+            onlineSessionDAO.update(onlineSession);
+            online.setStatus(OnlineSession.OnlineStatus.off_line);  
             userOnlineService.saveOnline(online);
         }
         return success();
@@ -104,6 +105,7 @@ public class UserOnlineController extends BaseController
             return error("用户已下线");
         }
         onlineSession.setStatus(OnlineSession.OnlineStatus.off_line);
+        onlineSessionDAO.update(onlineSession);
         online.setStatus(OnlineSession.OnlineStatus.off_line);
         userOnlineService.saveOnline(online);
         return success();
