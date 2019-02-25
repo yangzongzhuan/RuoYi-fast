@@ -66,7 +66,6 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO
     
     @Override
     public void update(Session session) throws UnknownSessionException {
-        System.out.println("=================test update=============");
         super.update(session);
     }
 
