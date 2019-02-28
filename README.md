@@ -68,7 +68,7 @@
     </tr>
 	<tr>
         <td><img src="https://oscimg.oschina.net/oscnet/98beb69118d9ab59aa898d5d5baad20b755.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/90f2d70aead12f42420497dcd2b29a62101.jpg"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/5f3d39a141f21f81b90536f391b8408f1fa.jpg"/></td>
     </tr>
 </table>
 
