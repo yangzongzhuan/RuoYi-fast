@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.framework.web.page.TableDataInfo;
@@ -50,7 +51,7 @@ public class BaseController
         Integer pageSize = pageDomain.getPageSize();
         if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize))
         {
-            String orderBy = pageDomain.getOrderBy();
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
             PageHelper.startPage(pageNum, pageSize, orderBy);
         }
     }
