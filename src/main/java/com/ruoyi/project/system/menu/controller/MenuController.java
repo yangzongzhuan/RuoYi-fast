@@ -1,7 +1,6 @@
 package com.ruoyi.project.system.menu.controller;
 
 import java.util.List;
-import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.menu.service.IMenuService;
 import com.ruoyi.project.system.role.domain.Role;
@@ -148,10 +148,10 @@ public class MenuController extends BaseController
      */
     @GetMapping("/roleMenuTreeData")
     @ResponseBody
-    public List<Map<String, Object>> roleMenuTreeData(Role role)
+    public List<Ztree> roleMenuTreeData(Role role)
     {
-        List<Map<String, Object>> tree = menuService.roleMenuTreeData(role);
-        return tree;
+        List<Ztree> ztrees = menuService.roleMenuTreeData(role);
+        return ztrees;
     }
 
     /**
@@ -159,10 +159,10 @@ public class MenuController extends BaseController
      */
     @GetMapping("/menuTreeData")
     @ResponseBody
-    public List<Map<String, Object>> menuTreeData(Role role)
+    public List<Ztree> menuTreeData(Role role)
     {
-        List<Map<String, Object>> tree = menuService.menuTreeData();
-        return tree;
+        List<Ztree> ztrees = menuService.menuTreeData();
+        return ztrees;
     }
 
     /**

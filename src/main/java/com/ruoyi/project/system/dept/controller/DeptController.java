@@ -1,7 +1,6 @@
 package com.ruoyi.project.system.dept.controller;
 
 import java.util.List;
-import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.dept.domain.Dept;
 import com.ruoyi.project.system.dept.service.IDeptService;
 import com.ruoyi.project.system.role.domain.Role;
@@ -144,10 +144,10 @@ public class DeptController extends BaseController
      */
     @GetMapping("/treeData")
     @ResponseBody
-    public List<Map<String, Object>> treeData()
+    public List<Ztree> treeData()
     {
-        List<Map<String, Object>> tree = deptService.selectDeptTree(new Dept());
-        return tree;
+        List<Ztree> ztrees = deptService.selectDeptTree(new Dept());
+        return ztrees;
     }
 
     /**
@@ -155,9 +155,9 @@ public class DeptController extends BaseController
      */
     @GetMapping("/roleDeptTreeData")
     @ResponseBody
-    public List<Map<String, Object>> deptTreeData(Role role)
+    public List<Ztree> deptTreeData(Role role)
     {
-        List<Map<String, Object>> tree = deptService.roleDeptTreeData(role);
-        return tree;
+        List<Ztree> ztrees = deptService.roleDeptTreeData(role);
+        return ztrees;
     }
 }

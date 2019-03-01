@@ -1,9 +1,7 @@
 package com.ruoyi.project.system.dept.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
@@ -11,6 +9,7 @@ import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.DataScope;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.dept.domain.Dept;
 import com.ruoyi.project.system.dept.mapper.DeptMapper;
 import com.ruoyi.project.system.role.domain.Role;
@@ -47,12 +46,11 @@ public class DeptServiceImpl implements IDeptService
      */
     @Override
     @DataScope(tableAlias = "d")
-    public List<Map<String, Object>> selectDeptTree(Dept dept)
+    public List<Ztree> selectDeptTree(Dept dept)
     {
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
         List<Dept> deptList = deptMapper.selectDeptList(dept);
-        trees = getTrees(deptList, false, null);
-        return trees;
+        List<Ztree> ztrees = initZtree(deptList);
+        return ztrees;
     }
 
     /**
@@ -62,21 +60,32 @@ public class DeptServiceImpl implements IDeptService
      * @return 部门列表（数据权限）
      */
     @Override
-    public List<Map<String, Object>> roleDeptTreeData(Role role)
+    public List<Ztree> roleDeptTreeData(Role role)
     {
         Long roleId = role.getRoleId();
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
         List<Dept> deptList = selectDeptList(new Dept());
         if (StringUtils.isNotNull(roleId))
         {
             List<String> roleDeptList = deptMapper.selectRoleDeptTree(roleId);
-            trees = getTrees(deptList, true, roleDeptList);
+            ztrees = initZtree(deptList, roleDeptList);
         }
         else
         {
-            trees = getTrees(deptList, false, null);
+            ztrees = initZtree(deptList);
         }
-        return trees;
+        return ztrees;
+    }
+
+    /**
+     * 对象转部门树
+     *
+     * @param deptList 部门列表
+     * @return 树结构列表
+     */
+    public List<Ztree> initZtree(List<Dept> deptList)
+    {
+        return initZtree(deptList, null);
     }
 
     /**
@@ -85,33 +94,29 @@ public class DeptServiceImpl implements IDeptService
      * @param deptList 部门列表
      * @param isCheck 是否需要选中
      * @param roleDeptList 角色已存在菜单列表
-     * @return
+     * @return 树结构列表
      */
-    public List<Map<String, Object>> getTrees(List<Dept> deptList, boolean isCheck, List<String> roleDeptList)
+    public List<Ztree> initZtree(List<Dept> deptList, List<String> roleDeptList)
     {
-
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        boolean isCheck = StringUtils.isNotNull(roleDeptList);
         for (Dept dept : deptList)
         {
             if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()))
             {
-                Map<String, Object> deptMap = new HashMap<String, Object>();
-                deptMap.put("id", dept.getDeptId());
-                deptMap.put("pId", dept.getParentId());
-                deptMap.put("name", dept.getDeptName());
-                deptMap.put("title", dept.getDeptName());
+                Ztree ztree = new Ztree();
+                ztree.setId(dept.getDeptId());
+                ztree.setpId(dept.getParentId());
+                ztree.setName(dept.getDeptName());
+                ztree.setTitle(dept.getDeptName());
                 if (isCheck)
                 {
-                    deptMap.put("checked", roleDeptList.contains(dept.getDeptId() + dept.getDeptName()));
+                    ztree.setChecked(roleDeptList.contains(dept.getDeptId() + dept.getDeptName()));
                 }
-                else
-                {
-                    deptMap.put("checked", false);
-                }
-                trees.add(deptMap);
+                ztrees.add(ztree);
             }
         }
-        return trees;
+        return ztrees;
     }
 
     /**

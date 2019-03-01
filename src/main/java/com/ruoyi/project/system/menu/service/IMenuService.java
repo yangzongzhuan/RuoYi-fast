@@ -3,6 +3,8 @@ package com.ruoyi.project.system.menu.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.user.domain.User;
@@ -51,14 +53,14 @@ public interface IMenuService
      * @param role 角色对象
      * @return 菜单列表
      */
-    public List<Map<String, Object>> roleMenuTreeData(Role role);
+    public List<Ztree> roleMenuTreeData(Role role);
 
     /**
      * 查询所有菜单信息
      * 
      * @return 菜单列表
      */
-    public List<Map<String, Object>> menuTreeData();
+    public List<Ztree> menuTreeData();
 
     /**
      * 查询系统所有权限

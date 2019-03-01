@@ -3,12 +3,10 @@ package com.ruoyi.project.system.menu.service;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,7 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.TreeUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.menu.mapper.MenuMapper;
 import com.ruoyi.project.system.role.domain.Role;
@@ -110,21 +109,21 @@ public class MenuServiceImpl implements IMenuService
      * @return 菜单列表
      */
     @Override
-    public List<Map<String, Object>> roleMenuTreeData(Role role)
+    public List<Ztree> roleMenuTreeData(Role role)
     {
         Long roleId = role.getRoleId();
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
         List<Menu> menuList = menuMapper.selectMenuAll();
         if (StringUtils.isNotNull(roleId))
         {
             List<String> roleMenuList = menuMapper.selectMenuTree(roleId);
-            trees = getTrees(menuList, true, roleMenuList, true);
+            ztrees = initZtree(menuList, roleMenuList, true);
         }
         else
         {
-            trees = getTrees(menuList, false, null, true);
+            ztrees = initZtree(menuList, null, true);
         }
-        return trees;
+        return ztrees;
     }
 
     /**
@@ -133,12 +132,11 @@ public class MenuServiceImpl implements IMenuService
      * @return 菜单列表
      */
     @Override
-    public List<Map<String, Object>> menuTreeData()
+    public List<Ztree> menuTreeData()
     {
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
         List<Menu> menuList = menuMapper.selectMenuAll();
-        trees = getTrees(menuList, false, null, false);
-        return trees;
+        List<Ztree> ztrees = initZtree(menuList);
+        return ztrees;
     }
 
     /**
@@ -165,33 +163,40 @@ public class MenuServiceImpl implements IMenuService
      * 对象转菜单树
      * 
      * @param menuList 菜单列表
-     * @param isCheck 是否需要选中
+     * @param permsFlag 是否需要显示权限标识
+     * @return
+     */
+    public List<Ztree> initZtree(List<Menu> menuList)
+    {
+        return initZtree(menuList, null, false);
+    }
+
+    /**
+     * 对象转菜单树
+     * 
+     * @param menuList 菜单列表
      * @param roleMenuList 角色已存在菜单列表
      * @param permsFlag 是否需要显示权限标识
      * @return
      */
-    public List<Map<String, Object>> getTrees(List<Menu> menuList, boolean isCheck, List<String> roleMenuList,
-            boolean permsFlag)
+    public List<Ztree> initZtree(List<Menu> menuList, List<String> roleMenuList, boolean permsFlag)
     {
-        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        boolean isCheck = StringUtils.isNotNull(roleMenuList);
         for (Menu menu : menuList)
         {
-            Map<String, Object> deptMap = new HashMap<String, Object>();
-            deptMap.put("id", menu.getMenuId());
-            deptMap.put("pId", menu.getParentId());
-            deptMap.put("name", transMenuName(menu, roleMenuList, permsFlag));
-            deptMap.put("title", menu.getMenuName());
+            Ztree ztree = new Ztree();
+            ztree.setId(menu.getMenuId());
+            ztree.setpId(menu.getParentId());
+            ztree.setName(transMenuName(menu, roleMenuList, permsFlag));
+            ztree.setTitle(menu.getMenuName());
             if (isCheck)
             {
-                deptMap.put("checked", roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
+                ztree.setChecked(roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
             }
-            else
-            {
-                deptMap.put("checked", false);
-            }
-            trees.add(deptMap);
+            ztrees.add(ztree);
         }
-        return trees;
+        return ztrees;
     }
 
     public String transMenuName(Menu menu, List<String> roleMenuList, boolean permsFlag)
