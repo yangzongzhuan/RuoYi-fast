@@ -163,8 +163,7 @@ public class MenuServiceImpl implements IMenuService
      * 对象转菜单树
      * 
      * @param menuList 菜单列表
-     * @param permsFlag 是否需要显示权限标识
-     * @return
+     * @return 树结构列表
      */
     public List<Ztree> initZtree(List<Menu> menuList)
     {
@@ -177,7 +176,7 @@ public class MenuServiceImpl implements IMenuService
      * @param menuList 菜单列表
      * @param roleMenuList 角色已存在菜单列表
      * @param permsFlag 是否需要显示权限标识
-     * @return
+     * @return 树结构列表
      */
     public List<Ztree> initZtree(List<Menu> menuList, List<String> roleMenuList, boolean permsFlag)
     {
