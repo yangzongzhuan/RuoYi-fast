@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.poi.hssf.usermodel.DVConstraint;
-import org.apache.poi.hssf.usermodel.HSSFDataValidation;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
@@ -346,13 +344,13 @@ public class ExcelUtil<T>
                     if (StringUtils.isNotEmpty(attr.prompt()))
                     {
                         // 这里默认设了2-101列提示.
-                        setHSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
+                        setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, i, i);
                     }
                     // 如果设置了combo属性则本列只能选择不能输入
                     if (attr.combo().length > 0)
                     {
                         // 这里默认设了2-101列只能选择不能输入.
-                        setHSSFValidation(sheet, attr.combo(), 1, 100, i, i);
+                        setXSSFValidation(sheet, attr.combo(), 1, 100, i, i);
                     }
                 }
                 if (Type.EXPORT.equals(type))
@@ -445,11 +443,11 @@ public class ExcelUtil<T>
                         Object value = getTargetValue(vo, field, attr);
                         String dateFormat = attr.dateFormat();
                         String readConverterExp = attr.readConverterExp();
-                        if (StringUtils.isNotEmpty(dateFormat))
+                        if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                         {
                             cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
                         }
-                        else if (StringUtils.isNotEmpty(readConverterExp))
+                        else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
                         {
                             cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
                         }
@@ -463,36 +461,33 @@ public class ExcelUtil<T>
                 }
                 catch (Exception e)
                 {
-                    log.error("导出Excel失败{}", e.getMessage());
+                    log.error("导出Excel失败{}", e);
                 }
             }
         }
     }
 
     /**
-     * 设置单元格上提示
+     * 设置 POI XSSFSheet 单元格提示
      * 
-     * @param sheet 要设置的sheet.
-     * @param promptTitle 标题
-     * @param promptContent 内容
+     * @param sheet 表单
+     * @param promptTitle 提示标题
+     * @param promptContent 提示内容
      * @param firstRow 开始行
      * @param endRow 结束行
      * @param firstCol 开始列
      * @param endCol 结束列
-     * @return 设置好的sheet.
      */
-    public static Sheet setHSSFPrompt(Sheet sheet, String promptTitle, String promptContent, int firstRow, int endRow,
+    public void setXSSFPrompt(Sheet sheet, String promptTitle, String promptContent, int firstRow, int endRow,
             int firstCol, int endCol)
     {
-        // 构造constraint对象
-        DVConstraint constraint = DVConstraint.createCustomFormulaConstraint("DD1");
-        // 四个参数分别是：起始行、终止行、起始列、终止列
+        DataValidationHelper helper = sheet.getDataValidationHelper();
+        DataValidationConstraint constraint = helper.createCustomConstraint("DD1");
         CellRangeAddressList regions = new CellRangeAddressList(firstRow, endRow, firstCol, endCol);
-        // 数据有效性对象
-        HSSFDataValidation dataValidationView = new HSSFDataValidation(regions, constraint);
-        dataValidationView.createPromptBox(promptTitle, promptContent);
-        sheet.addValidationData(dataValidationView);
-        return sheet;
+        DataValidation dataValidation = helper.createValidation(constraint, regions);
+        dataValidation.createPromptBox(promptTitle, promptContent);
+        dataValidation.setShowPromptBox(true);
+        sheet.addValidationData(dataValidation);
     }
 
     /**
@@ -506,7 +501,7 @@ public class ExcelUtil<T>
      * @param endCol 结束列
      * @return 设置好的sheet.
      */
-    public static Sheet setHSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol,
+    public void setXSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol,
             int endCol)
     {
         DataValidationHelper helper = sheet.getDataValidationHelper();
@@ -528,7 +523,6 @@ public class ExcelUtil<T>
         }
 
         sheet.addValidationData(dataValidation);
-        return sheet;
     }
 
     /**

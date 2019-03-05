@@ -21,7 +21,7 @@ public class User extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 用户ID */
-    @Excel(name = "用户序号")
+    @Excel(name = "用户序号", prompt = "用户编号")
     private Long userId;
 
     /** 部门ID */
