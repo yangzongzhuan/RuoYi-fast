@@ -12,14 +12,14 @@ import com.ruoyi.common.utils.security.PermissionUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 
 /**
- * 自定义异常处理器
+ * 全局异常处理器
  * 
  * @author ruoyi
  */
 @RestControllerAdvice
-public class DefaultExceptionHandler
+public class GlobalExceptionHandler
 {
-    private static final Logger log = LoggerFactory.getLogger(DefaultExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * 权限校验失败
@@ -79,5 +79,4 @@ public class DefaultExceptionHandler
     {
         return AjaxResult.error("演示模式，不允许操作");
     }
-
 }
