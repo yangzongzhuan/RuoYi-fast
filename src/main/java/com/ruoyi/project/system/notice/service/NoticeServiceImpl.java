@@ -4,10 +4,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.system.notice.mapper.NoticeMapper;
 import com.ruoyi.project.system.notice.domain.Notice;
 import com.ruoyi.project.system.notice.service.INoticeService;
-import com.ruoyi.common.support.Convert;
 
 /**
  * 公告 服务层实现

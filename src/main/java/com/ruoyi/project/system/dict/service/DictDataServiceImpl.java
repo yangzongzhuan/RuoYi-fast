@@ -3,8 +3,8 @@ package com.ruoyi.project.system.dict.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.system.dict.domain.DictData;
 import com.ruoyi.project.system.dict.mapper.DictDataMapper;
 

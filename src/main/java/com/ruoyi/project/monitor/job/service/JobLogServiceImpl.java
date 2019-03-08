@@ -3,7 +3,7 @@ package com.ruoyi.project.monitor.job.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.support.Convert;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.monitor.job.domain.JobLog;
 import com.ruoyi.project.monitor.job.mapper.JobLogMapper;
 

@@ -3,7 +3,7 @@ package com.ruoyi.project.monitor.logininfor.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.support.Convert;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.monitor.logininfor.domain.Logininfor;
 import com.ruoyi.project.monitor.logininfor.mapper.LogininforMapper;
 
