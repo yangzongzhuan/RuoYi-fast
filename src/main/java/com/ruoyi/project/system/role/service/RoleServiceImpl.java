@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
@@ -163,6 +164,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertRole(Role role)
     {
         role.setCreateBy(ShiroUtils.getLoginName());
@@ -179,6 +181,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateRole(Role role)
     {
         role.setUpdateBy(ShiroUtils.getLoginName());
@@ -197,6 +200,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateRule(Role role)
     {
         role.setUpdateBy(ShiroUtils.getLoginName());

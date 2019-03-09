@@ -3,6 +3,7 @@ package com.ruoyi.project.system.dict.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
@@ -115,6 +116,7 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateDictType(DictType dictType)
     {
         dictType.setUpdateBy(ShiroUtils.getLoginName());

@@ -6,6 +6,7 @@ import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -80,6 +81,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
+    @Transactional
     public int pauseJob(Job job)
     {
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
@@ -98,6 +100,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
+    @Transactional
     public int resumeJob(Job job)
     {
         job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
@@ -116,6 +119,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
+    @Transactional
     public int deleteJob(Job job)
     {
         int rows = jobMapper.deleteJobById(job.getJobId());
@@ -133,6 +137,7 @@ public class JobServiceImpl implements IJobService
      * @return 结果
      */
     @Override
+    @Transactional
     public void deleteJobByIds(String ids)
     {
         Long[] jobIds = Convert.toLongArray(ids);
@@ -149,6 +154,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
+    @Transactional
     public int changeStatus(Job job)
     {
         int rows = 0;
@@ -170,6 +176,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
+    @Transactional
     public int run(Job job)
     {
         return ScheduleUtils.run(scheduler, selectJobById(job.getJobId()));
@@ -181,6 +188,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息 调度信息
      */
     @Override
+    @Transactional
     public int insertJobCron(Job job)
     {
         job.setCreateBy(ShiroUtils.getLoginName());
@@ -199,6 +207,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
+    @Transactional
     public int updateJobCron(Job job)
     {
         job.setUpdateBy(ShiroUtils.getLoginName());

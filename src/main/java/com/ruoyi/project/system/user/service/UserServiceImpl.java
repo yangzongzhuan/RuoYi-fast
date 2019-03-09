@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
@@ -162,6 +163,7 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertUser(User user)
     {
         user.randomSalt();
@@ -183,6 +185,7 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateUser(User user)
     {
         Long userId = user.getUserId();

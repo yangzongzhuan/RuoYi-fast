@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
@@ -184,6 +185,7 @@ public class DeptServiceImpl implements IDeptService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateDept(Dept dept)
     {
         Dept info = deptMapper.selectDeptById(dept.getParentId());
