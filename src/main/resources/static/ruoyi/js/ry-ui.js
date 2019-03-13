@@ -24,7 +24,6 @@
         		    striped: false,
         		    escape: false,
         		    showFooter: false,
-					clickToSelect: false,
         		    search: false,
                     showSearch: true,
                     showPageGo: false,
@@ -32,6 +31,7 @@
                     showColumns: true,
                     showToggle: true,
                     showExport: false,
+                    clickToSelect: true,
         		    fixedColumns: false,
         		    fixedNumber: 0,
         		    rightFixedColumns: false,
@@ -57,7 +57,6 @@
                     pageList: [10, 25, 50],                             // 可供选择的每页的行数（*）
                     escape: options.escape,                             // 转义HTML字符串
                     showFooter: options.showFooter,                     // 是否显示表尾
-					clickToSelect: options.clickToSelect,				// 是否启用点击选中行
                     iconSize: 'outline',                                // 图标大小：undefined默认的按钮尺寸 xs超小按钮sm小按钮lg大按钮
                     toolbar: '#' + options.toolbar,                     // 指定工作栏
                     sidePagination: options.sidePagination,             // server启用服务端分页client客户端分页
@@ -68,6 +67,7 @@
                     showColumns: options.showColumns,                   // 是否显示隐藏某列下拉框
                     showToggle: options.showToggle,                     // 是否显示详细视图和列表视图的切换按钮
                     showExport: options.showExport,                     // 是否支持导出文件
+                    clickToSelect: options.clickToSelect,				// 是否启用点击选中行
                     fixedColumns: options.fixedColumns,                 // 是否启用冻结列（左侧）
                     fixedNumber: options.fixedNumber,                   // 列冻结的个数（左侧）
                     rightFixedColumns: options.rightFixedColumns,       // 是否启用冻结列（右侧）
@@ -242,8 +242,7 @@
             // 刷新表格
             refresh: function() {
                 $("#" + $.table._option.id).bootstrapTable('refresh', {
-                    silent: true,
-					clickToSelect: true
+                    silent: true
                 });
             },
             // 查询表格指定列值
