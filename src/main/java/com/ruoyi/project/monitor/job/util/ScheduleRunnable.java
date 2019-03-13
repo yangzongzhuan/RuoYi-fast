@@ -2,6 +2,7 @@ package com.ruoyi.project.monitor.job.util;
 
 import java.lang.reflect.Method;
 import org.springframework.util.ReflectionUtils;
+import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
 
@@ -50,7 +51,7 @@ public class ScheduleRunnable implements Runnable
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            throw new BusinessException("执行定时任务失败", e);
         }
     }
 }
