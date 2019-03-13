@@ -4,10 +4,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.ScheduleConstants;
+import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.monitor.job.domain.Job;
@@ -33,7 +35,7 @@ public class JobServiceImpl implements IJobService
      * 项目启动时，初始化定时器
      */
     @PostConstruct
-    public void init()
+    public void init() throws SchedulerException, TaskException
     {
         List<Job> jobList = jobMapper.selectJobAll();
         for (Job job : jobList)
@@ -82,7 +84,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int pauseJob(Job job)
+    public int pauseJob(Job job) throws SchedulerException
     {
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
         job.setUpdateBy(ShiroUtils.getLoginName());
@@ -101,7 +103,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int resumeJob(Job job)
+    public int resumeJob(Job job) throws SchedulerException
     {
         job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
         job.setUpdateBy(ShiroUtils.getLoginName());
@@ -120,7 +122,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int deleteJob(Job job)
+    public int deleteJob(Job job) throws SchedulerException
     {
         int rows = jobMapper.deleteJobById(job.getJobId());
         if (rows > 0)
@@ -138,7 +140,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public void deleteJobByIds(String ids)
+    public void deleteJobByIds(String ids) throws SchedulerException
     {
         Long[] jobIds = Convert.toLongArray(ids);
         for (Long jobId : jobIds)
@@ -155,7 +157,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int changeStatus(Job job)
+    public int changeStatus(Job job) throws SchedulerException
     {
         int rows = 0;
         String status = job.getStatus();
@@ -177,9 +179,9 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int run(Job job)
+    public void run(Job job) throws SchedulerException
     {
-        return ScheduleUtils.run(scheduler, selectJobById(job.getJobId()));
+        ScheduleUtils.run(scheduler, selectJobById(job.getJobId()));
     }
 
     /**
@@ -189,7 +191,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int insertJobCron(Job job)
+    public int insertJobCron(Job job) throws SchedulerException, TaskException
     {
         job.setCreateBy(ShiroUtils.getLoginName());
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
@@ -208,7 +210,7 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int updateJobCron(Job job)
+    public int updateJobCron(Job job) throws SchedulerException, TaskException
     {
         job.setUpdateBy(ShiroUtils.getLoginName());
         int rows = jobMapper.updateJob(job);
@@ -218,7 +220,7 @@ public class JobServiceImpl implements IJobService
         }
         return rows;
     }
-    
+
     /**
      * 校验cron表达式是否有效
      * 

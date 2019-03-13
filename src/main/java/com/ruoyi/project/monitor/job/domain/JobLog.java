@@ -1,5 +1,6 @@
 package com.ruoyi.project.monitor.job.domain;
 
+import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
@@ -45,6 +46,12 @@ public class JobLog extends BaseEntity
     /** 异常信息 */
     @Excel(name = "异常信息")
     private String exceptionInfo;
+    
+    /** 开始时间 */
+    private Date startTime;
+
+    /** 结束时间 */
+    private Date endTime;
 
     public Long getJobLogId()
     {
@@ -125,6 +132,26 @@ public class JobLog extends BaseEntity
     {
         this.exceptionInfo = exceptionInfo;
     }
+    
+    public Date getStartTime()
+    {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime)
+    {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime()
+    {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime)
+    {
+        this.endTime = endTime;
+    }
 
     @Override
     public String toString() {
@@ -137,7 +164,8 @@ public class JobLog extends BaseEntity
             .append("jobMessage", getJobMessage())
             .append("status", getStatus())
             .append("exceptionInfo", getExceptionInfo())
-            .append("createTime", getCreateTime())
+            .append("startTime", getStartTime())
+            .append("endTime", getEndTime())
             .toString();
     }
 }

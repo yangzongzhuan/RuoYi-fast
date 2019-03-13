@@ -2,6 +2,7 @@ package com.ruoyi.project.monitor.job.controller;
 
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -65,20 +67,12 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
+    public AjaxResult remove(String ids) throws SchedulerException
     {
-        try
-        {
-            jobService.deleteJobByIds(ids);
-            return success();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return error(e.getMessage());
-        }
+        jobService.deleteJobByIds(ids);
+        return success();
     }
-    
+
     @RequiresPermissions("monitor:job:detail")
     @GetMapping("/detail/{jobId}")
     public String detail(@PathVariable("jobId") Long jobId, ModelMap mmap)
@@ -95,7 +89,7 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:changeStatus")
     @PostMapping("/changeStatus")
     @ResponseBody
-    public AjaxResult changeStatus(Job job)
+    public AjaxResult changeStatus(Job job) throws SchedulerException
     {
         return toAjax(jobService.changeStatus(job));
     }
@@ -107,9 +101,10 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:changeStatus")
     @PostMapping("/run")
     @ResponseBody
-    public AjaxResult run(Job job)
+    public AjaxResult run(Job job) throws SchedulerException
     {
-        return toAjax(jobService.run(job));
+        jobService.run(job);
+        return success();
     }
 
     /**
@@ -128,7 +123,7 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(Job job)
+    public AjaxResult addSave(Job job) throws SchedulerException, TaskException
     {
         return toAjax(jobService.insertJobCron(job));
     }
@@ -150,11 +145,11 @@ public class JobController extends BaseController
     @RequiresPermissions("monitor:job:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(Job job)
+    public AjaxResult editSave(Job job) throws SchedulerException, TaskException
     {
         return toAjax(jobService.updateJobCron(job));
     }
-    
+
     /**
      * 校验cron表达式是否有效
      */

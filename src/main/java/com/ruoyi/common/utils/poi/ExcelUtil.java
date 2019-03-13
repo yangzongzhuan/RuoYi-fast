@@ -501,8 +501,7 @@ public class ExcelUtil<T>
      * @param endCol 结束列
      * @return 设置好的sheet.
      */
-    public void setXSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol,
-            int endCol)
+    public void setXSSFValidation(Sheet sheet, String[] textlist, int firstRow, int endRow, int firstCol, int endCol)
     {
         DataValidationHelper helper = sheet.getDataValidationHelper();
         // 加载下拉列表内容
@@ -672,7 +671,9 @@ public class ExcelUtil<T>
         {
             tempClass = tempClass.getSuperclass();
             if (tempClass != null)
+            {
                 tempFields.addAll(Arrays.asList(tempClass.getDeclaredFields()));
+            }
         }
         putToFields(tempFields);
     }
