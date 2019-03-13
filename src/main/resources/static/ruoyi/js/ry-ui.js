@@ -24,6 +24,7 @@
         		    striped: false,
         		    escape: false,
         		    showFooter: false,
+					clickToSelect: false,
         		    search: false,
                     showSearch: true,
                     showPageGo: false,
@@ -56,6 +57,7 @@
                     pageList: [10, 25, 50],                             // 可供选择的每页的行数（*）
                     escape: options.escape,                             // 转义HTML字符串
                     showFooter: options.showFooter,                     // 是否显示表尾
+					clickToSelect: options.clickToSelect,				// 是否启用点击选中行
                     iconSize: 'outline',                                // 图标大小：undefined默认的按钮尺寸 xs超小按钮sm小按钮lg大按钮
                     toolbar: '#' + options.toolbar,                     // 指定工作栏
                     sidePagination: options.sidePagination,             // server启用服务端分页client客户端分页
@@ -240,7 +242,8 @@
             // 刷新表格
             refresh: function() {
                 $("#" + $.table._option.id).bootstrapTable('refresh', {
-                    silent: true
+                    silent: true,
+					clickToSelect: true
                 });
             },
             // 查询表格指定列值
