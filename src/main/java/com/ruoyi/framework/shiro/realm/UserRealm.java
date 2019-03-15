@@ -2,7 +2,6 @@ package com.ruoyi.framework.shiro.realm;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -20,7 +19,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ruoyi.common.exception.user.CaptchaException;
 import com.ruoyi.common.exception.user.RoleBlockedException;
 import com.ruoyi.common.exception.user.UserBlockedException;
