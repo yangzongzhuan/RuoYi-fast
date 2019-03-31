@@ -18,6 +18,9 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.service.IRoleService;
+import com.ruoyi.project.system.user.domain.User;
+import com.ruoyi.project.system.user.domain.UserRole;
+import com.ruoyi.project.system.user.service.IUserService;
 
 /**
  * 角色信息
@@ -32,6 +35,9 @@ public class RoleController extends BaseController
 
     @Autowired
     private IRoleService roleService;
+
+    @Autowired
+    private IUserService userService;
 
     @RequiresPermissions("system:role:view")
     @GetMapping()
@@ -106,25 +112,25 @@ public class RoleController extends BaseController
     }
 
     /**
-     * 新增数据权限
+     * 角色分配数据权限
      */
-    @GetMapping("/rule/{roleId}")
-    public String rule(@PathVariable("roleId") Long roleId, ModelMap mmap)
+    @GetMapping("/authDataScope/{roleId}")
+    public String authDataScope(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
         mmap.put("role", roleService.selectRoleById(roleId));
-        return prefix + "/rule";
+        return prefix + "/dataScope";
     }
 
     /**
-     * 修改保存数据权限
+     * 保存角色分配数据权限
      */
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
-    @PostMapping("/rule")
+    @PostMapping("/authDataScope")
     @ResponseBody
-    public AjaxResult ruleSave(Role role)
+    public AjaxResult authDataScopeSave(Role role)
     {
-        return toAjax(roleService.updateRule(role));
+        return toAjax(roleService.authDataScope(role));
     }
 
     @RequiresPermissions("system:role:remove")
@@ -182,5 +188,85 @@ public class RoleController extends BaseController
     public AjaxResult changeStatus(Role role)
     {
         return toAjax(roleService.changeStatus(role));
+    }
+
+    /**
+     * 分配用户
+     */
+    @RequiresPermissions("system:role:edit")
+    @GetMapping("/authUser/{roleId}")
+    public String authUser(@PathVariable("roleId") Long roleId, ModelMap mmap)
+    {
+        mmap.put("role", roleService.selectRoleById(roleId));
+        return prefix + "/authUser";
+    }
+
+    /**
+     * 查询已分配用户角色列表
+     */
+    @RequiresPermissions("system:role:list")
+    @PostMapping("/authUser/allocatedList")
+    @ResponseBody
+    public TableDataInfo allocatedList(User user)
+    {
+        startPage();
+        List<User> list = userService.selectAllocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 取消授权
+     */
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
+    @PostMapping("/authUser/cancel")
+    @ResponseBody
+    public AjaxResult cancelAuthUser(UserRole userRole)
+    {
+        return toAjax(roleService.deleteAuthUser(userRole));
+    }
+
+    /**
+     * 批量取消授权
+     */
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
+    @PostMapping("/authUser/cancelAll")
+    @ResponseBody
+    public AjaxResult cancelAuthUserAll(Long roleId, String userIds)
+    {
+        return toAjax(roleService.deleteAuthUsers(roleId, userIds));
+    }
+
+    /**
+     * 选择用户
+     */
+    @GetMapping("/authUser/selectUser/{roleId}")
+    public String selectUser(@PathVariable("roleId") Long roleId, ModelMap mmap)
+    {
+        mmap.put("role", roleService.selectRoleById(roleId));
+        return prefix + "/selectUser";
+    }
+
+    /**
+     * 查询未分配用户角色列表
+     */
+    @RequiresPermissions("system:role:list")
+    @PostMapping("/authUser/unallocatedList")
+    @ResponseBody
+    public TableDataInfo unallocatedList(User user)
+    {
+        startPage();
+        List<User> list = userService.selectUnallocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 批量选择用户授权
+     */
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
+    @PostMapping("/authUser/selectAll")
+    @ResponseBody
+    public AjaxResult selectAuthUserAll(Long roleId, String userIds)
+    {
+        return toAjax(roleService.insertAuthUsers(roleId, userIds));
     }
 }

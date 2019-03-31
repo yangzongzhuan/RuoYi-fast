@@ -15,6 +15,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.AjaxResult.Type;
 import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.dept.domain.Dept;
 import com.ruoyi.project.system.dept.service.IDeptService;
@@ -110,11 +111,11 @@ public class DeptController extends BaseController
     {
         if (deptService.selectDeptCount(deptId) > 0)
         {
-            return error(1, "存在下级部门,不允许删除");
+            return error(Type.WARN, "存在下级部门,不允许删除");
         }
         if (deptService.checkDeptExistUser(deptId))
         {
-            return error(1, "部门存在用户,不允许删除");
+            return error(Type.WARN, "部门存在用户,不允许删除");
         }
         return toAjax(deptService.deleteDeptById(deptId));
     }

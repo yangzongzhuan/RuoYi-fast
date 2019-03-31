@@ -20,7 +20,7 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 
 /**
- * ${tableComment} 信息操作处理
+ * ${tableComment}信息操作处理
  * 
  * @author ${author}
  * @date ${datetime}

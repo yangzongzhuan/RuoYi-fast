@@ -12,6 +12,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.AjaxResult.Type;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.framework.web.page.TableSupport;
@@ -79,7 +80,7 @@ public class BaseController
     {
         return rows > 0 ? success() : error();
     }
-    
+
     /**
      * 响应返回结果
      * 
@@ -126,9 +127,9 @@ public class BaseController
     /**
      * 返回错误码消息
      */
-    public AjaxResult error(int code, String message)
+    public AjaxResult error(Type type, String message)
     {
-        return AjaxResult.error(code, message);
+        return new AjaxResult(type, message);
     }
 
     /**

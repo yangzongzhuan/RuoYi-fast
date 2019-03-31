@@ -19,7 +19,6 @@ import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.shiro.service.PasswordService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.framework.web.service.DictService;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.service.IUserService;
 
@@ -42,9 +41,6 @@ public class ProfileController extends BaseController
     @Autowired
     private PasswordService passwordService;
 
-    @Autowired
-    private DictService dict;
-
     /**
      * 个人信息
      */
@@ -52,7 +48,6 @@ public class ProfileController extends BaseController
     public String profile(ModelMap mmap)
     {
         User user = getSysUser();
-        user.setSex(dict.getLabel("sys_user_sex", user.getSex()));
         mmap.put("user", user);
         mmap.put("roleGroup", userService.selectUserRoleGroup(user.getUserId()));
         mmap.put("postGroup", userService.selectUserPostGroup(user.getUserId()));

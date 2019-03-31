@@ -58,10 +58,9 @@ public class UserServiceImpl implements IUserService
     private PasswordService passwordService;
 
     /**
-     * 根据条件分页查询用户对象
+     * 根据条件分页查询用户列表
      * 
      * @param user 用户信息
-     * 
      * @return 用户信息集合信息
      */
     @Override
@@ -70,6 +69,30 @@ public class UserServiceImpl implements IUserService
     {
         // 生成数据权限过滤条件
         return userMapper.selectUserList(user);
+    }
+
+    /**
+     * 根据条件分页查询已分配用户角色列表
+     * 
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @DataScope(tableAlias = "u")
+    public List<User> selectAllocatedList(User user)
+    {
+        return userMapper.selectAllocatedList(user);
+    }
+
+    /**
+     * 根据条件分页查询未分配用户角色列表
+     * 
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @DataScope(tableAlias = "u")
+    public List<User> selectUnallocatedList(User user)
+    {
+        return userMapper.selectUnallocatedList(user);
     }
 
     /**

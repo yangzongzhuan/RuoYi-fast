@@ -31,6 +31,9 @@ public class User extends BaseEntity
     /** 部门父ID */
     private Long parentId;
 
+    /** 角色ID */
+    private Long roleId;
+
     /** 登录名称 */
     @Excel(name = "登录名称")
     private String loginName;
@@ -126,6 +129,16 @@ public class User extends BaseEntity
     public void setParentId(Long parentId)
     {
         this.parentId = parentId;
+    }
+
+    public Long getRoleId()
+    {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId)
+    {
+        this.roleId = roleId;
     }
 
     public String getLoginName()

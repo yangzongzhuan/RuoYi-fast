@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.user.mapper;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 import com.ruoyi.project.system.user.domain.UserRole;
 
 /**
@@ -41,4 +42,21 @@ public interface UserRoleMapper
      * @return 结果
      */
     public int batchUserRole(List<UserRole> userRoleList);
+
+    /**
+     * 删除用户和角色关联信息
+     * 
+     * @param userRole 用户和角色关联信息
+     * @return 结果
+     */
+    public int deleteUserRoleInfo(UserRole userRole);
+
+    /**
+     * 批量取消授权用户角色
+     * 
+     * @param roleId 角色ID
+     * @param userIds 需要删除的用户数据ID
+     * @return 结果
+     */
+    public int deleteUserRoleInfos(@Param("roleId") Long roleId, @Param("userIds") Long[] userIds);
 }

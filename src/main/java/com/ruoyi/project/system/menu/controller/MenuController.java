@@ -15,6 +15,7 @@ import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.domain.Ztree;
+import com.ruoyi.framework.web.domain.AjaxResult.Type;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.menu.service.IMenuService;
 import com.ruoyi.project.system.role.domain.Role;
@@ -60,11 +61,11 @@ public class MenuController extends BaseController
     {
         if (menuService.selectCountMenuByParentId(menuId) > 0)
         {
-            return error(1, "存在子菜单,不允许删除");
+            return error(Type.WARN, "存在子菜单,不允许删除");
         }
         if (menuService.selectCountRoleMenuByMenuId(menuId) > 0)
         {
-            return error(1, "菜单已分配,不允许删除");
+            return error(Type.WARN, "菜单已分配,不允许删除");
         }
         return toAjax(menuService.deleteMenuById(menuId));
     }
