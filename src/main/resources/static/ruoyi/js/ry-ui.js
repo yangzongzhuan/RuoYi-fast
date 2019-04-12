@@ -1085,7 +1085,7 @@
         	notAllowLastLevel: function(_tree) {
     		    var nodes = _tree.getSelectedNodes();
     		    for (var i = 0; i < nodes.length; i++) {
-    		    	if (nodes[i].level == nodes.length + 1) {
+                    if (!nodes[i].isParent) {
     		    		$.modal.msgError("不能选择最后层级节点（" + nodes[i].name + "）");
     		            return false;
     		        }
