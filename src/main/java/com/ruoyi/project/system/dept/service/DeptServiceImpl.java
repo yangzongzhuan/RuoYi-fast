@@ -188,12 +188,14 @@ public class DeptServiceImpl implements IDeptService
     @Transactional
     public int updateDept(Dept dept)
     {
-        Dept info = deptMapper.selectDeptById(dept.getParentId());
-        if (StringUtils.isNotNull(info))
+        Dept newParentDept = deptMapper.selectDeptById(dept.getParentId());
+        Dept oldDept = selectDeptById(dept.getDeptId());
+        if (StringUtils.isNotNull(newParentDept) && StringUtils.isNotNull(oldDept))
         {
-            String ancestors = info.getAncestors() + "," + info.getDeptId();
-            dept.setAncestors(ancestors);
-            updateDeptChildren(dept.getDeptId(), ancestors);
+            String newAncestors = newParentDept.getAncestors() + "," + newParentDept.getDeptId();
+            String oldAncestors = oldDept.getAncestors();
+            dept.setAncestors(newAncestors);
+            updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
         }
         dept.setUpdateBy(ShiroUtils.getLoginName());
         int result = deptMapper.updateDept(dept);
@@ -216,6 +218,26 @@ public class DeptServiceImpl implements IDeptService
         dept = deptMapper.selectDeptById(dept.getDeptId());
         dept.setUpdateBy(updateBy);
         deptMapper.updateDeptStatus(dept);
+    }
+
+    /**
+     * 修改子元素关系
+     * 
+     * @param deptId 被修改的部门ID
+     * @param newAncestors 新的父ID集合
+     * @param oldAncestors 旧的父ID集合
+     */
+    public void updateDeptChildren(Long deptId, String newAncestors, String oldAncestors)
+    {
+        List<Dept> children = deptMapper.selectChildrenDeptById(deptId);
+        for (Dept child : children)
+        {
+            child.setAncestors(child.getAncestors().replace(oldAncestors, newAncestors));
+        }
+        if (children.size() > 0)
+        {
+            deptMapper.updateDeptChildren(children);
+        }
     }
 
     /**
