@@ -28,7 +28,7 @@ public class OperLog extends BaseEntity
     private Integer businessType;
     
     /** 操作人类别数组 */
-    private String businessTypes;
+    private Integer[] businessTypes;
 
     /** 请求方法 */
     @Excel(name = "请求方法")
@@ -104,12 +104,12 @@ public class OperLog extends BaseEntity
         this.businessType = businessType;
     }
 
-    public String getBusinessTypes()
+    public Integer[] getBusinessTypes()
     {
         return businessTypes;
     }
 
-    public void setBusinessTypes(String businessTypes)
+    public void setBusinessTypes(Integer[] businessTypes)
     {
         this.businessTypes = businessTypes;
     }
