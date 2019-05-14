@@ -23,11 +23,11 @@ public class OperLog extends BaseEntity
     @Excel(name = "操作模块")
     private String title;
 
-    /** 操作业务类型 */
+    /** 业务类型 */
     @Excel(name = "业务类型", readConverterExp = "0=其它,1=新增,2=修改,3=删除,4=授权,5=导出,6=导入,7=强退,8=生成代码,9=清空数据")
     private Integer businessType;
     
-    /** 操作人类别数组 */
+    /** 业务类型数组 */
     private Integer[] businessTypes;
 
     /** 请求方法 */
