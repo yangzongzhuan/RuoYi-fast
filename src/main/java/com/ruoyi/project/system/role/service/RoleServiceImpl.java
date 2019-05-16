@@ -12,6 +12,7 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.aspectj.lang.annotation.DataScope;
 import com.ruoyi.project.system.role.domain.Role;
@@ -110,7 +111,7 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public List<Role> selectRoleAll()
     {
-        return selectRoleList(new Role());
+        return SpringUtils.getAopProxy(this).selectRoleList(new Role());
     }
 
     /**
