@@ -35,7 +35,7 @@
 		<lombok.version>1.16.18</lombok.version>
 		<velocity.version>1.7</velocity.version>
 		<kaptcha.version>2.3.2</kaptcha.version>
-		<swagger.version>2.7.0</swagger.version>
+		<swagger.version>2.9.2</swagger.version>
 		<jsoup.version>1.11.3</jsoup.version>
 		<poi.version>3.17</poi.version>
 		<oshi.version>3.9.1</oshi.version>
