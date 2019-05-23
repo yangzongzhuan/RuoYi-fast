@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [пео╒] й╧сц Spring Boot Tomcat ткпп Web ╧╓Ёл║ё
+echo [Д©║Ф│╞] Д╫©Г■╗ Spring Boot Tomcat Х©░Х║▄ Web Е╥╔Г╗▀Ц─┌
 echo.
 
 %~d0
