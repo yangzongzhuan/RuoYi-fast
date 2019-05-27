@@ -130,7 +130,12 @@ public class RoleController extends BaseController
     @ResponseBody
     public AjaxResult authDataScopeSave(Role role)
     {
-        return toAjax(roleService.authDataScope(role));
+        if (roleService.authDataScope(role) > 0)
+        {
+            setSysUser(userService.selectUserById(getSysUser().getUserId()));
+            return success();
+        }
+        return error();
     }
 
     @RequiresPermissions("system:role:remove")
