@@ -87,17 +87,22 @@
             },
             // 查询条件
             queryParams: function(params) {
-            	return {
-        			// 传递参数查询参数
-                    pageSize:       params.limit,
-                    pageNum:        params.offset / params.limit + 1,
-                    searchValue:    params.search,
-                    orderByColumn:  params.sort,
-                    isAsc:          params.order
-        		}; 
+            	var curParams = {
+            			// 传递参数查询参数
+                        pageSize:       params.limit,
+                        pageNum:        params.offset / params.limit + 1,
+                        searchValue:    params.search,
+                        orderByColumn:  params.sort,
+                        isAsc:          params.order
+            		};
+            	var currentId = $.common.isEmpty($.table._option.formId) ? $('form').attr('id') : $.table._option.formId;
+            	return $.extend(curParams, $.common.formToJSON(currentId)); 
             },
             // 请求获取数据后处理回调函数
             responseHandler: function(res) {
+            	if (typeof $.table._option.responseHandler == "function") {
+            		options.responseHandler(res);
+                }
                 if (res.code == 0) {
                     if ($.common.isNotEmpty($.table._option.sidePagination) && $.table._option.sidePagination == 'client') {
                     	return res.rows;
@@ -153,6 +158,9 @@
             },
             // 当所有数据被加载时触发
             onLoadSuccess: function(data) {
+            	if (typeof $.table._option.onLoadSuccess == "function") {
+            		$.table._option.onLoadSuccess(data);
+            	}
             	// 浮动提示框特效
             	$("[data-toggle='tooltip']").tooltip();
             },
@@ -209,10 +217,7 @@
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
     		    var params = $("#" + $.table._option.id).bootstrapTable('getOptions');
     		    params.queryParams = function(params) {
-                    var search = {};
-                    $.each($("#" + currentId).serializeArray(), function(i, field) {
-                        search[field.name] = field.value;
-                    });
+                    var search = $.common.formToJSON(currentId);
                     if($.common.isNotEmpty(data)){
 	                    $.each(data, function(key) {
 	                        search[key] = data[key];
@@ -412,10 +417,7 @@
             // 条件查询
             search: function(formId) {
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
-            	var params = {};
-            	$.each($("#" + currentId).serializeArray(), function(i, field) {
-            		params[field.name] = field.value;
-		        });
+            	var params = $.common.formToJSON(currentId);
             	$._treeTable.bootstrapTreeTable('refresh', params);
             },
             // 刷新
@@ -1260,6 +1262,14 @@
             	    return null;
             	}
                 return array.join(separator);
+            },
+            // 获取form下所有的字段并转换为json对象
+            formToJSON: function(formId) {
+            	 var json = {};
+                 $.each($("#" + formId).serializeArray(), function(i, field) {
+                	 json[field.name] = field.value;
+                 });
+            	return json;
             }
         }
     });
