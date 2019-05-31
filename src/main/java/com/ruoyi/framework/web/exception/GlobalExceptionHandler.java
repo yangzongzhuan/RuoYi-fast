@@ -80,10 +80,9 @@ public class GlobalExceptionHandler
     public Object businessException(HttpServletRequest request, BusinessException e)
     {
         log.error(e.getMessage(), e);
-
         if (ServletUtils.isAjaxRequest(request))
         {
-            return AjaxResult.error("业务异常" + e.getMessage());
+            return AjaxResult.error(e.getMessage());
         }
         else
         {
