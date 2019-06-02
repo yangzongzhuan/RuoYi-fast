@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -115,6 +116,10 @@ public class UserController extends BaseController
         if (StringUtils.isNotNull(user.getUserId()) && User.isAdmin(user.getUserId()))
         {
             return error("不允许修改超级管理员用户");
+        }
+        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，登录账号已存在");
         }
         return toAjax(userService.insertUser(user));
     }
