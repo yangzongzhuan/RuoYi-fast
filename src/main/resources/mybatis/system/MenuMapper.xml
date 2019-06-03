@@ -76,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND visible = #{visible}
 			</if>
 		</where>
-		order by order_num
+		order by parent_id, order_num
     </select>
 	
 	<delete id="deleteMenuById" parameterType="Long">
