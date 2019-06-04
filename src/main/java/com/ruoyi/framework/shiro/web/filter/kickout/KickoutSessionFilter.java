@@ -18,6 +18,7 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.system.user.domain.User;
 
@@ -68,7 +69,7 @@ public class KickoutSessionFilter extends AccessControlFilter
         {
             Session session = subject.getSession();
             // 当前登录用户
-            User user = (User) subject.getPrincipal();
+            User user = ShiroUtils.getSysUser();
             String loginName = user.getLoginName();
             Serializable sessionId = session.getId();
 
