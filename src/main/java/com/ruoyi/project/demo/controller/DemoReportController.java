@@ -25,6 +25,24 @@ public class DemoReportController
     }
 
     /**
+     * 图表插件
+     */
+    @GetMapping("/peity")
+    public String peity()
+    {
+        return prefix + "/peity";
+    }
+
+    /**
+     * 线状图插件
+     */
+    @GetMapping("/sparkline")
+    public String sparkline()
+    {
+        return prefix + "/sparkline";
+    }
+
+    /**
      * 图表组合
      */
     @GetMapping("/metrics")
