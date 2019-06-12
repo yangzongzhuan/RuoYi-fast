@@ -33,6 +33,7 @@ public class Dept extends BaseEntity
 
     /** 联系电话 */
     private String phone;
+    
     /** 邮箱 */
     private String email;
 

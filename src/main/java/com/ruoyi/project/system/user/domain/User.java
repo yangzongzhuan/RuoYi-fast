@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel.Type;
+import com.ruoyi.framework.aspectj.lang.annotation.Excels;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.project.system.dept.domain.Dept;
 import com.ruoyi.project.system.role.domain.Role;
@@ -77,9 +78,11 @@ public class User extends BaseEntity
     /** 最后登陆时间 */
     @Excel(name = "最后登陆时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
     private Date loginDate;
-
-    /** 部门对象 */
-    @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT)
+    
+    @Excels({
+        @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
+        @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
+    })
     private Dept dept;
 
     /** 角色集合 */
