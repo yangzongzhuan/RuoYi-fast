@@ -67,7 +67,18 @@ public class MenuServiceImpl implements IMenuService
     @Override
     public List<Menu> selectMenuList(Menu menu)
     {
-        return menuMapper.selectMenuList(menu);
+        List<Menu> menuList = null;
+        User user = ShiroUtils.getSysUser();
+        if (user.isAdmin())
+        {
+            menuList = menuMapper.selectMenuList(menu);
+        }
+        else
+        {
+            menu.getParams().put("userId", user.getUserId());
+            menuList = menuMapper.selectMenuListByUserId(menu);
+        }
+        return menuList;
     }
 
     /**
@@ -78,7 +89,17 @@ public class MenuServiceImpl implements IMenuService
     @Override
     public List<Menu> selectMenuAll()
     {
-        return menuMapper.selectMenuAll();
+        List<Menu> menuList = null;
+        User user = ShiroUtils.getSysUser();
+        if (user.isAdmin())
+        {
+            menuList = menuMapper.selectMenuAll();
+        }
+        else
+        {
+            menuList = menuMapper.selectMenuAllByUserId(user.getUserId());
+        }
+        return menuList;
     }
 
     /**
@@ -113,7 +134,7 @@ public class MenuServiceImpl implements IMenuService
     {
         Long roleId = role.getRoleId();
         List<Ztree> ztrees = new ArrayList<Ztree>();
-        List<Menu> menuList = menuMapper.selectMenuAll();
+        List<Menu> menuList = selectMenuAll();
         if (StringUtils.isNotNull(roleId))
         {
             List<String> roleMenuList = menuMapper.selectMenuTree(roleId);
@@ -134,7 +155,7 @@ public class MenuServiceImpl implements IMenuService
     @Override
     public List<Ztree> menuTreeData()
     {
-        List<Menu> menuList = menuMapper.selectMenuAll();
+        List<Menu> menuList = selectMenuAll();
         List<Ztree> ztrees = initZtree(menuList);
         return ztrees;
     }
@@ -148,7 +169,7 @@ public class MenuServiceImpl implements IMenuService
     public LinkedHashMap<String, String> selectPermsAll()
     {
         LinkedHashMap<String, String> section = new LinkedHashMap<>();
-        List<Menu> permissions = menuMapper.selectMenuAll();
+        List<Menu> permissions = selectMenuAll();
         if (StringUtils.isNotEmpty(permissions))
         {
             for (Menu menu : permissions)

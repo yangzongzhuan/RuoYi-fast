@@ -2,7 +2,6 @@ package com.ruoyi.project.monitor.job.service;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +39,7 @@ public class JobServiceImpl implements IJobService
         List<Job> jobList = jobMapper.selectJobAll();
         for (Job job : jobList)
         {
-            CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, job.getJobId());
-            // 如果不存在，则创建
-            if (cronTrigger == null)
-            {
-                ScheduleUtils.createScheduleJob(scheduler, job);
-            }
-            else
-            {
-                ScheduleUtils.updateScheduleJob(scheduler, job);
-            }
+            ScheduleUtils.updateScheduleJob(scheduler, job);
         }
     }
 

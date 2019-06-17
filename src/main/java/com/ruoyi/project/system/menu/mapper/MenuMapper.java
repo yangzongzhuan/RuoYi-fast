@@ -17,14 +17,22 @@ public interface MenuMapper
      * @return 菜单列表
      */
     public List<Menu> selectMenuAll();
-    
+
+    /**
+     * 根据用户ID查询菜单
+     * 
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    public List<Menu> selectMenuAllByUserId(Long userId);
+
     /**
      * 查询系统正常显示菜单（不含按钮）
      * 
      * @return 菜单列表
      */
     public List<Menu> selectMenuNormalAll();
-    
+
     /**
      * 根据用户ID查询菜单
      * 
@@ -56,6 +64,14 @@ public interface MenuMapper
      * @return 菜单列表
      */
     public List<Menu> selectMenuList(Menu menu);
+
+    /**
+     * 查询系统菜单列表
+     * 
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    public List<Menu> selectMenuListByUserId(Menu menu);
 
     /**
      * 删除菜单管理信息
