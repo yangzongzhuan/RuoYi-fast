@@ -117,9 +117,17 @@ public class UserController extends BaseController
         {
             return error("不允许修改超级管理员用户");
         }
-        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
+        else if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
         {
             return error("保存用户'" + user.getLoginName() + "'失败，登录账号已存在");
+        }
+        else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，手机号码已存在");
+        }
+        else if (UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.insertUser(user));
     }
@@ -148,6 +156,14 @@ public class UserController extends BaseController
         if (StringUtils.isNotNull(user.getUserId()) && User.isAdmin(user.getUserId()))
         {
             return error("不允许修改超级管理员用户");
+        }
+        else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，手机号码已存在");
+        }
+        else if (UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.updateUser(user));
     }
