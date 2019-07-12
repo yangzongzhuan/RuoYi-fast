@@ -127,7 +127,7 @@ public class JobController extends BaseController
     @ResponseBody
     public AjaxResult addSave(Job job) throws SchedulerException, TaskException
     {
-        return toAjax(jobService.insertJobCron(job));
+        return toAjax(jobService.insertJob(job));
     }
 
     /**
@@ -149,7 +149,7 @@ public class JobController extends BaseController
     @ResponseBody
     public AjaxResult editSave(Job job) throws SchedulerException, TaskException
     {
-        return toAjax(jobService.updateJobCron(job));
+        return toAjax(jobService.updateJob(job));
     }
 
     /**

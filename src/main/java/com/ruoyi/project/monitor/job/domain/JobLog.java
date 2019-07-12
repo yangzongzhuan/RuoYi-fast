@@ -27,13 +27,9 @@ public class JobLog extends BaseEntity
     @Excel(name = "任务组名")
     private String jobGroup;
 
-    /** 任务方法 */
-    @Excel(name = "任务方法")
-    private String methodName;
-
-    /** 方法参数 */
-    @Excel(name = "方法参数")
-    private String methodParams;
+    /** 调用目标字符串 */
+    @Excel(name = "调用目标字符串")
+    private String invokeTarget;
 
     /** 日志信息 */
     @Excel(name = "日志信息")
@@ -46,7 +42,7 @@ public class JobLog extends BaseEntity
     /** 异常信息 */
     @Excel(name = "异常信息")
     private String exceptionInfo;
-    
+
     /** 开始时间 */
     private Date startTime;
 
@@ -83,24 +79,14 @@ public class JobLog extends BaseEntity
         this.jobGroup = jobGroup;
     }
 
-    public String getMethodName()
+    public String getInvokeTarget()
     {
-        return methodName;
+        return invokeTarget;
     }
 
-    public void setMethodName(String methodName)
+    public void setInvokeTarget(String invokeTarget)
     {
-        this.methodName = methodName;
-    }
-
-    public String getMethodParams()
-    {
-        return methodParams;
-    }
-
-    public void setMethodParams(String methodParams)
-    {
-        this.methodParams = methodParams;
+        this.invokeTarget = invokeTarget;
     }
 
     public String getJobMessage()
@@ -132,7 +118,7 @@ public class JobLog extends BaseEntity
     {
         this.exceptionInfo = exceptionInfo;
     }
-    
+
     public Date getStartTime()
     {
         return startTime;
@@ -159,8 +145,6 @@ public class JobLog extends BaseEntity
             .append("jobLogId", getJobLogId())
             .append("jobName", getJobName())
             .append("jobGroup", getJobGroup())
-            .append("methodName", getMethodName())
-            .append("methodParams", getMethodParams())
             .append("jobMessage", getJobMessage())
             .append("status", getStatus())
             .append("exceptionInfo", getExceptionInfo())

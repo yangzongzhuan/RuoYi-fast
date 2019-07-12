@@ -2,6 +2,8 @@ package com.ruoyi.project.monitor.job.service;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.quartz.JobDataMap;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.exception.job.TaskException;
-import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.monitor.job.domain.Job;
 import com.ruoyi.project.monitor.job.mapper.JobMapper;
@@ -31,7 +32,8 @@ public class JobServiceImpl implements IJobService
     private JobMapper jobMapper;
 
     /**
-     * 项目启动时，初始化定时器
+     * 项目启动时，初始化定时器 
+     * 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
      */
     @PostConstruct
     public void init() throws SchedulerException, TaskException
@@ -39,7 +41,7 @@ public class JobServiceImpl implements IJobService
         List<Job> jobList = jobMapper.selectJobAll();
         for (Job job : jobList)
         {
-            ScheduleUtils.updateScheduleJob(scheduler, job);
+            updateSchedulerJob(job, job.getJobGroup());
         }
     }
 
@@ -76,12 +78,13 @@ public class JobServiceImpl implements IJobService
     @Transactional
     public int pauseJob(Job job) throws SchedulerException
     {
+        Long jobId = job.getJobId();
+        String jobGroup = job.getJobGroup();
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
-        job.setUpdateBy(ShiroUtils.getLoginName());
         int rows = jobMapper.updateJob(job);
         if (rows > 0)
         {
-            ScheduleUtils.pauseJob(scheduler, job.getJobId());
+            scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
         return rows;
     }
@@ -95,12 +98,13 @@ public class JobServiceImpl implements IJobService
     @Transactional
     public int resumeJob(Job job) throws SchedulerException
     {
+        Long jobId = job.getJobId();
+        String jobGroup = job.getJobGroup();
         job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
-        job.setUpdateBy(ShiroUtils.getLoginName());
         int rows = jobMapper.updateJob(job);
         if (rows > 0)
         {
-            ScheduleUtils.resumeJob(scheduler, job.getJobId());
+            scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
         return rows;
     }
@@ -114,10 +118,12 @@ public class JobServiceImpl implements IJobService
     @Transactional
     public int deleteJob(Job job) throws SchedulerException
     {
-        int rows = jobMapper.deleteJobById(job.getJobId());
+        Long jobId = job.getJobId();
+        String jobGroup = job.getJobGroup();
+        int rows = jobMapper.deleteJobById(jobId);
         if (rows > 0)
         {
-            ScheduleUtils.deleteScheduleJob(scheduler, job.getJobId());
+            scheduler.deleteJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
         return rows;
     }
@@ -171,7 +177,13 @@ public class JobServiceImpl implements IJobService
     @Transactional
     public void run(Job job) throws SchedulerException
     {
-        ScheduleUtils.run(scheduler, selectJobById(job.getJobId()));
+        Long jobId = job.getJobId();
+        String jobGroup = job.getJobGroup();
+        Job properties = selectJobById(job.getJobId());
+        // 参数
+        JobDataMap dataMap = new JobDataMap();
+        dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
+        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
     }
 
     /**
@@ -181,9 +193,8 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int insertJobCron(Job job) throws SchedulerException, TaskException
+    public int insertJob(Job job) throws SchedulerException, TaskException
     {
-        job.setCreateBy(ShiroUtils.getLoginName());
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
         int rows = jobMapper.insertJob(job);
         if (rows > 0)
@@ -200,15 +211,34 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional
-    public int updateJobCron(Job job) throws SchedulerException, TaskException
+    public int updateJob(Job job) throws SchedulerException, TaskException
     {
-        job.setUpdateBy(ShiroUtils.getLoginName());
+        Job properties = selectJobById(job.getJobId());
         int rows = jobMapper.updateJob(job);
         if (rows > 0)
         {
-            ScheduleUtils.updateScheduleJob(scheduler, job);
+            updateSchedulerJob(job, properties.getJobGroup());
         }
         return rows;
+    }
+
+    /**
+     * 更新任务
+     * 
+     * @param job 调度信息
+     * @param jobGroup 任务组名
+     */
+    public void updateSchedulerJob(Job job, String jobGroup) throws SchedulerException, TaskException
+    {
+        Long jobId = job.getJobId();
+        // 判断是否存在
+        JobKey jobKey = ScheduleUtils.getJobKey(jobId, jobGroup);
+        if (scheduler.checkExists(jobKey))
+        {
+            // 防止创建时存在数据问题 先移除，然后在执行创建操作
+            scheduler.deleteJob(jobKey);
+        }
+        ScheduleUtils.createScheduleJob(scheduler, job);
     }
 
     /**

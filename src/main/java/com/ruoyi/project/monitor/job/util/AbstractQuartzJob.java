@@ -75,8 +75,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job
         final JobLog jobLog = new JobLog();
         jobLog.setJobName(job.getJobName());
         jobLog.setJobGroup(job.getJobGroup());
-        jobLog.setMethodName(job.getMethodName());
-        jobLog.setMethodParams(job.getMethodParams());
+        jobLog.setInvokeTarget(job.getInvokeTarget());
         jobLog.setStartTime(startTime);
         jobLog.setEndTime(new Date());
         long runMs = jobLog.getEndTime().getTime() - jobLog.getStartTime().getTime();

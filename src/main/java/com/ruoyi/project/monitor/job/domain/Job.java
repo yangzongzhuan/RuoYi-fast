@@ -31,20 +31,16 @@ public class Job extends BaseEntity implements Serializable
     @Excel(name = "任务组名")
     private String jobGroup;
 
-    /** 任务方法 */
-    @Excel(name = "任务方法")
-    private String methodName;
-
-    /** 方法参数 */
-    @Excel(name = "方法参数")
-    private String methodParams;
+    /** 调用目标字符串 */
+    @Excel(name = "调用目标字符串")
+    private String invokeTarget;
 
     /** cron执行表达式 */
     @Excel(name = "执行表达式 ")
     private String cronExpression;
 
     /** cron计划策略 */
-    @Excel(name = "计划策略 ")
+    @Excel(name = "计划策略 ", readConverterExp = "0=默认,1=立即触发执行,2=触发一次执行,3=不触发立即执行")
     private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
 
     /** 是否并发执行（0允许 1禁止） */
@@ -85,24 +81,14 @@ public class Job extends BaseEntity implements Serializable
         this.jobGroup = jobGroup;
     }
 
-    public String getMethodName()
+    public String getInvokeTarget()
     {
-        return methodName;
+        return invokeTarget;
     }
 
-    public void setMethodName(String methodName)
+    public void setInvokeTarget(String invokeTarget)
     {
-        this.methodName = methodName;
-    }
-
-    public String getMethodParams()
-    {
-        return methodParams;
-    }
-
-    public void setMethodParams(String methodParams)
-    {
-        this.methodParams = methodParams;
+        this.invokeTarget = invokeTarget;
     }
 
     public String getCronExpression()
@@ -160,8 +146,6 @@ public class Job extends BaseEntity implements Serializable
             .append("jobId", getJobId())
             .append("jobName", getJobName())
             .append("jobGroup", getJobGroup())
-            .append("methodName", getMethodName())
-            .append("methodParams", getMethodParams())
             .append("cronExpression", getCronExpression())
             .append("nextValidTime", getNextValidTime())
             .append("misfirePolicy", getMisfirePolicy())
