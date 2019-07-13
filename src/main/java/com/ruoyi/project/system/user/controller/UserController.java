@@ -181,9 +181,14 @@ public class UserController extends BaseController
     @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     @PostMapping("/resetPwd")
     @ResponseBody
-    public AjaxResult resetPwd(User user)
+    public AjaxResult resetPwdSave(User user)
     {
-        return toAjax(userService.resetUserPwd(user));
+        if (userService.resetUserPwd(user) > 0)
+        {
+            setSysUser(userService.selectUserById(user.getUserId()));
+            return success();
+        }
+        return error();
     }
 
     @RequiresPermissions("system:user:remove")
