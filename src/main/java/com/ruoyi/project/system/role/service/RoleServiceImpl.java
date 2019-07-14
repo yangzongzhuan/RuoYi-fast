@@ -51,7 +51,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 角色数据集合信息
      */
     @Override
-    @DataScope(tableAlias = "u")
+    @DataScope(deptAlias = "d")
     public List<Role> selectRoleList(Role role)
     {
         return roleMapper.selectRoleList(role);

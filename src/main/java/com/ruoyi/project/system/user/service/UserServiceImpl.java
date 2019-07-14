@@ -64,7 +64,7 @@ public class UserServiceImpl implements IUserService
      * @return 用户信息集合信息
      */
     @Override
-    @DataScope(tableAlias = "u")
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<User> selectUserList(User user)
     {
         // 生成数据权限过滤条件
@@ -77,7 +77,7 @@ public class UserServiceImpl implements IUserService
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    @DataScope(tableAlias = "u")
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<User> selectAllocatedList(User user)
     {
         return userMapper.selectAllocatedList(user);
@@ -89,7 +89,7 @@ public class UserServiceImpl implements IUserService
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    @DataScope(tableAlias = "u")
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<User> selectUnallocatedList(User user)
     {
         return userMapper.selectUnallocatedList(user);

@@ -33,7 +33,7 @@ public class DeptServiceImpl implements IDeptService
      * @return 部门信息集合
      */
     @Override
-    @DataScope(tableAlias = "d")
+    @DataScope(deptAlias = "d")
     public List<Dept> selectDeptList(Dept dept)
     {
         return deptMapper.selectDeptList(dept);
@@ -46,7 +46,7 @@ public class DeptServiceImpl implements IDeptService
      * @return 所有部门信息
      */
     @Override
-    @DataScope(tableAlias = "d")
+    @DataScope(deptAlias = "d")
     public List<Ztree> selectDeptTree(Dept dept)
     {
         List<Dept> deptList = deptMapper.selectDeptList(dept);
