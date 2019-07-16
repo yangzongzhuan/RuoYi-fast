@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
@@ -185,7 +186,10 @@ public class UserController extends BaseController
     {
         if (userService.resetUserPwd(user) > 0)
         {
-            setSysUser(userService.selectUserById(user.getUserId()));
+            if (ShiroUtils.getUserId() == user.getUserId())
+            {
+                setSysUser(userService.selectUserById(user.getUserId()));
+            }
             return success();
         }
         return error();
