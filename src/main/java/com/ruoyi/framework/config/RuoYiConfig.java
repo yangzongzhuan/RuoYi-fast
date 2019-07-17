@@ -90,18 +90,27 @@ public class RuoYiConfig
         RuoYiConfig.addressEnabled = addressEnabled;
     }
 
+    /**
+     * 获取头像上传路径
+     */
     public static String getAvatarPath()
     {
-        return profile + "avatar/";
+        return getProfile() + "/avatar";
     }
 
+    /**
+     * 获取下载路径
+     */
     public static String getDownloadPath()
     {
-        return profile + "download/";
+        return getProfile() + "/download";
     }
 
+    /**
+     * 获取上传路径
+     */
     public static String getUploadPath()
     {
-        return profile + "upload/";
+        return getProfile() + "/upload";
     }
 }
