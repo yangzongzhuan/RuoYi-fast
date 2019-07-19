@@ -5,6 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,23 +113,19 @@ public class UserController extends BaseController
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(User user)
+    public AjaxResult addSave(@Validated User user)
     {
-        if (StringUtils.isNotNull(user.getUserId()) && User.isAdmin(user.getUserId()))
+        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
         {
-            return error("不允许修改超级管理员用户");
-        }
-        else if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
-        {
-            return error("保存用户'" + user.getLoginName() + "'失败，登录账号已存在");
+            return error("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
         }
         else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
-            return error("保存用户'" + user.getLoginName() + "'失败，手机号码已存在");
+            return error("新增用户'" + user.getLoginName() + "'失败，手机号码已存在");
         }
         else if (UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
         {
-            return error("保存用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
+            return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.insertUser(user));
     }
@@ -152,7 +149,7 @@ public class UserController extends BaseController
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(User user)
+    public AjaxResult editSave(@Validated User user)
     {
         if (StringUtils.isNotNull(user.getUserId()) && User.isAdmin(user.getUserId()))
         {
@@ -160,11 +157,11 @@ public class UserController extends BaseController
         }
         else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
-            return error("保存用户'" + user.getLoginName() + "'失败，手机号码已存在");
+            return error("修改用户'" + user.getLoginName() + "'失败，手机号码已存在");
         }
         else if (UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
         {
-            return error("保存用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
+            return error("修改用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.updateUser(user));
     }

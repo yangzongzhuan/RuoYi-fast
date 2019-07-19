@@ -5,11 +5,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -83,8 +85,16 @@ public class RoleController extends BaseController
     @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(Role role)
+    public AjaxResult addSave(@Validated Role role)
     {
+        if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        {
+            return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+        }
+        else if (UserConstants.ROLE_KEY_NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        {
+            return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+        }
         return toAjax(roleService.insertRole(role));
 
     }
@@ -106,8 +116,16 @@ public class RoleController extends BaseController
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(Role role)
+    public AjaxResult editSave(@Validated Role role)
     {
+        if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        {
+            return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+        }
+        else if (UserConstants.ROLE_KEY_NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        {
+            return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+        }
         return toAjax(roleService.updateRole(role));
     }
 

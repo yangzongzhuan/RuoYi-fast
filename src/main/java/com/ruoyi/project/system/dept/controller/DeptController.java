@@ -5,11 +5,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -42,7 +44,7 @@ public class DeptController extends BaseController
     }
 
     @RequiresPermissions("system:dept:list")
-    @GetMapping("/list")
+    @PostMapping("/list")
     @ResponseBody
     public List<Dept> list(Dept dept)
     {
@@ -67,8 +69,12 @@ public class DeptController extends BaseController
     @RequiresPermissions("system:dept:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(Dept dept)
+    public AjaxResult addSave(@Validated Dept dept)
     {
+        if (UserConstants.DEPT_NAME_NOT_UNIQUE.equals(deptService.checkDeptNameUnique(dept)))
+        {
+            return error("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
+        }
         return toAjax(deptService.insertDept(dept));
     }
 
@@ -94,8 +100,12 @@ public class DeptController extends BaseController
     @RequiresPermissions("system:dept:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(Dept dept)
+    public AjaxResult editSave(@Validated Dept dept)
     {
+        if (UserConstants.DEPT_NAME_NOT_UNIQUE.equals(deptService.checkDeptNameUnique(dept)))
+        {
+            return error("修改部门'" + dept.getDeptName() + "'失败，部门名称已存在");
+        }
         return toAjax(deptService.updateDept(dept));
     }
 

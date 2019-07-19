@@ -5,11 +5,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -80,8 +82,12 @@ public class ConfigController extends BaseController
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(Config config)
+    public AjaxResult addSave(@Validated Config config)
     {
+        if (UserConstants.CONFIG_KEY_NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
+        {
+            return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
+        }
         return toAjax(configService.insertConfig(config));
     }
 
@@ -102,8 +108,12 @@ public class ConfigController extends BaseController
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(Config config)
+    public AjaxResult editSave(@Validated Config config)
     {
+        if (UserConstants.CONFIG_KEY_NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
+        {
+            return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+        }
         return toAjax(configService.updateConfig(config));
     }
 

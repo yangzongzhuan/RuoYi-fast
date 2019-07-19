@@ -5,11 +5,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
@@ -41,7 +43,7 @@ public class MenuController extends BaseController
     }
 
     @RequiresPermissions("system:menu:list")
-    @GetMapping("/list")
+    @PostMapping("/list")
     @ResponseBody
     public List<Menu> list(Menu menu)
     {
@@ -97,8 +99,12 @@ public class MenuController extends BaseController
     @RequiresPermissions("system:menu:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(Menu menu)
+    public AjaxResult addSave(@Validated Menu menu)
     {
+        if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu)))
+        {
+            return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+        }
         return toAjax(menuService.insertMenu(menu));
     }
 
@@ -119,8 +125,12 @@ public class MenuController extends BaseController
     @RequiresPermissions("system:menu:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(Menu menu)
+    public AjaxResult editSave(@Validated Menu menu)
     {
+        if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu)))
+        {
+            return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+        }
         return toAjax(menuService.updateMenu(menu));
     }
 

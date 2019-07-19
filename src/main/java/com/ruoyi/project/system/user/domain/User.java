@@ -2,6 +2,7 @@ package com.ruoyi.project.system.user.domain;
 
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -78,14 +79,14 @@ public class User extends BaseEntity
     /** 最后登陆时间 */
     @Excel(name = "最后登陆时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
     private Date loginDate;
-    
+
+    /** 部门对象 */
     @Excels({
         @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
         @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
     })
     private Dept dept;
 
-    /** 角色集合 */
     private List<Role> roles;
 
     /** 角色组 */
@@ -144,6 +145,8 @@ public class User extends BaseEntity
         this.roleId = roleId;
     }
 
+    @NotBlank(message = "登录账号不能为空")
+    @Size(min = 0, max = 30, message = "登录账号长度不能超过30个字符")
     public String getLoginName()
     {
         return loginName;
@@ -154,6 +157,7 @@ public class User extends BaseEntity
         this.loginName = loginName;
     }
 
+    @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
     public String getUserName()
     {
         return userName;
@@ -164,6 +168,8 @@ public class User extends BaseEntity
         this.userName = userName;
     }
 
+    @Email(message = "邮箱格式不正确")
+    @Size(min = 0, max = 50, message = "邮箱长度不能超过50个字符")
     public String getEmail()
     {
         return email;
@@ -174,6 +180,7 @@ public class User extends BaseEntity
         this.email = email;
     }
 
+    @Size(min = 0, max = 11, message = "手机号码长度不能超过11个字符")
     public String getPhonenumber()
     {
         return phonenumber;

@@ -1,9 +1,10 @@
 package com.ruoyi.project.system.menu.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
@@ -61,6 +62,8 @@ public class Menu extends BaseEntity
         this.menuId = menuId;
     }
 
+    @NotBlank(message = "菜单名称不能为空")
+    @Size(min = 0, max = 50, message = "菜单名称长度不能超过50个字符")
     public String getMenuName()
     {
         return menuName;
@@ -91,6 +94,7 @@ public class Menu extends BaseEntity
         this.parentId = parentId;
     }
 
+    @NotBlank(message = "显示顺序不能为空")
     public String getOrderNum()
     {
         return orderNum;
@@ -101,6 +105,7 @@ public class Menu extends BaseEntity
         this.orderNum = orderNum;
     }
 
+    @Size(min = 0, max = 200, message = "请求地址不能超过200个字符")
     public String getUrl()
     {
         return url;
@@ -121,6 +126,7 @@ public class Menu extends BaseEntity
         this.target = target;
     }
 
+    @NotBlank(message = "菜单类型不能为空")
     public String getMenuType()
     {
         return menuType;
@@ -141,6 +147,7 @@ public class Menu extends BaseEntity
         this.visible = visible;
     }
 
+    @Size(min = 0, max = 100, message = "权限标识长度不能超过100个字符")
     public String getPerms()
     {
         return perms;

@@ -5,6 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,7 +79,7 @@ public class DictDataController extends BaseController
     @RequiresPermissions("system:dict:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(DictData dict)
+    public AjaxResult addSave(@Validated DictData dict)
     {
         return toAjax(dictDataService.insertDictData(dict));
     }
@@ -100,7 +101,7 @@ public class DictDataController extends BaseController
     @RequiresPermissions("system:dict:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(DictData dict)
+    public AjaxResult editSave(@Validated DictData dict)
     {
         return toAjax(dictDataService.updateDictData(dict));
     }

@@ -1,12 +1,13 @@
 package com.ruoyi.project.system.dict.domain;
 
+import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
- * 字典类型对象 sys_dict_type
+ * 字典类型表 sys_dict_type
  * 
  * @author ruoyi
  */
@@ -40,6 +41,8 @@ public class DictType extends BaseEntity
         this.dictId = dictId;
     }
 
+    @NotBlank(message = "字典名称不能为空")
+    @Size(min = 0, max = 100, message = "字典类型名称长度不能超过100个字符")
     public String getDictName()
     {
         return dictName;
@@ -50,6 +53,8 @@ public class DictType extends BaseEntity
         this.dictName = dictName;
     }
 
+    @NotBlank(message = "字典类型不能为空")
+    @Size(min = 0, max = 100, message = "字典类型类型长度不能超过100个字符")
     public String getDictType()
     {
         return dictType;
