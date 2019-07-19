@@ -31,7 +31,6 @@ public abstract class RepeatSubmitInterceptor extends HandlerInterceptorAdapter
             {
                 if (this.isRepeatSubmit(request))
                 {
-                    System.out.println("不允许重复提交，请稍后再试");
                     AjaxResult ajaxResult = AjaxResult.error("不允许重复提交，请稍后再试");
                     ServletUtils.renderString(response, JSONObject.toJSONString(ajaxResult));
                     return false;
