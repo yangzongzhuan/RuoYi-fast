@@ -106,6 +106,10 @@ public class DeptController extends BaseController
         {
             return error("修改部门'" + dept.getDeptName() + "'失败，部门名称已存在");
         }
+        else if(dept.getParentId().equals(dept.getDeptId()))
+        {
+            return error("修改部门'" + dept.getDeptName() + "'失败，上级部门不能是自己");
+        }
         return toAjax(deptService.updateDept(dept));
     }
 
