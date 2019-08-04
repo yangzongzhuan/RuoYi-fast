@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel.Type;
 import com.ruoyi.framework.aspectj.lang.annotation.Excels;
 import com.ruoyi.framework.web.domain.BaseEntity;
@@ -23,7 +24,7 @@ public class User extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 用户ID */
-    @Excel(name = "用户序号", prompt = "用户编号")
+    @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
     private Long userId;
 
     /** 部门ID */

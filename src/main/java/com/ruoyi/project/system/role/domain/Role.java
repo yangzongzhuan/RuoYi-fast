@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
@@ -16,7 +17,7 @@ public class Role extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 角色ID */
-    @Excel(name = "角色序号")
+    @Excel(name = "角色序号", cellType = ColumnType.NUMERIC)
     private Long roleId;
 
     /** 角色名称 */

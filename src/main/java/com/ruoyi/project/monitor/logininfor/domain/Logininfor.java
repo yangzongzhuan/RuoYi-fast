@@ -3,6 +3,7 @@ package com.ruoyi.project.monitor.logininfor.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import java.util.Date;
 
@@ -16,7 +17,7 @@ public class Logininfor extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    @Excel(name = "序号")
+    @Excel(name = "序号", cellType = ColumnType.NUMERIC)
     private Long infoId;
 
     /** 用户账号 */

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.project.monitor.job.util.CronUtils;
 
@@ -21,7 +22,7 @@ public class Job extends BaseEntity implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 任务ID */
-    @Excel(name = "任务序号")
+    @Excel(name = "任务序号", cellType = ColumnType.NUMERIC)
     private Long jobId;
 
     /** 任务名称 */

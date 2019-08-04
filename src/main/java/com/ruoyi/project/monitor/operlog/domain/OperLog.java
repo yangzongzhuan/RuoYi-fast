@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
@@ -16,7 +17,7 @@ public class OperLog extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 日志主键 */
-    @Excel(name = "操作序号")
+    @Excel(name = "操作序号", cellType = ColumnType.NUMERIC)
     private Long operId;
 
     /** 操作模块 */

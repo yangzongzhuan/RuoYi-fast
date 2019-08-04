@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
@@ -16,7 +17,7 @@ public class Post extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 岗位序号 */
-    @Excel(name = "岗位序号")
+    @Excel(name = "岗位序号", cellType = ColumnType.NUMERIC)
     private Long postId;
 
     /** 岗位编码 */
