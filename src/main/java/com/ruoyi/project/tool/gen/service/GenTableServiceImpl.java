@@ -133,7 +133,6 @@ public class GenTableServiceImpl implements IGenTableService
         genTableColumnMapper.deleteGenTableColumnByIds(Convert.toLongArray(ids));
     }
 
-	
     /**
      * 导入表结构
      * 
@@ -314,6 +313,10 @@ public class GenTableServiceImpl implements IGenTableService
                 table.setPkColumn(column);
                 break;
             }
+        }
+        if (StringUtils.isNull(table.getPkColumn()))
+        {
+            table.setPkColumn(columns.get(0));
         }
     }
 
