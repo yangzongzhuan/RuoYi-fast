@@ -36,6 +36,14 @@ public interface DictTypeMapper
     public DictType selectDictTypeById(Long dictId);
 
     /**
+     * 根据字典类型查询信息
+     * 
+     * @param dictType 字典类型
+     * @return 字典类型
+     */
+    public DictType selectDictTypeByType(String dictType);
+
+    /**
      * 通过字典ID删除字典信息
      * 
      * @param dictId 字典ID

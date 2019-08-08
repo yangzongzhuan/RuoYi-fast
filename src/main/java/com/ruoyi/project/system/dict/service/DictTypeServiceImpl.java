@@ -1,5 +1,6 @@
 package com.ruoyi.project.system.dict.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.dict.domain.DictType;
 import com.ruoyi.project.system.dict.mapper.DictDataMapper;
 import com.ruoyi.project.system.dict.mapper.DictTypeMapper;
@@ -60,6 +62,17 @@ public class DictTypeServiceImpl implements IDictTypeService
     public DictType selectDictTypeById(Long dictId)
     {
         return dictTypeMapper.selectDictTypeById(dictId);
+    }
+
+    /**
+     * 根据字典类型查询信息
+     * 
+     * @param dictType 字典类型
+     * @return 字典类型
+     */
+    public DictType selectDictTypeByType(String dictType)
+    {
+        return dictTypeMapper.selectDictTypeByType(dictType);
     }
 
     /**
@@ -141,5 +154,37 @@ public class DictTypeServiceImpl implements IDictTypeService
             return UserConstants.DICT_TYPE_NOT_UNIQUE;
         }
         return UserConstants.DICT_TYPE_UNIQUE;
+    }
+
+    /**
+     * 查询字典类型树
+     * 
+     * @param dictType 字典类型
+     * @return 所有字典类型
+     */
+    public List<Ztree> selectDictTree(DictType dictType)
+    {
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        List<DictType> dictList = dictTypeMapper.selectDictTypeList(dictType);
+        for (DictType dict : dictList)
+        {
+            if (UserConstants.DICT_NORMAL.equals(dict.getStatus()))
+            {
+                Ztree ztree = new Ztree();
+                ztree.setId(dict.getDictId());
+                ztree.setName(transDictName(dict));
+                ztree.setTitle(dict.getDictType());
+                ztrees.add(ztree);
+            }
+        }
+        return ztrees;
+    }
+
+    public String transDictName(DictType dictType)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append("(" + dictType.getDictName() + ")");
+        sb.append("&nbsp;&nbsp;&nbsp;" + dictType.getDictType());
+        return sb.toString();
     }
 }

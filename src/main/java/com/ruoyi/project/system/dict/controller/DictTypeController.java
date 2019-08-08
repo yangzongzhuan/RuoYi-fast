@@ -17,6 +17,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.dict.domain.DictType;
 import com.ruoyi.project.system.dict.service.IDictTypeService;
@@ -151,5 +152,28 @@ public class DictTypeController extends BaseController
     public String checkDictTypeUnique(DictType dictType)
     {
         return dictTypeService.checkDictTypeUnique(dictType);
+    }
+
+    /**
+     * 选择字典树
+     */
+    @GetMapping("/selectDictTree/{columnId}/{dictType}")
+    public String selectDeptTree(@PathVariable("columnId") Long columnId, @PathVariable("dictType") String dictType,
+            ModelMap mmap)
+    {
+        mmap.put("columnId", columnId);
+        mmap.put("dict", dictTypeService.selectDictTypeByType(dictType));
+        return prefix + "/tree";
+    }
+
+    /**
+     * 加载字典列表树
+     */
+    @GetMapping("/treeData")
+    @ResponseBody
+    public List<Ztree> treeData()
+    {
+        List<Ztree> ztrees = dictTypeService.selectDictTree(new DictType());
+        return ztrees;
     }
 }

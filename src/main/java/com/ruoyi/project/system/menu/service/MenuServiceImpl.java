@@ -208,7 +208,7 @@ public class MenuServiceImpl implements IMenuService
             Ztree ztree = new Ztree();
             ztree.setId(menu.getMenuId());
             ztree.setpId(menu.getParentId());
-            ztree.setName(transMenuName(menu, roleMenuList, permsFlag));
+            ztree.setName(transMenuName(menu, permsFlag));
             ztree.setTitle(menu.getMenuName());
             if (isCheck)
             {
@@ -219,7 +219,7 @@ public class MenuServiceImpl implements IMenuService
         return ztrees;
     }
 
-    public String transMenuName(Menu menu, List<String> roleMenuList, boolean permsFlag)
+    public String transMenuName(Menu menu, boolean permsFlag)
     {
         StringBuffer sb = new StringBuffer();
         sb.append(menu.getMenuName());
