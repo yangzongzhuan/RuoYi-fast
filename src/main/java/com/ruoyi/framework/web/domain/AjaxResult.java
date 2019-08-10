@@ -1,8 +1,6 @@
 package com.ruoyi.framework.web.domain;
 
 import java.util.HashMap;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.utils.StringUtils;
 
 /**
@@ -43,18 +41,6 @@ public class AjaxResult extends HashMap<String, Object>
             return this.value;
         }
     }
-
-    /** 状态类型 */
-    private Type type;
-
-    /** 状态码 */
-    private int code;
-
-    /** 返回内容 */
-    private String msg;
-
-    /** 数据对象 */
-    private Object data;
 
     /**
      * 初始化一个新创建的 AjaxResult 对象，使其表示一个空消息。
@@ -189,54 +175,5 @@ public class AjaxResult extends HashMap<String, Object>
     public static AjaxResult error(String msg, Object data)
     {
         return new AjaxResult(Type.ERROR, msg, data);
-    }
-
-    public Type getType()
-    {
-        return type;
-    }
-
-    public void setType(Type type)
-    {
-        this.type = type;
-    }
-
-    public int getCode()
-    {
-        return code;
-    }
-
-    public void setCode(int code)
-    {
-        this.code = code;
-    }
-
-    public String getMsg()
-    {
-        return msg;
-    }
-
-    public void setMsg(String msg)
-    {
-        this.msg = msg;
-    }
-
-    public Object getData()
-    {
-        return data;
-    }
-
-    public void setData(Object data)
-    {
-        this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("code", getCode())
-            .append("msg", getMsg())
-            .append("data", getData())
-            .toString();
     }
 }
