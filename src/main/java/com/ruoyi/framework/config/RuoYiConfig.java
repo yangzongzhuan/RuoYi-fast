@@ -103,7 +103,7 @@ public class RuoYiConfig
      */
     public static String getDownloadPath()
     {
-        return getProfile() + "/download";
+        return getProfile() + "/download/";
     }
 
     /**
