@@ -4,7 +4,7 @@ import java.util.List;
 import com.ruoyi.project.system.user.domain.UserPost;
 
 /**
- * 用户与岗位 表 数据层
+ * 用户与岗位关联表 数据层
  * 
  * @author ruoyi
  */
