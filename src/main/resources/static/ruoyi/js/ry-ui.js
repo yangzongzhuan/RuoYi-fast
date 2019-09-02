@@ -481,7 +481,9 @@
     		reset: function(formId) {
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
             	$("#" + currentId)[0].reset();
-                $.btTable.bootstrapTable('refresh');
+            	if ($.table._option.type == table_type.bootstrapTable) {
+            	    $.btTable.bootstrapTable('refresh');
+            	}
             },
             // 获取选中复选框项
             selectCheckeds: function(name) {
@@ -1191,10 +1193,10 @@
         	// 不允许根父节点选择
         	notAllowParents: function(_tree) {
     		    var nodes = _tree.getSelectedNodes();
-                if(nodes.length == 0){
+    		    if(nodes.length == 0){
                     $.modal.msgError("请选择节点后提交");
                     return false;
-                }
+				}
     		    for (var i = 0; i < nodes.length; i++) {
     		        if (nodes[i].level == 0) {
     		            $.modal.msgError("不能选择根节点（" + nodes[i].name + "）");
