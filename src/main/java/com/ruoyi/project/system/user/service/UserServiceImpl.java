@@ -171,10 +171,7 @@ public class UserServiceImpl implements IUserService
         Long[] userIds = Convert.toLongArray(ids);
         for (Long userId : userIds)
         {
-            if (User.isAdmin(userId))
-            {
-                throw new BusinessException("不允许删除超级管理员用户");
-            }
+            checkUserAllowed(new User(userId));
         }
         return userMapper.deleteUserByIds(userIds);
     }
@@ -356,6 +353,19 @@ public class UserServiceImpl implements IUserService
     }
 
     /**
+     * 校验用户是否允许操作
+     * 
+     * @param user 用户信息
+     */
+    public void checkUserAllowed(User user)
+    {
+        if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
+        {
+            throw new BusinessException("不允许操作超级管理员用户");
+        }
+    }
+
+    /**
      * 查询用户所属角色组
      * 
      * @param userId 用户ID
@@ -475,10 +485,6 @@ public class UserServiceImpl implements IUserService
     @Override
     public int changeStatus(User user)
     {
-        if (User.isAdmin(user.getUserId()))
-        {
-            throw new BusinessException("不允许修改超级管理员用户");
-        }
         return userMapper.updateUser(user);
     }
 }

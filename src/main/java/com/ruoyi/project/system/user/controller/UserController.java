@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -151,11 +150,8 @@ public class UserController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated User user)
     {
-        if (StringUtils.isNotNull(user.getUserId()) && User.isAdmin(user.getUserId()))
-        {
-            return error("不允许修改超级管理员用户");
-        }
-        else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+        userService.checkUserAllowed(user);
+        if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
             return error("修改用户'" + user.getLoginName() + "'失败，手机号码已存在");
         }
@@ -181,6 +177,7 @@ public class UserController extends BaseController
     @ResponseBody
     public AjaxResult resetPwdSave(User user)
     {
+        userService.checkUserAllowed(user);
         if (userService.resetUserPwd(user) > 0)
         {
             if (ShiroUtils.getUserId() == user.getUserId())
@@ -247,6 +244,7 @@ public class UserController extends BaseController
     @ResponseBody
     public AjaxResult changeStatus(User user)
     {
+        userService.checkUserAllowed(user);
         return toAjax(userService.changeStatus(user));
     }
 }

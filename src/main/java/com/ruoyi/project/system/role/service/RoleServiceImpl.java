@@ -150,6 +150,7 @@ public class RoleServiceImpl implements IRoleService
         Long[] roleIds = Convert.toLongArray(ids);
         for (Long roleId : roleIds)
         {
+            checkRoleAllowed(new Role(roleId));
             Role role = selectRoleById(roleId);
             if (countUserRoleByRoleId(roleId) > 0)
             {
@@ -296,6 +297,19 @@ public class RoleServiceImpl implements IRoleService
             return UserConstants.ROLE_KEY_NOT_UNIQUE;
         }
         return UserConstants.ROLE_KEY_UNIQUE;
+    }
+
+    /**
+     * 校验角色是否允许操作
+     * 
+     * @param role 角色信息
+     */
+    public void checkRoleAllowed(Role role)
+    {
+        if (StringUtils.isNotNull(role.getRoleId()) && role.isAdmin())
+        {
+            throw new BusinessException("不允许操作超级管理员角色");
+        }
     }
 
     /**

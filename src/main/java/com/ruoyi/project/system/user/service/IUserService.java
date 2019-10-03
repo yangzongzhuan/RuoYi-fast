@@ -140,6 +140,13 @@ public interface IUserService
     public String checkEmailUnique(User user);
 
     /**
+     * 校验用户是否允许操作
+     * 
+     * @param user 用户信息
+     */
+    public void checkUserAllowed(User user);
+
+    /**
      * 根据用户ID查询用户所属角色组
      * 
      * @param userId 用户ID

@@ -109,6 +109,13 @@ public interface IRoleService
     public String checkRoleKeyUnique(Role role);
 
     /**
+     * 校验角色是否允许操作
+     * 
+     * @param role 角色信息
+     */
+    public void checkRoleAllowed(Role role);
+
+    /**
      * 通过角色ID查询角色使用数量
      * 
      * @param roleId 角色ID
@@ -140,7 +147,7 @@ public interface IRoleService
      * @return 结果
      */
     public int deleteAuthUsers(Long roleId, String userIds);
-    
+
     /**
      * 批量选择授权用户角色
      * 

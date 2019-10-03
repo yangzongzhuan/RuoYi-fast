@@ -96,6 +96,16 @@ public class User extends BaseEntity
     /** 岗位组 */
     private Long[] postIds;
 
+    public User()
+    {
+
+    }
+
+    public User(Long userId)
+    {
+        this.userId = userId;
+    }
+
     public Long getUserId()
     {
         return userId;
