@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
+import com.ruoyi.framework.shiro.service.PasswordService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
@@ -30,6 +31,9 @@ public class LogininforController extends BaseController
 
     @Autowired
     private ILogininforService logininforService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     @RequiresPermissions("monitor:logininfor:view")
     @GetMapping()
@@ -67,7 +71,7 @@ public class LogininforController extends BaseController
     {
         return toAjax(logininforService.deleteLogininforByIds(ids));
     }
-    
+
     @RequiresPermissions("monitor:logininfor:remove")
     @Log(title = "登陆日志", businessType = BusinessType.CLEAN)
     @PostMapping("/clean")
@@ -75,6 +79,16 @@ public class LogininforController extends BaseController
     public AjaxResult clean()
     {
         logininforService.cleanLogininfor();
+        return success();
+    }
+
+    @RequiresPermissions("monitor:logininfor:unlock")
+    @Log(title = "账户解锁", businessType = BusinessType.OTHER)
+    @PostMapping("/unlock")
+    @ResponseBody
+    public AjaxResult unlock(String loginName)
+    {
+        passwordService.unlock(loginName);
         return success();
     }
 }

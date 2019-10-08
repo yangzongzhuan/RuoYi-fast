@@ -83,6 +83,11 @@ public class PasswordService
         return new Md5Hash(username + password + salt).toHex().toString();
     }
 
+    public void unlock(String loginName)
+    {
+        loginRecordCache.remove(loginName);
+    }
+
     public static void main(String[] args)
     {
         System.out.println(new PasswordService().encryptPassword("admin", "admin123", "111111"));
