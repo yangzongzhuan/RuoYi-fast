@@ -1,7 +1,6 @@
 package com.ruoyi.project.system.dict.mapper;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.dict.domain.DictType;
 
 /**
@@ -9,7 +8,6 @@ import com.ruoyi.project.system.dict.domain.DictType;
  * 
  * @author ruoyi
  */
-@Mapper
 public interface DictTypeMapper
 {
     /**
