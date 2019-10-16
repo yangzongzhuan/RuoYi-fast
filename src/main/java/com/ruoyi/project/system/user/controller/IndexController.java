@@ -40,6 +40,13 @@ public class IndexController extends BaseController
         return "index";
     }
 
+    // 切换主题
+    @GetMapping("/system/switchSkin")
+    public String switchSkin(ModelMap mmap)
+    {
+        return "skin";
+    }
+
     // 系统介绍
     @GetMapping("/system/main")
     public String main(ModelMap mmap)
