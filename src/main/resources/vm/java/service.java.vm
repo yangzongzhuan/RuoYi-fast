@@ -1,7 +1,7 @@
 package ${packageName}.${businessName}.service;
 
-import ${packageName}.${businessName}.domain.${ClassName};
 import java.util.List;
+import ${packageName}.${businessName}.domain.${ClassName};
 #if($table.tree)
 import com.ruoyi.framework.web.domain.Ztree;
 #end
