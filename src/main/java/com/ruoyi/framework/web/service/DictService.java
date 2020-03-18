@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.system.dict.domain.DictData;
 import com.ruoyi.project.system.dict.service.IDictDataService;
+import com.ruoyi.project.system.dict.service.IDictTypeService;
 
 /**
  * RuoYi首创 html调用 thymeleaf 实现字典读取
@@ -14,6 +15,9 @@ import com.ruoyi.project.system.dict.service.IDictDataService;
 @Service("dict")
 public class DictService
 {
+    @Autowired
+    private IDictTypeService dictTypeService;
+
     @Autowired
     private IDictDataService dictDataService;
 
@@ -25,7 +29,7 @@ public class DictService
      */
     public List<DictData> getType(String dictType)
     {
-        return dictDataService.selectDictDataByType(dictType);
+        return dictTypeService.selectDictDataByType(dictType);
     }
 
     /**
