@@ -1,9 +1,12 @@
 package com.ruoyi.project.system.config.service;
 
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.utils.CacheUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -20,6 +23,19 @@ public class ConfigServiceImpl implements IConfigService
 {
     @Autowired
     private ConfigMapper configMapper;
+
+    /**
+     * 项目启动时，初始化参数到缓存
+     */
+    @PostConstruct
+    public void init()
+    {
+        List<Config> configsList = configMapper.selectConfigList(new Config());
+        for (Config config : configsList)
+        {
+            CacheUtils.put(getCacheName(), getCacheKey(config.getConfigKey()), config.getConfigValue());
+        }
+    }
 
     /**
      * 查询参数配置信息
@@ -44,10 +60,20 @@ public class ConfigServiceImpl implements IConfigService
     @Override
     public String selectConfigByKey(String configKey)
     {
+        String configValue = Convert.toStr(CacheUtils.get(getCacheName(), getCacheKey(configKey)));
+        if (StringUtils.isNotEmpty(configValue))
+        {
+            return configValue;
+        }
         Config config = new Config();
         config.setConfigKey(configKey);
         Config retConfig = configMapper.selectConfig(config);
-        return StringUtils.isNotNull(retConfig) ? retConfig.getConfigValue() : "";
+        if (StringUtils.isNotNull(retConfig))
+        {
+            CacheUtils.put(getCacheName(), getCacheKey(configKey), retConfig.getConfigValue());
+            return retConfig.getConfigValue();
+        }
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -72,7 +98,12 @@ public class ConfigServiceImpl implements IConfigService
     public int insertConfig(Config config)
     {
         config.setCreateBy(ShiroUtils.getLoginName());
-        return configMapper.insertConfig(config);
+        int row = configMapper.insertConfig(config);
+        if (row > 0)
+        {
+            CacheUtils.put(getCacheName(), getCacheKey(config.getConfigKey()), config.getConfigValue());
+        }
+        return row;
     }
 
     /**
@@ -85,7 +116,12 @@ public class ConfigServiceImpl implements IConfigService
     public int updateConfig(Config config)
     {
         config.setUpdateBy(ShiroUtils.getLoginName());
-        return configMapper.updateConfig(config);
+        int row = configMapper.updateConfig(config);
+        if (row > 0)
+        {
+            CacheUtils.put(getCacheName(), getCacheKey(config.getConfigKey()), config.getConfigValue());
+        }
+        return row;
     }
 
     /**
@@ -97,7 +133,21 @@ public class ConfigServiceImpl implements IConfigService
     @Override
     public int deleteConfigByIds(String ids)
     {
-        return configMapper.deleteConfigByIds(Convert.toStrArray(ids));
+        int count = configMapper.deleteConfigByIds(Convert.toStrArray(ids));
+        if (count > 0)
+        {
+
+            CacheUtils.removeAll(getCacheName());
+        }
+        return count;
+    }
+
+    /**
+     * 清空缓存数据
+     */
+    public void clearCache()
+    {
+        CacheUtils.removeAll(getCacheName());
     }
 
     /**
@@ -116,5 +166,26 @@ public class ConfigServiceImpl implements IConfigService
             return UserConstants.CONFIG_KEY_NOT_UNIQUE;
         }
         return UserConstants.CONFIG_KEY_UNIQUE;
+    }
+
+    /**
+     * 获取cache name
+     * 
+     * @return 缓存名
+     */
+    private String getCacheName()
+    {
+        return Constants.SYS_CONFIG_CACHE;
+    }
+
+    /**
+     * 设置cache key
+     * 
+     * @param configKey 参数键
+     * @return 缓存键key
+     */
+    private String getCacheKey(String configKey)
+    {
+        return Constants.SYS_CONFIG_KEY + configKey;
     }
 }
