@@ -178,12 +178,11 @@ public class JobServiceImpl implements IJobService
     public void run(Job job) throws SchedulerException
     {
         Long jobId = job.getJobId();
-        String jobGroup = job.getJobGroup();
         Job properties = selectJobById(job.getJobId());
         // 参数
         JobDataMap dataMap = new JobDataMap();
         dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
-        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
+        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, properties.getJobGroup()), dataMap);
     }
 
     /**
