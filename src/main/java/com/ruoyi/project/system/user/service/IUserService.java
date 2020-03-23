@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.user.service;
 
 import com.ruoyi.project.system.user.domain.User;
+import com.ruoyi.project.system.user.domain.UserRole;
 import java.util.List;
 
 /**
@@ -67,6 +68,14 @@ public interface IUserService
     public User selectUserById(Long userId);
 
     /**
+     * 通过用户ID查询用户和角色关联
+     * 
+     * @param userId 用户ID
+     * @return 用户和角色关联列表
+     */
+    public List<UserRole> selectUserRoleByUserId(Long userId);
+
+    /**
      * 通过用户ID删除用户
      * 
      * @param userId 用户ID
@@ -92,6 +101,14 @@ public interface IUserService
     public int insertUser(User user);
 
     /**
+     * 注册用户信息
+     * 
+     * @param user 用户信息
+     * @return 结果
+     */
+    public boolean registerUser(User user);
+
+    /**
      * 保存用户信息
      * 
      * @param user 用户信息
@@ -106,6 +123,14 @@ public interface IUserService
      * @return 结果
      */
     public int updateUserInfo(User user);
+
+    /**
+     * 用户授权角色
+     * 
+     * @param userId 用户ID
+     * @param roleIds 角色组
+     */
+    public void insertUserAuth(Long userId, Long[] roleIds);
 
     /**
      * 修改用户密码信息

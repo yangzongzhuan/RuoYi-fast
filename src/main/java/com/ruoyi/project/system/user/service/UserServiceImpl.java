@@ -144,6 +144,17 @@ public class UserServiceImpl implements IUserService
     }
 
     /**
+     * 通过用户ID查询用户和角色关联
+     * 
+     * @param userId 用户ID
+     * @return 用户和角色关联列表
+     */
+    public List<UserRole> selectUserRoleByUserId(Long userId)
+    {
+        return userRoleMapper.selectUserRoleByUserId(userId);
+    }
+
+    /**
      * 通过用户ID删除用户
      * 
      * @param userId 用户ID
@@ -194,8 +205,22 @@ public class UserServiceImpl implements IUserService
         // 新增用户岗位关联
         insertUserPost(user);
         // 新增用户与角色管理
-        insertUserRole(user);
+        insertUserRole(user.getUserId(), user.getRoleIds());
         return rows;
+    }
+
+    /**
+     * 注册用户信息
+     * 
+     * @param user 用户信息
+     * @return 结果
+     */
+    public boolean registerUser(User user)
+    {
+        user.setUserType(UserConstants.REGISTER_USER_TYPE);
+        user.randomSalt();
+        user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
+        return userMapper.insertUser(user) > 0;
     }
 
     /**
@@ -213,7 +238,7 @@ public class UserServiceImpl implements IUserService
         // 删除用户与角色关联
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 新增用户与角色管理
-        insertUserRole(user);
+        insertUserRole(user.getUserId(), user.getRoleIds());
         // 删除用户与岗位关联
         userPostMapper.deleteUserPostByUserId(userId);
         // 新增用户与岗位管理
@@ -231,6 +256,18 @@ public class UserServiceImpl implements IUserService
     public int updateUserInfo(User user)
     {
         return userMapper.updateUser(user);
+    }
+
+    /**
+     * 用户授权角色
+     * 
+     * @param userId 用户ID
+     * @param roleIds 角色组
+     */
+    public void insertUserAuth(Long userId, Long[] roleIds)
+    {
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        insertUserRole(userId, roleIds);
     }
 
     /**
@@ -252,17 +289,16 @@ public class UserServiceImpl implements IUserService
      * 
      * @param user 用户对象
      */
-    public void insertUserRole(User user)
+    public void insertUserRole(Long userId, Long[] roleIds)
     {
-        Long[] roles = user.getRoleIds();
-        if (StringUtils.isNotNull(roles))
+        if (StringUtils.isNotNull(roleIds))
         {
             // 新增用户与角色管理
             List<UserRole> list = new ArrayList<UserRole>();
-            for (Long roleId : user.getRoleIds())
+            for (Long roleId : roleIds)
             {
                 UserRole ur = new UserRole();
-                ur.setUserId(user.getUserId());
+                ur.setUserId(userId);
                 ur.setRoleId(roleId);
                 list.add(ur);
             }
@@ -317,7 +353,7 @@ public class UserServiceImpl implements IUserService
     }
 
     /**
-     * 校验用户名称是否唯一
+     * 校验手机号码是否唯一
      *
      * @param user 用户信息
      * @return

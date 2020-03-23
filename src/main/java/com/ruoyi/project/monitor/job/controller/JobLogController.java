@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.monitor.job.domain.Job;
 import com.ruoyi.project.monitor.job.domain.JobLog;
 import com.ruoyi.project.monitor.job.service.IJobLogService;
+import com.ruoyi.project.monitor.job.service.IJobService;
 
 /**
  * 调度日志操作处理
@@ -31,12 +35,20 @@ public class JobLogController extends BaseController
     private String prefix = "monitor/job";
 
     @Autowired
+    private IJobService jobService;
+
+    @Autowired
     private IJobLogService jobLogService;
 
     @RequiresPermissions("monitor:job:view")
     @GetMapping()
-    public String jobLog()
+    public String jobLog(@RequestParam(value = "jobId", required = false) Long jobId, ModelMap mmap)
     {
+        if (StringUtils.isNotNull(jobId))
+        {
+            Job job = jobService.selectJobById(jobId);
+            mmap.put("job", job);
+        }
         return prefix + "/jobLog";
     }
 
@@ -69,7 +81,7 @@ public class JobLogController extends BaseController
     {
         return toAjax(jobLogService.deleteJobLogByIds(ids));
     }
-    
+
     @RequiresPermissions("monitor:job:detail")
     @GetMapping("/detail/{jobLogId}")
     public String detail(@PathVariable("jobLogId") Long jobLogId, ModelMap mmap)
@@ -78,7 +90,7 @@ public class JobLogController extends BaseController
         mmap.put("jobLog", jobLogService.selectJobLogById(jobLogId));
         return prefix + "/detail";
     }
-    
+
     @Log(title = "调度日志", businessType = BusinessType.CLEAN)
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/clean")

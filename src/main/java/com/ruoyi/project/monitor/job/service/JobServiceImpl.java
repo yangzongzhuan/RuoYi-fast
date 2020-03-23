@@ -38,10 +38,11 @@ public class JobServiceImpl implements IJobService
     @PostConstruct
     public void init() throws SchedulerException, TaskException
     {
+        scheduler.clear();
         List<Job> jobList = jobMapper.selectJobAll();
         for (Job job : jobList)
         {
-            updateSchedulerJob(job, job.getJobGroup());
+            ScheduleUtils.createScheduleJob(scheduler, job);
         }
     }
 
@@ -178,11 +179,11 @@ public class JobServiceImpl implements IJobService
     public void run(Job job) throws SchedulerException
     {
         Long jobId = job.getJobId();
-        Job properties = selectJobById(job.getJobId());
+        Job tmpObj = selectJobById(job.getJobId());
         // 参数
         JobDataMap dataMap = new JobDataMap();
-        dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
-        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, properties.getJobGroup()), dataMap);
+        dataMap.put(ScheduleConstants.TASK_PROPERTIES, tmpObj);
+        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, tmpObj.getJobGroup()), dataMap);
     }
 
     /**

@@ -5,7 +5,7 @@
 
 	<groupId>com.ruoyi</groupId>
 	<artifactId>RuoYi</artifactId>
-	<version>4.1.0</version>
+	<version>4.2.0</version>
 	<packaging>jar</packaging>
 
 	<name>RuoYi</name>

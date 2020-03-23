@@ -12,6 +12,14 @@ import com.ruoyi.project.system.user.domain.UserRole;
 public interface UserRoleMapper
 {
     /**
+     * 通过用户ID查询用户和角色关联
+     * 
+     * @param userId 用户ID
+     * @return 用户和角色关联列表
+     */
+    public List<UserRole> selectUserRoleByUserId(Long userId);
+
+    /**
      * 通过用户ID删除用户和角色关联
      * 
      * @param userId 用户ID
