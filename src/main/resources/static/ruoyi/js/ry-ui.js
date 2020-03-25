@@ -1036,8 +1036,17 @@ var table = {
             	if ($.common.isNotEmpty(id)) {
             	    url = table.options.updateUrl.replace("{id}", id);
             	} else {
-            	    var row = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
-            	    url = table.options.updateUrl.replace("{id}", row);
+            		if(table.options.type == table_type.bootstrapTreeTable) {
+            			var row = $("#" + table.options.id).bootstrapTreeTable('getSelections')[0];
+            			if ($.common.isEmpty(row)) {
+            				$.modal.alertWarning("请至少选择一条记录");
+            				return;
+            			}
+            			url = table.options.updateUrl.replace("{id}", row[table.options.uniqueId]);
+            		} else {
+            			var row = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                	    url = table.options.updateUrl.replace("{id}", row);
+            		}
             	}
             	$.modal.openFull("修改" + table.options.modalName, url);
             },
