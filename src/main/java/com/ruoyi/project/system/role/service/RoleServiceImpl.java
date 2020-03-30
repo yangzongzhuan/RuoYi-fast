@@ -304,6 +304,7 @@ public class RoleServiceImpl implements IRoleService
      * 
      * @param role 角色信息
      */
+    @Override
     public void checkRoleAllowed(Role role)
     {
         if (StringUtils.isNotNull(role.getRoleId()) && role.isAdmin())
@@ -355,6 +356,7 @@ public class RoleServiceImpl implements IRoleService
      * @param userIds 需要删除的用户数据ID
      * @return 结果
      */
+    @Override
     public int deleteAuthUsers(Long roleId, String userIds)
     {
         return userRoleMapper.deleteUserRoleInfos(roleId, Convert.toLongArray(userIds));
@@ -367,6 +369,7 @@ public class RoleServiceImpl implements IRoleService
      * @param userIds 需要删除的用户数据ID
      * @return 结果
      */
+    @Override
     public int insertAuthUsers(Long roleId, String userIds)
     {
         Long[] users = Convert.toLongArray(userIds);

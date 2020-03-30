@@ -145,6 +145,7 @@ public class ConfigServiceImpl implements IConfigService
     /**
      * 清空缓存数据
      */
+    @Override
     public void clearCache()
     {
         CacheUtils.removeAll(getCacheName());

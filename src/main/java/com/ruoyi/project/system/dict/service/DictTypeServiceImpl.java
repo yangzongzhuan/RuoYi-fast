@@ -110,6 +110,7 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @param dictType 字典类型
      * @return 字典类型
      */
+    @Override
     public DictType selectDictTypeByType(String dictType)
     {
         return dictTypeMapper.selectDictTypeByType(dictType);
@@ -144,6 +145,7 @@ public class DictTypeServiceImpl implements IDictTypeService
     /**
      * 清空缓存数据
      */
+    @Override
     public void clearCache()
     {
         DictUtils.clearDictCache();
@@ -212,6 +214,7 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @param dictType 字典类型
      * @return 所有字典类型
      */
+    @Override
     public List<Ztree> selectDictTree(DictType dictType)
     {
         List<Ztree> ztrees = new ArrayList<Ztree>();
