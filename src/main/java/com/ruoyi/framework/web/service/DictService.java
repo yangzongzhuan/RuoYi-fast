@@ -32,7 +32,7 @@ public class DictService
         return dictTypeService.selectDictDataByType(dictType);
     }
 
-    /**
+    /**z
      * 根据字典类型和字典键值查询字典数据信息
      * 
      * @param dictType 字典类型
