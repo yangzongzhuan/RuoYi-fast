@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateDictData" parameterType="DictData">
  		update sys_dict_data
  		<set>
- 			<if test="dictSort != null and dictSort != ''">dict_sort = #{dictSort},</if>
+ 			<if test="dictSort != null">dict_sort = #{dictSort},</if>
  			<if test="dictLabel != null and dictLabel != ''">dict_label = #{dictLabel},</if>
  			<if test="dictValue != null and dictValue != ''">dict_value = #{dictValue},</if>
  			<if test="dictType != null and dictType != ''">dict_type = #{dictType},</if>
