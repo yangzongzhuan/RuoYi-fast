@@ -181,7 +181,7 @@ public class UserController extends BaseController
         userService.checkUserAllowed(user);
         if (userService.resetUserPwd(user) > 0)
         {
-            if (ShiroUtils.getUserId() == user.getUserId())
+            if (ShiroUtils.getUserId().longValue() == user.getUserId().longValue())
             {
                 setSysUser(userService.selectUserById(user.getUserId()));
             }
