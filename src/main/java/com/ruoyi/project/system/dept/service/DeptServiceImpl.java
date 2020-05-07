@@ -274,6 +274,17 @@ public class DeptServiceImpl implements IDeptService
     }
 
     /**
+     * 根据ID查询所有子部门（正常状态）
+     * 
+     * @param deptId 部门ID
+     * @return 子部门数
+     */
+    public int selectNormalChildrenDeptById(Long deptId)
+    {
+        return deptMapper.selectNormalChildrenDeptById(deptId);
+    }
+
+    /**
      * 校验部门名称是否唯一
      * 
      * @param dept 部门信息
