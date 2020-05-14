@@ -1,10 +1,11 @@
 package com.ruoyi.common.utils;
 
-import com.alibaba.fastjson.JSONObject;
-import com.ruoyi.common.utils.http.HttpUtils;
-import com.ruoyi.framework.config.RuoYiConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.http.HttpUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 
 /**
  * 获取地址类
@@ -33,7 +34,7 @@ public class AddressUtils
         {
             try
             {
-                String rspStr = HttpUtils.sendGet(IP_URL, "ip=" + ip + "&json=true");
+                String rspStr = HttpUtils.sendGet(IP_URL, "ip=" + ip + "&json=true", Constants.GBK);
                 if (StringUtils.isEmpty(rspStr))
                 {
                     log.error("获取地理位置异常 {}", ip);
@@ -46,7 +47,7 @@ public class AddressUtils
             }
             catch (Exception e)
             {
-                log.error("获取地理位置异常 {}", ip);
+                log.error("获取地理位置异常 {}", e);
             }
         }
         return address;
