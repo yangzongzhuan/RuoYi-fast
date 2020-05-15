@@ -1,7 +1,9 @@
 package com.ruoyi.project.system.dept.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,32 @@ public class DeptServiceImpl implements IDeptService
     public List<Ztree> selectDeptTree(Dept dept)
     {
         List<Dept> deptList = deptMapper.selectDeptList(dept);
+        List<Ztree> ztrees = initZtree(deptList);
+        return ztrees;
+    }
+
+    /**
+     * 查询部门管理树（排除下级）
+     * 
+     * @param deptId 部门ID
+     * @return 所有部门信息
+     */
+    @Override
+    @DataScope(deptAlias = "d")
+    public List<Ztree> selectDeptTreeExcludeChild(Dept dept)
+    {
+        Long deptId = dept.getDeptId();
+        List<Dept> deptList = deptMapper.selectDeptList(dept);
+        Iterator<Dept> it = deptList.iterator();
+        while (it.hasNext())
+        {
+            Dept d = (Dept) it.next();
+            if (d.getDeptId().intValue() == deptId
+                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""))
+            {
+                it.remove();
+            }
+        }
         List<Ztree> ztrees = initZtree(deptList);
         return ztrees;
     }
