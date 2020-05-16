@@ -307,6 +307,7 @@ public class DeptServiceImpl implements IDeptService
      * @param deptId 部门ID
      * @return 子部门数
      */
+    @Override
     public int selectNormalChildrenDeptById(Long deptId)
     {
         return deptMapper.selectNormalChildrenDeptById(deptId);
