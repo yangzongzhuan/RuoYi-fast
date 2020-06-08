@@ -129,6 +129,11 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: false
+
 # 代码生成
 gen: 
   # 作者
