@@ -21,6 +21,7 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.framework.web.page.TableSupport;
+import com.ruoyi.project.demo.domain.CustomerModel;
 import com.ruoyi.project.demo.domain.UserOperateModel;
 
 /**
@@ -151,6 +152,17 @@ public class DemoOperateController extends BaseController
         Integer userId = users.size() + 1;
         user.setUserId(userId);
         return AjaxResult.success(users.put(userId, user));
+    }
+
+    /**
+     * 新增保存主子表信息
+     */
+    @PostMapping("/customer/add")
+    @ResponseBody
+    public AjaxResult addSave(CustomerModel customerModel)
+    {
+        System.out.println(customerModel.toString());
+        return AjaxResult.success();
     }
 
     /**
