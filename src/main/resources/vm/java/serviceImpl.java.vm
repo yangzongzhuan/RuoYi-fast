@@ -66,7 +66,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @param ${className} ${functionName}
      * @return 结果
      */
-#if($table.subTable)
+#if($table.sub)
     @Transactional
 #end
     @Override
@@ -77,7 +77,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         ${className}.setCreateTime(DateUtils.getNowDate());
 #end
 #end
-#if($table.subTable)
+#if($table.sub)
         int rows = ${className}Mapper.insert${ClassName}(${className});
         insert${subClassName}(${className});
         return rows;
@@ -92,7 +92,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @param ${className} ${functionName}
      * @return 结果
      */
-#if($table.subTable)
+#if($table.sub)
     @Transactional
 #end
     @Override
@@ -103,7 +103,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         ${className}.setUpdateTime(DateUtils.getNowDate());
 #end
 #end
-#if($table.subTable)
+#if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}());
         insert${subClassName}(${className});
 #end
@@ -116,13 +116,13 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-#if($table.subTable)
+#if($table.sub)
     @Transactional
 #end
     @Override
     public int delete${ClassName}ByIds(String ids)
     {
-#if($table.subTable)
+#if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(Convert.toStrArray(ids));
 #end
         return ${className}Mapper.delete${ClassName}ByIds(Convert.toStrArray(ids));
@@ -137,7 +137,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Override
     public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField})
     {
-#if($table.subTable)
+#if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
 #end
         return ${className}Mapper.delete${ClassName}ById(${pkColumn.javaField});
@@ -169,12 +169,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         return ztrees;
     }
 #end
-#if($table.subTable)
+#if($table.sub)
 
     /**
-     * 新增${functionName}信息
+     * 新增${subTable.functionName}信息
      * 
-     * @param user 用户对象
+     * @param ${className} ${functionName}对象
      */
     public void insert${subClassName}(${ClassName} ${className})
     {
@@ -182,7 +182,6 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         Long ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
         if (StringUtils.isNotNull(${subclassName}List))
         {
-            // 新增用户与岗位管理
             List<${subClassName}> list = new ArrayList<${subClassName}>();
             for (${subClassName} ${subclassName} : ${subclassName}List)
             {
