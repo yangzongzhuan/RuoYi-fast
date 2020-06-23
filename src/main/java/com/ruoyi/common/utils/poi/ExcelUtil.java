@@ -50,6 +50,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Excel.Type;
 import com.ruoyi.framework.aspectj.lang.annotation.Excels;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.project.system.dict.utils.DictUtils;
 
 /**
  * Excel相关处理
@@ -276,7 +277,11 @@ public class ExcelUtil<T>
                         }
                         else if (StringUtils.isNotEmpty(attr.readConverterExp()))
                         {
-                            val = reverseByExp(String.valueOf(val), attr.readConverterExp(), attr.separator());
+                            val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
+                        }
+                        else if (StringUtils.isNotEmpty(attr.dictType()))
+                        {
+                            val = reverseDictByExp(attr.dictType(), Convert.toStr(val));
                         }
                         ReflectUtils.invokeSetter(entity, propertyName, val);
                     }
@@ -536,13 +541,18 @@ public class ExcelUtil<T>
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
                 String separator = attr.separator();
+                String dictType = attr.dictType();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                 {
                     cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
                 }
                 else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
                 {
-                    cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp, separator));
+                    cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
+                }
+                else if (StringUtils.isNotEmpty(dictType))
+                {
+                    cell.setCellValue(convertDictByExp(dictType, Convert.toStr(value)));
                 }
                 else
                 {
@@ -703,6 +713,30 @@ public class ExcelUtil<T>
             throw e;
         }
         return StringUtils.stripEnd(propertyString.toString(), separator);
+    }
+    
+    /**
+     * 解析字典值
+     * 
+     * @param dictType 字典类型
+     * @param dictValue 字典值
+     * @return 字典标签
+     */
+    public static String convertDictByExp(String dictType, String dictValue)
+    {
+        return DictUtils.getDictLabel(dictType, dictValue);
+    }
+
+    /**
+     * 反向解析值字典值
+     * 
+     * @param dictType 字典类型
+     * @param dictValue 字典标签
+     * @return 字典值
+     */
+    public static String reverseDictByExp(String dictType, String dictLabel)
+    {
+        return DictUtils.getDictValue(dictType, dictLabel);
     }
 
     /**
