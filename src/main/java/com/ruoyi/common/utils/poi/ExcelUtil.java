@@ -281,7 +281,7 @@ public class ExcelUtil<T>
                         }
                         else if (StringUtils.isNotEmpty(attr.dictType()))
                         {
-                            val = reverseDictByExp(attr.dictType(), Convert.toStr(val));
+                            val = reverseDictByExp(Convert.toStr(val), attr.dictType(), attr.separator());
                         }
                         ReflectUtils.invokeSetter(entity, propertyName, val);
                     }
@@ -552,7 +552,7 @@ public class ExcelUtil<T>
                 }
                 else if (StringUtils.isNotEmpty(dictType))
                 {
-                    cell.setCellValue(convertDictByExp(dictType, Convert.toStr(value)));
+                    cell.setCellValue(convertDictByExp(Convert.toStr(value), dictType, separator));
                 }
                 else
                 {
@@ -632,40 +632,32 @@ public class ExcelUtil<T>
      * @param converterExp 翻译注解
      * @param separator 分隔符
      * @return 解析后值
-     * @throws Exception
      */
-    public static String convertByExp(String propertyValue, String converterExp, String separator) throws Exception
+    public static String convertByExp(String propertyValue, String converterExp, String separator)
     {
         StringBuilder propertyString = new StringBuilder();
-        try
+        String[] convertSource = converterExp.split(",");
+        for (String item : convertSource)
         {
-            String[] convertSource = converterExp.split(",");
-            for (String item : convertSource)
+            String[] itemArray = item.split("=");
+            if (StringUtils.containsAny(separator, propertyValue))
             {
-                String[] itemArray = item.split("=");
-                if (StringUtils.containsAny(separator, propertyValue))
+                for (String value : propertyValue.split(separator))
                 {
-                    for (String value : propertyValue.split(separator))
+                    if (itemArray[0].equals(value))
                     {
-                        if (itemArray[0].equals(value))
-                        {
-                            propertyString.append(itemArray[1] + separator);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    if (itemArray[0].equals(propertyValue))
-                    {
-                        return itemArray[1];
+                        propertyString.append(itemArray[1] + separator);
+                        break;
                     }
                 }
             }
-        }
-        catch (Exception e)
-        {
-            throw e;
+            else
+            {
+                if (itemArray[0].equals(propertyValue))
+                {
+                    return itemArray[1];
+                }
+            }
         }
         return StringUtils.stripEnd(propertyString.toString(), separator);
     }
@@ -677,40 +669,32 @@ public class ExcelUtil<T>
      * @param converterExp 翻译注解
      * @param separator 分隔符
      * @return 解析后值
-     * @throws Exception
      */
-    public static String reverseByExp(String propertyValue, String converterExp, String separator) throws Exception
+    public static String reverseByExp(String propertyValue, String converterExp, String separator)
     {
         StringBuilder propertyString = new StringBuilder();
-        try
+        String[] convertSource = converterExp.split(",");
+        for (String item : convertSource)
         {
-            String[] convertSource = converterExp.split(",");
-            for (String item : convertSource)
+            String[] itemArray = item.split("=");
+            if (StringUtils.containsAny(separator, propertyValue))
             {
-                String[] itemArray = item.split("=");
-                if (StringUtils.containsAny(separator, propertyValue))
+                for (String value : propertyValue.split(separator))
                 {
-                    for (String value : propertyValue.split(separator))
+                    if (itemArray[1].equals(value))
                     {
-                        if (itemArray[1].equals(value))
-                        {
-                            propertyString.append(itemArray[0] + separator);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    if (itemArray[1].equals(propertyValue))
-                    {
-                        return itemArray[0];
+                        propertyString.append(itemArray[0] + separator);
+                        break;
                     }
                 }
             }
-        }
-        catch (Exception e)
-        {
-            throw e;
+            else
+            {
+                if (itemArray[1].equals(propertyValue))
+                {
+                    return itemArray[0];
+                }
+            }
         }
         return StringUtils.stripEnd(propertyString.toString(), separator);
     }
@@ -718,25 +702,27 @@ public class ExcelUtil<T>
     /**
      * 解析字典值
      * 
-     * @param dictType 字典类型
      * @param dictValue 字典值
+     * @param dictType 字典类型
+     * @param separator 分隔符
      * @return 字典标签
      */
-    public static String convertDictByExp(String dictType, String dictValue)
+    public static String convertDictByExp(String dictValue, String dictType, String separator)
     {
-        return DictUtils.getDictLabel(dictType, dictValue);
+        return DictUtils.getDictLabel(dictType, dictValue, separator);
     }
 
     /**
      * 反向解析值字典值
      * 
+     * @param dictLabel 字典标签
      * @param dictType 字典类型
-     * @param dictValue 字典标签
+     * @param separator 分隔符
      * @return 字典值
      */
-    public static String reverseDictByExp(String dictType, String dictLabel)
+    public static String reverseDictByExp(String dictLabel, String dictType, String separator)
     {
-        return DictUtils.getDictValue(dictType, dictLabel);
+        return DictUtils.getDictValue(dictType, dictLabel, separator);
     }
 
     /**
