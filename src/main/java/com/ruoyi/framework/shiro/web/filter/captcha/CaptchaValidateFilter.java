@@ -61,6 +61,8 @@ public class CaptchaValidateFilter extends AccessControlFilter
     {
         Object obj = ShiroUtils.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
         String code = String.valueOf(obj != null ? obj : "");
+        // 验证码清除，防止多次使用。
+        request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
         if (StringUtils.isEmpty(validateCode) || !validateCode.equalsIgnoreCase(code))
         {
             return false;
