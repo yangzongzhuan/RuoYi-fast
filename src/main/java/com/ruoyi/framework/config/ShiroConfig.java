@@ -84,6 +84,10 @@ public class ShiroConfig
     // 设置Cookie的过期时间，秒为单位
     @Value("${shiro.cookie.maxAge}")
     private int maxAge;
+    
+    // 设置cipherKey密钥
+    @Value("${shiro.cookie.cipherKey}")
+    private String cipherKey;
 
     // 登录地址
     @Value("${shiro.user.loginUrl}")
@@ -328,7 +332,7 @@ public class ShiroConfig
     {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
-        cookieRememberMeManager.setCipherKey(Base64.decode("fCq+/xW488hMTCD+cmJ3aQ=="));
+        cookieRememberMeManager.setCipherKey(Base64.decode(cipherKey));
         return cookieRememberMeManager;
     }
 
