@@ -215,6 +215,7 @@
             })
             $(this).fileinput('_initFileActions');
         });
+#break
 #end
 #end
 #if($table.tree)

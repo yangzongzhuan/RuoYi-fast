@@ -209,6 +209,7 @@
         }).on('fileremoved', function (event, id, index) {
             $("input[name='" + event.currentTarget.id + "']").val('')
         })
+#break
 #end
 #end
 #if($table.tree)
