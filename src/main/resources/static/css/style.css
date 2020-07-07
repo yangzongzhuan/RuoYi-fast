@@ -1829,6 +1829,10 @@ table.dataTable thead .sorting:after {
     font-size: 14px;
 }
 
+.form-control.kv-fileinput-caption {
+    height: 34px!important;
+}
+
 .form-control:focus, .single-line:focus {
     border-color: #3c8dbc !important;
 }
