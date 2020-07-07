@@ -25,7 +25,6 @@ import com.ruoyi.project.system.post.service.IPostService;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.service.IRoleService;
 import com.ruoyi.project.system.user.domain.User;
-import com.ruoyi.project.system.user.domain.UserRole;
 import com.ruoyi.project.system.user.service.IUserService;
 
 /**
@@ -201,9 +200,9 @@ public class UserController extends BaseController
     {
         User user = userService.selectUserById(userId);
         // 获取用户所属的角色列表
-        List<UserRole> userRoles = userService.selectUserRoleByUserId(userId);
+        List<Role> roles = roleService.selectRolesByUserId(userId);
         mmap.put("user", user);
-        mmap.put("userRoles", userRoles);
+        mmap.put("roles", User.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         return prefix + "/authRole";
     }
 
