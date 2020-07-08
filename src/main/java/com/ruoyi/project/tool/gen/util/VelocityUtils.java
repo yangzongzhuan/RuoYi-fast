@@ -22,6 +22,9 @@ public class VelocityUtils
     /** html空间路径 */
     private static final String TEMPLATES_PATH = "main/resources/templates";
 
+    /** 默认上级菜单，系统工具 */
+    private static final String DEFAULT_PARENT_MENU_ID = "3";
+
     /**
      * 设置模板变量信息
      * 
@@ -288,7 +291,7 @@ public class VelocityUtils
         {
             return paramsObj.getString(GenConstants.PARENT_MENU_ID);
         }
-        return StringUtils.EMPTY;
+        return DEFAULT_PARENT_MENU_ID;
     }
 
     /**
