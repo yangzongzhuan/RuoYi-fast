@@ -233,6 +233,10 @@ function submitHandler() {
 		})
 	});
 }
+
+$(window).resize(function(){
+	$('.imageBox').height($(window).height()-80);
+}).resize();
 </script>
 </body>
 </html>
