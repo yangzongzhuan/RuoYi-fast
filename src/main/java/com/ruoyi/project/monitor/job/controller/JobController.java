@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
@@ -21,6 +22,7 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.monitor.job.domain.Job;
 import com.ruoyi.project.monitor.job.service.IJobService;
+import com.ruoyi.project.monitor.job.util.CronUtils;
 
 /**
  * 调度任务信息操作处理
@@ -128,6 +130,11 @@ public class JobController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated Job job) throws SchedulerException, TaskException
     {
+        if (!CronUtils.isValid(job.getCronExpression()))
+        {
+            return AjaxResult.error("cron表达式不正确");
+        }
+        job.setCreateBy(ShiroUtils.getLoginName());
         return toAjax(jobService.insertJob(job));
     }
 
@@ -150,6 +157,11 @@ public class JobController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated Job job) throws SchedulerException, TaskException
     {
+        if (!CronUtils.isValid(job.getCronExpression()))
+        {
+            return AjaxResult.error("cron表达式不正确");
+        }
+        job.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(jobService.updateJob(job));
     }
 
