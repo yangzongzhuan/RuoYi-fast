@@ -372,6 +372,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         {
             return null;
         }
+        if (s.indexOf(SEPARATOR) == -1)
+        {
+            return s;
+        }
         s = s.toLowerCase();
         StringBuilder sb = new StringBuilder(s.length());
         boolean upperCase = false;
