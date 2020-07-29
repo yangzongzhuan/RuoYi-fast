@@ -240,6 +240,15 @@ public class DemoTableController extends BaseController
     {
         return prefix + "/refresh";
     }
+    
+    /**
+     * 表格打印配置
+     */
+    @GetMapping("/print")
+    public String print()
+    {
+        return prefix + "/print";
+    }
 
     /**
      * 表格其他操作
