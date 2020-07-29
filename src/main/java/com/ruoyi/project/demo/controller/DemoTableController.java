@@ -231,6 +231,15 @@ public class DemoTableController extends BaseController
     {
         return prefix + "/subdata";
     }
+    
+    /**
+     * 表格自动刷新
+     */
+    @GetMapping("/refresh")
+    public String refresh()
+    {
+        return prefix + "/refresh";
+    }
 
     /**
      * 表格其他操作
