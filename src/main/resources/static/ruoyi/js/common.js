@@ -361,12 +361,12 @@ function checkpwd(chrtype, password) {
 		}
 	} else if (chrtype == 3) {
 		if(!$.common.enNumValid(password)){
-			$.modal.alertWarning("密码只能为a-z，A-Z字母以及0-9数字");
+			$.modal.alertWarning("密码必须包含字母以及数字");
 			return false;
 		}
 	} else if (chrtype == 4) {
 		if(!$.common.charValid(password)){
-			$.modal.alertWarning("密码只能为a-z，A-Z字母0-9数字以及-、_");
+			$.modal.alertWarning("密码必须包含字母、数字、以及特殊符号-、_");
 			return false;
 		}
 	}
