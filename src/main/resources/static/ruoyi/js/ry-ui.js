@@ -1582,6 +1582,26 @@ var table = {
             isMobile: function () {
                 return navigator.userAgent.match(/(Android|iPhone|SymbianOS|Windows Phone|iPad|iPod)/i);
             },
+            // 数字正则表达式，只能为0-9数字
+            numValid : function(text){
+        		var patten = new RegExp(/^[0-9]+$/);
+        		return patten.test(text);
+        	},
+        	// 英文正则表达式，只能为a-z和A-Z字母
+            enValid : function(text){
+        		var patten = new RegExp(/^[a-zA-Z]+$/);
+        		return patten.test(text);
+        	},
+        	// 英文、数字正则表达式，只能为a-z，A-Z字母以及0-9数字
+        	enNumValid : function(text){
+        		var patten = new RegExp(/^[a-zA-Z0-9]+$/);
+        		return patten.test(text);
+        	},
+        	// 英文、数字、-、_验证正则表达式，只能为a-z，A-Z字母0-9数字以及-、_
+        	charValid : function(text){
+        		var patten = new RegExp(/^[a-zA-Z][\w-_]{5,19}$/);
+        		return patten.test(text);
+        	},
         }
     });
 })(jQuery);
