@@ -71,6 +71,7 @@ public class LoginService
         // 查询用户信息
         User user = userService.selectUserByLoginName(username);
 
+        /** 
         if (user == null && maybeMobilePhoneNumber(username))
         {
             user = userService.selectUserByPhoneNumber(username);
@@ -80,6 +81,7 @@ public class LoginService
         {
             user = userService.selectUserByEmail(username);
         }
+        */
 
         if (user == null)
         {
@@ -106,6 +108,7 @@ public class LoginService
         return user;
     }
 
+    /**
     private boolean maybeEmail(String username)
     {
         if (!username.matches(UserConstants.EMAIL_PATTERN))
@@ -123,6 +126,7 @@ public class LoginService
         }
         return true;
     }
+    */
 
     /**
      * 记录登录信息
