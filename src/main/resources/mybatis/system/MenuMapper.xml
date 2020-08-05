@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="checkMenuNameUnique" parameterType="Menu" resultMap="MenuResult">
 		<include refid="selectMenuVo"/>
-		where menu_name=#{menuName} and parent_id = #{parentId}
+		where menu_name=#{menuName} and parent_id = #{parentId} limit 1
 	</select>
 
 	<update id="updateMenu" parameterType="Menu">
