@@ -82,6 +82,7 @@ public class UserOnlineController extends BaseController
             onlineSessionDAO.update(onlineSession);
             online.setStatus(OnlineStatus.off_line);
             userOnlineService.saveOnline(online);
+            userOnlineService.removeUserCache(online.getLoginName(), sessionId);
         }
         return success();
     }
