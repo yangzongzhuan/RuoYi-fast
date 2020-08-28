@@ -50,13 +50,7 @@ public class TreeUtils
         {
             if (hasChild(list, tChild))
             {
-                // 判断是否有子节点
-                Iterator<Menu> it = childList.iterator();
-                while (it.hasNext())
-                {
-                    Menu n = (Menu) it.next();
-                    recursionFn(list, n);
-                }
+                recursionFn(list, tChild);
             }
         }
     }
