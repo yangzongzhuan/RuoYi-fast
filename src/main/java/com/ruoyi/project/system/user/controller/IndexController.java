@@ -1,10 +1,16 @@
 package com.ruoyi.project.system.user.controller;
 
 import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import com.ruoyi.common.utils.CookieUtils;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.project.system.config.service.IConfigService;
@@ -43,14 +49,36 @@ public class IndexController extends BaseController
         mmap.put("skinName", configService.selectConfigByKey("sys.index.skinName"));
         mmap.put("copyrightYear", ruoYiConfig.getCopyrightYear());
         mmap.put("demoEnabled", ruoYiConfig.isDemoEnabled());
-        return "index";
+        
+        // 移动端，默认使左侧导航菜单，否则取默认配置
+        String indexStyle = ServletUtils.checkAgentIsMobile(ServletUtils.getRequest().getHeader("User-Agent")) ? "index" : RuoYiConfig.getMenuStyle();
+        
+        // 优先Cookie配置导航菜单
+        Cookie[] cookies = ServletUtils.getRequest().getCookies();
+        for (Cookie cookie : cookies)
+        {
+            if (StringUtils.isNotEmpty(cookie.getName()) && "nav-style".equalsIgnoreCase(cookie.getName()))
+            {
+                indexStyle = cookie.getValue();
+                break;
+            }
+        }
+        String webIndex = "topnav".equalsIgnoreCase(indexStyle) ? "index-topnav" : "index";
+        return webIndex;
     }
 
     // 切换主题
     @GetMapping("/system/switchSkin")
-    public String switchSkin(ModelMap mmap)
+    public String switchSkin()
     {
         return "skin";
+    }
+
+    // 切换菜单
+    @GetMapping("/system/menuStyle/{style}")
+    public void menuStyle(@PathVariable String style, HttpServletResponse response)
+    {
+        CookieUtils.setCookie(response, "nav-style", style);
     }
 
     // 系统介绍
