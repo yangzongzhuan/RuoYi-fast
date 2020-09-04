@@ -79,12 +79,12 @@ public class DictTypeServiceImpl implements IDictTypeService
     public List<DictData> selectDictDataByType(String dictType)
     {
         List<DictData> dictDatas = DictUtils.getDictCache(dictType);
-        if (StringUtils.isNotNull(dictDatas))
+        if (StringUtils.isNotEmpty(dictDatas))
         {
             return dictDatas;
         }
         dictDatas = dictDataMapper.selectDictDataByType(dictType);
-        if (StringUtils.isNotNull(dictDatas))
+        if (StringUtils.isNotEmpty(dictDatas))
         {
             DictUtils.setDictCache(dictType, dictDatas);
             return dictDatas;
