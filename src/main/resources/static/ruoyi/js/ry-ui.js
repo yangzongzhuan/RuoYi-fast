@@ -1482,7 +1482,7 @@ var table = {
                         flag = false;
                         return '';
                     }
-                    return arg;
+                    return arg == null ? '' : arg;
                 });
                 return flag ? str : '';
             },
