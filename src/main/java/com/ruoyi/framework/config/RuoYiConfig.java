@@ -30,9 +30,6 @@ public class RuoYiConfig
     /** 获取地址开关 */
     private static boolean addressEnabled;
     
-    /** 菜单导航显示风格 */
-    private static String menuStyle;
-
     public String getName()
     {
         return name;
@@ -86,21 +83,6 @@ public class RuoYiConfig
     public static boolean isAddressEnabled()
     {
         return addressEnabled;
-    }
-
-    public void setAddressEnabled(boolean addressEnabled)
-    {
-        RuoYiConfig.addressEnabled = addressEnabled;
-    }
-
-    public static String getMenuStyle()
-    {
-        return menuStyle;
-    }
-
-    public void setMenuStyle(String menuStyle)
-    {
-        RuoYiConfig.menuStyle = menuStyle;
     }
 
     /**
