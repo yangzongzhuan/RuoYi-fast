@@ -116,6 +116,7 @@
 								<li><a class="menuItem" th:href="@{/demo/table/image}">表格图片预览</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/curd}">动态增删改查</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/reorder}">表格拖拽操作</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/resizable}">表格列宽拖动</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/editable}">表格行内编辑</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/subdata}">主子表提交</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/refresh}">表格自动刷新</a></li>
@@ -236,7 +237,7 @@
 
         <a id="ax_close_max" class="ax_close_max" href="#" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
 
-        <div class="row mainContent" id="content-main" th:style="${!ignoreFooter} ? |height: calc(100% - 91px)|">
+        <div class="row mainContent" id="content-main" th:style="${#bools.isFalse(ignoreFooter)} ? |height: calc(100% - 91px)|">
             <iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" th:data-id="@{/system/main}"
                     th:src="@{/system/main}" frameborder="0" seamless></iframe>
         </div>
