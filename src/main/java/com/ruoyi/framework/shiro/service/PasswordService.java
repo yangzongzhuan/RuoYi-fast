@@ -73,19 +73,14 @@ public class PasswordService
         return user.getPassword().equals(encryptPassword(user.getLoginName(), newPassword, user.getSalt()));
     }
 
-    public void clearLoginRecordCache(String username)
-    {
-        loginRecordCache.remove(username);
-    }
-
-    public String encryptPassword(String username, String password, String salt)
-    {
-        return new Md5Hash(username + password + salt).toHex();
-    }
-
-    public void unlock(String loginName)
+    public void clearLoginRecordCache(String loginName)
     {
         loginRecordCache.remove(loginName);
+    }
+
+    public String encryptPassword(String loginName, String password, String salt)
+    {
+        return new Md5Hash(loginName + password + salt).toHex();
     }
 
     public static void main(String[] args)
