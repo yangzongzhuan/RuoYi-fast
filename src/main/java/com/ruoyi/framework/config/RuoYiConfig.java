@@ -85,6 +85,11 @@ public class RuoYiConfig
         return addressEnabled;
     }
 
+    public void setAddressEnabled(boolean addressEnabled)
+    {
+        RuoYiConfig.addressEnabled = addressEnabled;
+    }
+
     /**
      * 获取头像上传路径
      */
