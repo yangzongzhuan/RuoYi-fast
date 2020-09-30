@@ -63,7 +63,7 @@
     </tr>
 	<tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-c7a2eb71fa65d6e660294b4bccca613d638.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-abe7b916a17b22f6b7ceba129942e871bd0.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-e60137fb0787defe613bd83331dc4755a70.png"/></td>
     </tr>
 	<tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-7c51c1b5758f0a0f92ed3c60469b7526f9f.png"/></td>
