@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -80,21 +80,22 @@ public class ProfileController extends BaseController
     public AjaxResult resetPwd(String oldPassword, String newPassword)
     {
         User user = getSysUser();
-        if (StringUtils.isNotEmpty(newPassword) && passwordService.matches(user, oldPassword))
-        {
-            user.setPassword(newPassword);
-            if (userService.resetUserPwd(user) > 0)
-            {
-                setSysUser(userService.selectUserById(user.getUserId()));
-                return success();
-            }
-            return error();
-        }
-        else
+        if (!passwordService.matches(user, oldPassword))
         {
             return error("修改密码失败，旧密码错误");
         }
-
+        if (passwordService.matches(user, newPassword))
+        {
+            return error("新密码不能与旧密码相同");
+        }
+        user.setPassword(newPassword);
+        user.setPwdUpdateDate(DateUtils.getNowDate());
+        if (userService.resetUserPwd(user) > 0)
+        {
+            setSysUser(userService.selectUserById(user.getUserId()));
+            return success();
+        }
+        return error("修改密码异常，请联系管理员");
     }
 
     /**
