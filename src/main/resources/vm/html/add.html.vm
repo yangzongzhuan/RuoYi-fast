@@ -221,7 +221,7 @@
 #if($column.edit && !$column.superColumn && !$column.pk && $column.htmlType == "upload")
 
         $(".file-upload").fileinput({
-            uploadUrl: '/common/upload',
+            uploadUrl: ctx + 'common/upload',
             maxFileCount: 1,
             autoReplace: true
         }).on('fileuploaded', function (event, data, previewId, index) {
@@ -247,22 +247,22 @@
                     	var data = new FormData();
                     	data.append("file", files[0]);
                     	$.ajax({
-                    		type: "post",
-                    		url: ctx + "common/upload",
+                            type: "post",
+                            url: ctx + "common/upload",
                     		data: data,
                     		cache: false,
                     		contentType: false,
                     		processData: false,
                     		dataType: 'json',
                     		success: function(result) {
-                    			if (result.code == web_status.SUCCESS) {
-                    				$('#' + obj.id).summernote('insertImage', result.url);
-                    			} else {
-                    				$.modal.alertError(result.msg);
-                    			}
+                    		    if (result.code == web_status.SUCCESS) {
+                    		        $('#' + obj.id).summernote('insertImage', result.url);
+                    		    } else {
+                    		        $.modal.alertError(result.msg);
+                    		    }
                     		},
                     		error: function(error) {
-                    			$.modal.alertWarning("图片上传失败。");
+                    		    $.modal.alertWarning("图片上传失败。");
                     		}
                     	});
                     }
