@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.utils.security.AuthorizationUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -167,6 +168,7 @@ public class UserController extends BaseController
         {
             return error("修改用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
+        AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(userService.updateUser(user));
     }
 
@@ -220,6 +222,7 @@ public class UserController extends BaseController
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
     {
         userService.insertUserAuth(userId, roleIds);
+        AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return success();
     }
 

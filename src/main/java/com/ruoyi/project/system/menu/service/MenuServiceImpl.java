@@ -239,7 +239,6 @@ public class MenuServiceImpl implements IMenuService
     @Override
     public int deleteMenuById(Long menuId)
     {
-        ShiroUtils.clearCachedAuthorizationInfo();
         return menuMapper.deleteMenuById(menuId);
     }
 
@@ -289,7 +288,6 @@ public class MenuServiceImpl implements IMenuService
     public int insertMenu(Menu menu)
     {
         menu.setCreateBy(ShiroUtils.getLoginName());
-        ShiroUtils.clearCachedAuthorizationInfo();
         return menuMapper.insertMenu(menu);
     }
 
@@ -303,7 +301,6 @@ public class MenuServiceImpl implements IMenuService
     public int updateMenu(Menu menu)
     {
         menu.setUpdateBy(ShiroUtils.getLoginName());
-        ShiroUtils.clearCachedAuthorizationInfo();
         return menuMapper.updateMenu(menu);
     }
 

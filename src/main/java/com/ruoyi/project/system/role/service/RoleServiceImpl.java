@@ -173,7 +173,6 @@ public class RoleServiceImpl implements IRoleService
         role.setCreateBy(ShiroUtils.getLoginName());
         // 新增角色信息
         roleMapper.insertRole(role);
-        ShiroUtils.clearCachedAuthorizationInfo();
         return insertRoleMenu(role);
     }
 
@@ -190,7 +189,6 @@ public class RoleServiceImpl implements IRoleService
         role.setUpdateBy(ShiroUtils.getLoginName());
         // 修改角色信息
         roleMapper.updateRole(role);
-        ShiroUtils.clearCachedAuthorizationInfo();
         // 删除角色与菜单关联
         roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
         return insertRoleMenu(role);
