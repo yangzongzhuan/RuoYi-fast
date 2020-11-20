@@ -103,6 +103,11 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager
         int invalidCount = 0;
 
         int timeout = (int) this.getGlobalSessionTimeout();
+        if (timeout < 0)
+        {
+            // 永不过期不进行处理
+            return;
+        }
         Date expiredDate = DateUtils.addMilliseconds(new Date(), 0 - timeout);
         UserOnlineServiceImpl userOnlineService = SpringUtils.getBean(UserOnlineServiceImpl.class);
         List<UserOnline> userOnlineList = userOnlineService.selectOnlineByExpired(expiredDate);
