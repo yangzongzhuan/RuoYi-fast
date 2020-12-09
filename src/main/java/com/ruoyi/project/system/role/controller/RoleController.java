@@ -167,14 +167,7 @@ public class RoleController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        try
-        {
-            return toAjax(roleService.deleteRoleByIds(ids));
-        }
-        catch (Exception e)
-        {
-            return error(e.getMessage());
-        }
+        return toAjax(roleService.deleteRoleByIds(ids));
     }
 
     /**
