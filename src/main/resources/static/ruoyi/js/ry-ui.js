@@ -142,7 +142,7 @@ var table = {
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
                     onLoadSuccess: $.table.onLoadSuccess,               // 当所有数据被加载时触发处理函数
                     exportOptions: options.exportOptions,               // 前端导出忽略列索引
-                    printPageBuilder: printPageBuilder,                 // 自定义打印页面模板
+                    printPageBuilder: options.printPageBuilder,         // 自定义打印页面模板
                     detailFormatter: options.detailFormatter,           // 在行下面展示其他数据列表
                 });
             },
@@ -173,7 +173,7 @@ var table = {
             	if (typeof table.get(this.id).responseHandler == "function") {
                     table.get(this.id).responseHandler(res);
                 }
-                if (res.code == 0) {
+                if (res.code == web_status.SUCCESS) {
                     if ($.common.isNotEmpty(table.options.sidePagination) && table.options.sidePagination == 'client') {
                     	return res.rows;
                     } else {
@@ -613,7 +613,7 @@ var table = {
             	if (typeof table.options.responseHandler == "function") {
                     table.options.responseHandler(res);
                 }
-            	if (res.code != undefined && res.code != 0) {
+            	if (res.code != undefined && res.code != web_status.SUCCESS) {
                     $.modal.alertWarning(res.msg);
                     return [];
                 } else {
