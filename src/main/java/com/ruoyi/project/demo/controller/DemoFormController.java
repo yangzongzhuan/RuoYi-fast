@@ -99,6 +99,15 @@ public class DemoFormController
     }
 
     /**
+     * 标签 & 提示
+     */
+    @GetMapping("/labels_tips")
+    public String labels_tips()
+    {
+        return prefix + "/labels_tips";
+    }
+
+    /**
      * 选项卡 & 面板
      */
     @GetMapping("/tabs_panels")
@@ -221,7 +230,7 @@ public class DemoFormController
         jdList.add(cxSelectCs);
         jdList.add(cxSelectSx);
         cxSelectJD.setS(jdList);
-        
+
         List<CxSelect> cxList = new ArrayList<CxSelect>();
         cxList.add(cxSelectTB);
         cxList.add(cxSelectJD);
