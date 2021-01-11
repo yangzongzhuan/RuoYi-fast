@@ -278,7 +278,7 @@ public class VelocityUtils
     {
         return StringUtils.format("{}:{}", moduleName, businessName);
     }
-    
+
     /**
      * 获取上级菜单ID字段
      * 

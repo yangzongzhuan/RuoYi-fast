@@ -88,7 +88,7 @@ public class GenTable extends BaseEntity
 
     /** 树名称字段 */
     private String treeName;
-    
+
     /** 上级菜单ID字段 */
     private String parentMenuId;
 
