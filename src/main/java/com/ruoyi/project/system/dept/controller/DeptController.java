@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
@@ -58,6 +59,10 @@ public class DeptController extends BaseController
     @GetMapping("/add/{parentId}")
     public String add(@PathVariable("parentId") Long parentId, ModelMap mmap)
     {
+        if (!ShiroUtils.getSysUser().isAdmin())
+        {
+            parentId = ShiroUtils.getSysUser().getDeptId();
+        }
         mmap.put("dept", deptService.selectDeptById(parentId));
         return prefix + "/add";
     }
