@@ -260,7 +260,7 @@ public class DeptServiceImpl implements IDeptService
         List<Dept> children = deptMapper.selectChildrenDeptById(deptId);
         for (Dept child : children)
         {
-            child.setAncestors(child.getAncestors().replace(oldAncestors, newAncestors));
+            child.setAncestors(child.getAncestors().replaceFirst(oldAncestors, newAncestors));
         }
         if (children.size() > 0)
         {
