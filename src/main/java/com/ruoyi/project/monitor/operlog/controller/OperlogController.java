@@ -61,6 +61,7 @@ public class OperlogController extends BaseController
         return util.exportExcel(list, "操作日志");
     }
 
+    @Log(title = "操作日志", businessType = BusinessType.DELETE)
     @RequiresPermissions("monitor:operlog:remove")
     @PostMapping("/remove")
     @ResponseBody
