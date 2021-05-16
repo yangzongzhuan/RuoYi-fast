@@ -136,7 +136,7 @@ public class IndexController extends BaseController
     public boolean initPasswordIsModify(Date pwdUpdateDate)
     {
         Integer initPasswordModify = Convert.toInt(configService.selectConfigByKey("sys.account.initPasswordModify"));
-        return initPasswordModify !=null && initPasswordModify == 1 && pwdUpdateDate == null;
+        return initPasswordModify != null && initPasswordModify == 1 && pwdUpdateDate == null;
     }
     
     // 检查密码是否过期
