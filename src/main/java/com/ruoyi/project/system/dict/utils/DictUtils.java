@@ -111,6 +111,16 @@ public class DictUtils
     }
 
     /**
+     * 删除指定字典缓存
+     * 
+     * @param key 字典键
+     */
+    public static void removeDictCache(String key)
+    {
+        CacheUtils.remove(getCacheName(), getCacheKey(key));
+    }
+
+    /**
      * 根据字典类型和字典标签获取字典值
      * 
      * @param dictType 字典类型

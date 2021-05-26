@@ -38,12 +38,7 @@ public class DictTypeServiceImpl implements IDictTypeService
     @PostConstruct
     public void init()
     {
-        List<DictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
-        for (DictType dictType : dictTypeList)
-        {
-            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
-            DictUtils.setDictCache(dictType.getDictType(), dictDatas);
-        }
+        loadingDictCache();
     }
 
     /**
@@ -123,7 +118,7 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 结果
      */
     @Override
-    public int deleteDictTypeByIds(String ids)
+    public void deleteDictTypeByIds(String ids)
     {
         Long[] dictIds = Convert.toLongArray(ids);
         for (Long dictId : dictIds)
@@ -133,22 +128,39 @@ public class DictTypeServiceImpl implements IDictTypeService
             {
                 throw new BusinessException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
             }
+            dictTypeMapper.deleteDictTypeById(dictId);
+            DictUtils.removeDictCache(dictType.getDictType());
         }
-        int count = dictTypeMapper.deleteDictTypeByIds(dictIds);
-        if (count > 0)
-        {
-            DictUtils.clearDictCache();
-        }
-        return count;
     }
 
     /**
-     * 清空缓存数据
+     * 加载字典缓存数据
      */
-    @Override
-    public void clearCache()
+    public void loadingDictCache()
+    {
+        List<DictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
+        for (DictType dict : dictTypeList)
+        {
+            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
+            DictUtils.setDictCache(dict.getDictType(), dictDatas);
+        }
+    }
+
+    /**
+     * 清空字典缓存数据
+     */
+    public void clearDictCache()
     {
         DictUtils.clearDictCache();
+    }
+
+    /**
+     * 重置字典缓存数据
+     */
+    public void resetDictCache()
+    {
+        clearDictCache();
+        loadingDictCache();
     }
 
     /**
@@ -158,13 +170,13 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 结果
      */
     @Override
-    public int insertDictType(DictType dictType)
+    public int insertDictType(DictType dict)
     {
-        dictType.setCreateBy(ShiroUtils.getLoginName());
-        int row = dictTypeMapper.insertDictType(dictType);
+        dict.setCreateBy(ShiroUtils.getLoginName());
+        int row = dictTypeMapper.insertDictType(dict);
         if (row > 0)
         {
-            DictUtils.clearDictCache();
+            DictUtils.setDictCache(dict.getDictType(), null);
         }
         return row;
     }
@@ -177,15 +189,16 @@ public class DictTypeServiceImpl implements IDictTypeService
      */
     @Override
     @Transactional
-    public int updateDictType(DictType dictType)
+    public int updateDictType(DictType dict)
     {
-        dictType.setUpdateBy(ShiroUtils.getLoginName());
-        DictType oldDict = dictTypeMapper.selectDictTypeById(dictType.getDictId());
-        dictDataMapper.updateDictDataType(oldDict.getDictType(), dictType.getDictType());
-        int row = dictTypeMapper.updateDictType(dictType);
+        dict.setUpdateBy(ShiroUtils.getLoginName());
+        DictType oldDict = dictTypeMapper.selectDictTypeById(dict.getDictId());
+        dictDataMapper.updateDictDataType(oldDict.getDictType(), dict.getDictType());
+        int row = dictTypeMapper.updateDictType(dict);
         if (row > 0)
         {
-            DictUtils.clearDictCache();
+            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
+            DictUtils.setDictCache(dict.getDictType(), dictDatas);
         }
         return row;
     }

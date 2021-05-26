@@ -64,14 +64,16 @@ public class DictDataServiceImpl implements IDictDataService
      * @return 结果
      */
     @Override
-    public int deleteDictDataByIds(String ids)
+    public void deleteDictDataByIds(String ids)
     {
-        int row = dictDataMapper.deleteDictDataByIds(Convert.toStrArray(ids));
-        if (row > 0)
+        Long[] dictCodes = Convert.toLongArray(ids);
+        for (Long dictCode : dictCodes)
         {
-            DictUtils.clearDictCache();
+            DictData data = selectDictDataById(dictCode);
+            dictDataMapper.deleteDictDataById(dictCode);
+            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
+            DictUtils.setDictCache(data.getDictType(), dictDatas);
         }
-        return row;
     }
 
     /**
@@ -81,13 +83,14 @@ public class DictDataServiceImpl implements IDictDataService
      * @return 结果
      */
     @Override
-    public int insertDictData(DictData dictData)
+    public int insertDictData(DictData data)
     {
-        dictData.setCreateBy(ShiroUtils.getLoginName());
-        int row = dictDataMapper.insertDictData(dictData);
+        data.setCreateBy(ShiroUtils.getLoginName());
+        int row = dictDataMapper.insertDictData(data);
         if (row > 0)
         {
-            DictUtils.clearDictCache();
+            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
+            DictUtils.setDictCache(data.getDictType(), dictDatas);
         }
         return row;
     }
@@ -99,13 +102,14 @@ public class DictDataServiceImpl implements IDictDataService
      * @return 结果
      */
     @Override
-    public int updateDictData(DictData dictData)
+    public int updateDictData(DictData data)
     {
-        dictData.setUpdateBy(ShiroUtils.getLoginName());
-        int row = dictDataMapper.updateDictData(dictData);
+        data.setUpdateBy(ShiroUtils.getLoginName());
+        int row = dictDataMapper.updateDictData(data);
         if (row > 0)
         {
-            DictUtils.clearDictCache();
+            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
+            DictUtils.setDictCache(data.getDictType(), dictDatas);
         }
         return row;
     }

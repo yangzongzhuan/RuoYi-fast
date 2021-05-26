@@ -31,11 +31,7 @@ public class ConfigServiceImpl implements IConfigService
     @PostConstruct
     public void init()
     {
-        List<Config> configsList = configMapper.selectConfigList(new Config());
-        for (Config config : configsList)
-        {
-            CacheUtils.put(getCacheName(), getCacheKey(config.getConfigKey()), config.getConfigValue());
-        }
+        loadingConfigCache();
     }
 
     /**
@@ -132,7 +128,7 @@ public class ConfigServiceImpl implements IConfigService
      * @return 结果
      */
     @Override
-    public int deleteConfigByIds(String ids)
+    public void deleteConfigByIds(String ids)
     {
         Long[] configIds = Convert.toLongArray(ids);
         for (Long configId : configIds)
@@ -142,23 +138,41 @@ public class ConfigServiceImpl implements IConfigService
             {
                 throw new BusinessException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
+            configMapper.deleteConfigById(configId);
+            CacheUtils.remove(getCacheName(), getCacheKey(config.getConfigKey()));
         }
-        int count = configMapper.deleteConfigByIds(Convert.toStrArray(ids));
-        if (count > 0)
-        {
-
-            CacheUtils.removeAll(getCacheName());
-        }
-        return count;
     }
 
     /**
-     * 清空缓存数据
+     * 加载参数缓存数据
      */
     @Override
-    public void clearCache()
+    public void loadingConfigCache()
+    {
+        List<Config> configsList = configMapper.selectConfigList(new Config());
+        for (Config config : configsList)
+        {
+            CacheUtils.put(getCacheName(), getCacheKey(config.getConfigKey()), config.getConfigValue());
+        }
+    }
+
+    /**
+     * 清空参数缓存数据
+     */
+    @Override
+    public void clearConfigCache()
     {
         CacheUtils.removeAll(getCacheName());
+    }
+
+    /**
+     * 重置参数缓存数据
+     */
+    @Override
+    public void resetConfigCache()
+    {
+        clearConfigCache();
+        loadingConfigCache();
     }
 
     /**
