@@ -166,7 +166,7 @@ public class DictTypeServiceImpl implements IDictTypeService
     /**
      * 新增保存字典类型信息
      * 
-     * @param dictType 字典类型信息
+     * @param dict 字典类型信息
      * @return 结果
      */
     @Override
@@ -184,7 +184,7 @@ public class DictTypeServiceImpl implements IDictTypeService
     /**
      * 修改保存字典类型信息
      * 
-     * @param dictType 字典类型信息
+     * @param dict 字典类型信息
      * @return 结果
      */
     @Override
