@@ -1,12 +1,12 @@
 package com.ruoyi.framework.config;
 
+import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.google.common.collect.Maps;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.xss.XssFilter;
 
@@ -37,7 +37,7 @@ public class FilterConfig
         registration.addUrlPatterns(StringUtils.split(urlPatterns, ","));
         registration.setName("xssFilter");
         registration.setOrder(Integer.MAX_VALUE);
-        Map<String, String> initParameters = Maps.newHashMap();
+        Map<String, String> initParameters = new HashMap<String, String>();
         initParameters.put("excludes", excludes);
         initParameters.put("enabled", enabled);
         registration.setInitParameters(initParameters);

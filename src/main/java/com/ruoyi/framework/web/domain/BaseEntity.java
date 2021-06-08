@@ -2,9 +2,9 @@ package com.ruoyi.framework.web.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.common.collect.Maps;
 
 /**
  * Entity基类
@@ -102,7 +102,7 @@ public class BaseEntity implements Serializable
     {
         if (params == null)
         {
-            params = Maps.newHashMap();
+            params = new HashMap<String, Object>();
         }
         return params;
     }
