@@ -11,6 +11,7 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.aspectj.lang.annotation.DataScope;
 import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.dept.domain.Dept;
@@ -230,7 +231,7 @@ public class DeptServiceImpl implements IDeptService
         if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()))
         {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
-            updateParentDeptStatus(dept);
+            updateParentDeptStatusNormal(dept);
         }
         return result;
     }
@@ -240,12 +241,11 @@ public class DeptServiceImpl implements IDeptService
      * 
      * @param dept 当前部门
      */
-    private void updateParentDeptStatus(Dept dept)
+    private void updateParentDeptStatusNormal(Dept dept)
     {
-        String updateBy = dept.getUpdateBy();
-        dept = deptMapper.selectDeptById(dept.getDeptId());
-        dept.setUpdateBy(updateBy);
-        deptMapper.updateDeptStatus(dept);
+        String ancestors = dept.getAncestors();
+        Long[] deptIds = Convert.toLongArray(ancestors);
+        deptMapper.updateDeptStatusNormal(deptIds);
     }
 
     /**
