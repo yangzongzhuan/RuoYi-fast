@@ -741,7 +741,7 @@
         expandAll: false,          // 是否全部展开
         expandFirst: true,         // 是否默认第一级展开--expandAll为false时生效
         striped: false,            // 是否各行渐变色
-        bordered: true,            // 是否显示边框
+        bordered: false,            // 是否显示边框
         hover: true,               // 是否鼠标悬停
         condensed: false,          // 是否紧缩表格
         columns: [],               // 列
