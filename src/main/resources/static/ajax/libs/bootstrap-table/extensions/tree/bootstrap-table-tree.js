@@ -211,7 +211,23 @@
             registerRowClickEvent();
             initHiddenColumns();
             // 动态设置表头宽度
-            autoTheadWidth()
+            autoTheadWidth();
+            // 移动端设置表格宽度
+            var treetableTable = $(target).parent('.treetable-table');
+            var availableHeight = treetableTable.outerWidth();
+            if($.common.isMobile() || availableHeight < 769){
+                var tableStyle = "width: " + availableHeight + "px;overflow: auto;position: relative;";
+                treetableTable.attr('style', tableStyle);
+                var w = 0;
+                $.each(options.columns, function(i, column) {
+                    if (i == 0 && column.field == 'selectItem') {
+                        w += 36;
+                    } else {
+                        w += 200;
+                    }
+                });
+                $(target).attr('style','width:' + w +'px');
+            }
         }
         // 动态设置表头宽度
         var autoTheadWidth = function(initFlag) {
