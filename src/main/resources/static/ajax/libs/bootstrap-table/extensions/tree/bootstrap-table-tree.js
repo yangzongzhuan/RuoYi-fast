@@ -212,7 +212,7 @@
             initHiddenColumns();
             // 动态设置表头宽度
             autoTheadWidth();
-            // 移动端设置表格宽度
+            // 移动端适配
             var treetableTable = $(target).parent('.treetable-table');
             var availableHeight = treetableTable.outerWidth();
             if($.common.isMobile() || availableHeight < 769){
@@ -741,7 +741,7 @@
         expandAll: false,          // 是否全部展开
         expandFirst: true,         // 是否默认第一级展开--expandAll为false时生效
         striped: false,            // 是否各行渐变色
-        bordered: false,            // 是否显示边框
+        bordered: false,           // 是否显示边框
         hover: true,               // 是否鼠标悬停
         condensed: false,          // 是否紧缩表格
         columns: [],               // 列
