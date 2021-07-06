@@ -275,6 +275,7 @@ public class UserServiceImpl implements IUserService
      * @param roleIds 角色组
      */
     @Override
+    @Transactional
     public void insertUserAuth(Long userId, Long[] roleIds)
     {
         userRoleMapper.deleteUserRoleByUserId(userId);
@@ -298,7 +299,8 @@ public class UserServiceImpl implements IUserService
     /**
      * 新增用户角色信息
      * 
-     * @param user 用户对象
+     * @param userId 用户ID
+     * @param roleIds 角色组
      */
     public void insertUserRole(Long userId, Long[] roleIds)
     {

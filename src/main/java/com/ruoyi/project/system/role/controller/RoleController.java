@@ -239,6 +239,7 @@ public class RoleController extends BaseController
     /**
      * 取消授权
      */
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PostMapping("/authUser/cancel")
     @ResponseBody
@@ -250,6 +251,7 @@ public class RoleController extends BaseController
     /**
      * 批量取消授权
      */
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PostMapping("/authUser/cancelAll")
     @ResponseBody
@@ -284,6 +286,7 @@ public class RoleController extends BaseController
     /**
      * 批量选择用户授权
      */
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PostMapping("/authUser/selectAll")
     @ResponseBody

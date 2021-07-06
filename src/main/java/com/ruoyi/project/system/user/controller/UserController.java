@@ -213,7 +213,7 @@ public class UserController extends BaseController
     /**
      * 用户授权角色
      */
-    @RequiresPermissions("system:user:add")
+    @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PostMapping("/authRole/insertAuthRole")
     @ResponseBody
