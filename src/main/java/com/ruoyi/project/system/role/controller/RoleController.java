@@ -155,7 +155,7 @@ public class RoleController extends BaseController
         roleService.checkRoleAllowed(role);
         if (roleService.authDataScope(role) > 0)
         {
-            setSysUser(userService.selectUserById(getSysUser().getUserId()));
+            setSysUser(userService.selectUserById(getUserId()));
             return success();
         }
         return error();

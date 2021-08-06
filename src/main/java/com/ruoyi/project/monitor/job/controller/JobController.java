@@ -16,7 +16,6 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
@@ -144,7 +143,7 @@ public class JobController extends BaseController
         {
             return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)//'调用");
         }
-        job.setCreateBy(ShiroUtils.getLoginName());
+        job.setCreateBy(getLoginName());
         return toAjax(jobService.insertJob(job));
     }
 
@@ -179,7 +178,7 @@ public class JobController extends BaseController
         {
             return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)//'调用");
         }
-        job.setUpdateBy(ShiroUtils.getLoginName());
+        job.setUpdateBy(getLoginName());
         return toAjax(jobService.updateJob(job));
     }
 

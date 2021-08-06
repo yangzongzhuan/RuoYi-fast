@@ -157,21 +157,33 @@ public class BaseController
         return StringUtils.format("redirect:{}", url);
     }
 
+    /**
+     * 获取用户缓存信息
+     */
     public User getSysUser()
     {
         return ShiroUtils.getSysUser();
     }
 
+    /**
+     * 设置用户缓存信息
+     */
     public void setSysUser(User user)
     {
         ShiroUtils.setSysUser(user);
     }
 
+    /**
+     * 获取登录用户id
+     */
     public Long getUserId()
     {
         return getSysUser().getUserId();
     }
 
+    /**
+     * 获取登录用户名
+     */
     public String getLoginName()
     {
         return getSysUser().getLoginName();
