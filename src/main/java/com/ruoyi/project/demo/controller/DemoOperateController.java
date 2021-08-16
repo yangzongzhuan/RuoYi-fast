@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.ruoyi.common.exception.BusinessException;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.text.Convert;
@@ -265,7 +265,7 @@ public class DemoOperateController extends BaseController
     {
         if (StringUtils.isNull(userList) || userList.size() == 0)
         {
-            throw new BusinessException("导入用户数据不能为空！");
+            throw new ServiceException("导入用户数据不能为空！");
         }
         int successNum = 0;
         int failureNum = 0;
@@ -315,7 +315,7 @@ public class DemoOperateController extends BaseController
         if (failureNum > 0)
         {
             failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
-            throw new BusinessException(failureMsg.toString());
+            throw new ServiceException(failureMsg.toString());
         }
         else
         {

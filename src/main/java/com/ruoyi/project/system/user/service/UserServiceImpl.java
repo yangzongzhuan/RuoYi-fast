@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.exception.BusinessException;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -411,7 +411,7 @@ public class UserServiceImpl implements IUserService
     {
         if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
         {
-            throw new BusinessException("不允许操作超级管理员用户");
+            throw new ServiceException("不允许操作超级管理员用户");
         }
     }
 
@@ -471,7 +471,7 @@ public class UserServiceImpl implements IUserService
     {
         if (StringUtils.isNull(userList) || userList.size() == 0)
         {
-            throw new BusinessException("导入用户数据不能为空！");
+            throw new ServiceException("导入用户数据不能为空！");
         }
         int successNum = 0;
         int failureNum = 0;
@@ -517,7 +517,7 @@ public class UserServiceImpl implements IUserService
         if (failureNum > 0)
         {
             failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
-            throw new BusinessException(failureMsg.toString());
+            throw new ServiceException(failureMsg.toString());
         }
         else
         {

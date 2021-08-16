@@ -59,7 +59,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing.CTMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.ruoyi.common.exception.BusinessException;
+import com.ruoyi.common.exception.UtilException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileTypeUtils;
@@ -450,7 +450,7 @@ public class ExcelUtil<T>
         catch (Exception e)
         {
             log.error("导出Excel异常{}", e.getMessage());
-            throw new BusinessException("导出Excel失败，请联系网站管理员！");
+            throw new UtilException("导出Excel失败，请联系网站管理员！");
         }
         finally
         {

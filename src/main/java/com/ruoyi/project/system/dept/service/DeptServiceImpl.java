@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.exception.BusinessException;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -200,7 +200,7 @@ public class DeptServiceImpl implements IDeptService
         // 如果父节点不为"正常"状态,则不允许新增子节点
         if (!UserConstants.DEPT_NORMAL.equals(info.getStatus()))
         {
-            throw new BusinessException("部门停用，不允许新增");
+            throw new ServiceException("部门停用，不允许新增");
         }
         dept.setCreateBy(ShiroUtils.getLoginName());
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());

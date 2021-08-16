@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.exception.BusinessException;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
@@ -160,7 +160,7 @@ public class RoleServiceImpl implements IRoleService
             Role role = selectRoleById(roleId);
             if (countUserRoleByRoleId(roleId) > 0)
             {
-                throw new BusinessException(String.format("%1$s已分配,不能删除", role.getRoleName()));
+                throw new ServiceException(String.format("%1$s已分配,不能删除", role.getRoleName()));
             }
         }
         // 删除角色与菜单关联
@@ -317,7 +317,7 @@ public class RoleServiceImpl implements IRoleService
     {
         if (StringUtils.isNotNull(role.getRoleId()) && role.isAdmin())
         {
-            throw new BusinessException("不允许操作超级管理员角色");
+            throw new ServiceException("不允许操作超级管理员角色");
         }
     }
 
