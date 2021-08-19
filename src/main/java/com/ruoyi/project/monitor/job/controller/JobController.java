@@ -142,7 +142,7 @@ public class JobController extends BaseController
         }
         else if (StringUtils.containsIgnoreCase(job.getInvokeTarget(), Constants.LOOKUP_LDAP))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap://'调用");
+            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap://'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(),
                 new String[] { Constants.HTTP, Constants.HTTPS }))
