@@ -76,7 +76,7 @@ public class Constants
      * 排序的方向 "desc" 或者 "asc".
      */
     public static final String IS_ASC = "isAsc";
-    
+
     /**
      * 系统用户授权缓存
      */
@@ -106,10 +106,15 @@ public class Constants
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
-    
+
     /**
      * RMI 远程方法调用
      */
     public static final String LOOKUP_RMI = "rmi://";
-    
+
+    /**
+     * LDAP 远程方法调用
+     */
+    public static final String LOOKUP_LDAP = "ldap://";
+
 }
