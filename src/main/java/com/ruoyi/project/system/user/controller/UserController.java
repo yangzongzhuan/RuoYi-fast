@@ -142,6 +142,7 @@ public class UserController extends BaseController
     @GetMapping("/edit/{userId}")
     public String edit(@PathVariable("userId") Long userId, ModelMap mmap)
     {
+        userService.checkUserDataScope(userId);
         List<Role> roles = roleService.selectRolesByUserId(userId);
         mmap.put("user", userService.selectUserById(userId));
         mmap.put("roles", User.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));

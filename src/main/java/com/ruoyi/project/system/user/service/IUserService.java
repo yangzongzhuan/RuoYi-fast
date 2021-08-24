@@ -172,6 +172,13 @@ public interface IUserService
     public void checkUserAllowed(User user);
 
     /**
+     * 校验用户是否有数据权限
+     * 
+     * @param userId 用户id
+     */
+    public void checkUserDataScope(Long userId);
+
+    /**
      * 根据用户ID查询用户所属角色组
      * 
      * @param userId 用户ID

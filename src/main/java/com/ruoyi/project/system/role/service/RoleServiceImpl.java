@@ -21,6 +21,7 @@ import com.ruoyi.project.system.role.domain.RoleMenu;
 import com.ruoyi.project.system.role.mapper.RoleDeptMapper;
 import com.ruoyi.project.system.role.mapper.RoleMapper;
 import com.ruoyi.project.system.role.mapper.RoleMenuMapper;
+import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserRole;
 import com.ruoyi.project.system.user.mapper.UserRoleMapper;
 
@@ -318,6 +319,26 @@ public class RoleServiceImpl implements IRoleService
         if (StringUtils.isNotNull(role.getRoleId()) && role.isAdmin())
         {
             throw new ServiceException("不允许操作超级管理员角色");
+        }
+    }
+
+    /**
+     * 校验角色是否有数据权限
+     * 
+     * @param roleId 角色id
+     */
+    @Override
+    public void checkRoleDataScope(Long roleId)
+    {
+        if (!User.isAdmin(ShiroUtils.getUserId()))
+        {
+            Role role = new Role();
+            role.setRoleId(roleId);
+            List<Role> roles = SpringUtils.getAopProxy(this).selectRoleList(role);
+            if (StringUtils.isEmpty(roles))
+            {
+                throw new ServiceException("没有权限访问角色数据！");
+            }
         }
     }
 
