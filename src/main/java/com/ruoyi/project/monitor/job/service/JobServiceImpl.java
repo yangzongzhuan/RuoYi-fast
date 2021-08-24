@@ -76,7 +76,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int pauseJob(Job job) throws SchedulerException
     {
         Long jobId = job.getJobId();
@@ -96,7 +96,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int resumeJob(Job job) throws SchedulerException
     {
         Long jobId = job.getJobId();
@@ -116,7 +116,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int deleteJob(Job job) throws SchedulerException
     {
         Long jobId = job.getJobId();
@@ -136,7 +136,7 @@ public class JobServiceImpl implements IJobService
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteJobByIds(String ids) throws SchedulerException
     {
         Long[] jobIds = Convert.toLongArray(ids);
@@ -153,7 +153,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int changeStatus(Job job) throws SchedulerException
     {
         int rows = 0;
@@ -175,7 +175,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void run(Job job) throws SchedulerException
     {
         Long jobId = job.getJobId();
@@ -192,7 +192,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int insertJob(Job job) throws SchedulerException, TaskException
     {
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
@@ -210,7 +210,7 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int updateJob(Job job) throws SchedulerException, TaskException
     {
         Job properties = selectJobById(job.getJobId());
