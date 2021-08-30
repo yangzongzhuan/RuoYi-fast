@@ -187,7 +187,7 @@ public class DeptController extends BaseController
     public List<Ztree> treeDataExcludeChild(@PathVariable(value = "excludeId", required = false) Long excludeId)
     {
         Dept dept = new Dept();
-        dept.setDeptId(excludeId);
+        dept.setExcludeId(excludeId);
         List<Ztree> ztrees = deptService.selectDeptTreeExcludeChild(dept);
         return ztrees;
     }

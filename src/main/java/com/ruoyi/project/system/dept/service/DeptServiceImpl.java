@@ -69,14 +69,14 @@ public class DeptServiceImpl implements IDeptService
     @DataScope(deptAlias = "d")
     public List<Ztree> selectDeptTreeExcludeChild(Dept dept)
     {
-        Long deptId = dept.getDeptId();
+        Long excludeId = dept.getExcludeId();
         List<Dept> deptList = deptMapper.selectDeptList(dept);
         Iterator<Dept> it = deptList.iterator();
         while (it.hasNext())
         {
             Dept d = (Dept) it.next();
-            if (d.getDeptId().intValue() == deptId
-                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""))
+            if (d.getDeptId().intValue() == excludeId
+                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), excludeId + ""))
             {
                 it.remove();
             }

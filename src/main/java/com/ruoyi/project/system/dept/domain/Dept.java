@@ -3,6 +3,7 @@ package com.ruoyi.project.system.dept.domain;
 import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
@@ -46,6 +47,9 @@ public class Dept extends BaseEntity
 
     /** 父部门名称 */
     private String parentName;
+
+    /** 排除编号 */
+    private Long excludeId;
 
     public Long getDeptId()
     {
@@ -161,6 +165,17 @@ public class Dept extends BaseEntity
     public void setParentName(String parentName)
     {
         this.parentName = parentName;
+    }
+
+    @JsonIgnore
+    public Long getExcludeId()
+    {
+        return excludeId;
+    }
+
+    public void setExcludeId(Long excludeId)
+    {
+        this.excludeId = excludeId;
     }
 
     @Override
