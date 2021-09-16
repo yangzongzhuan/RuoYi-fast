@@ -93,12 +93,6 @@ public class LogAspect
             // 请求的地址
             String ip = ShiroUtils.getIp();
             operLog.setOperIp(ip);
-            // 返回参数
-            if (StringUtils.isNotNull(jsonResult))
-            {
-                operLog.setJsonResult(StringUtils.substring(JSONObject.toJSONString(jsonResult), 0, 2000));
-            }
-
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             if (currentUser != null)
             {
@@ -122,7 +116,7 @@ public class LogAspect
             // 设置请求方式
             operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
             // 处理设置注解上的参数
-            getControllerMethodDescription(joinPoint, controllerLog, operLog);
+            getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
             // 保存数据库
             AsyncManager.me().execute(AsyncFactory.recordOper(operLog));
         }
@@ -142,7 +136,7 @@ public class LogAspect
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperLog operLog) throws Exception
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperLog operLog, Object jsonResult) throws Exception
     {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
@@ -155,6 +149,11 @@ public class LogAspect
         {
             // 获取参数的信息，传入到数据库中。
             setRequestValue(joinPoint, operLog);
+        }
+        // 是否需要保存response，参数和值
+        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult))
+        {
+            operLog.setJsonResult(StringUtils.substring(JSONObject.toJSONString(jsonResult), 0, 2000));
         }
     }
 
