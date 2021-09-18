@@ -493,12 +493,17 @@ function loadJs(file, headElem) {
 // 禁止后退键（Backspace）
 window.onload = function() {
 	document.getElementsByTagName("body")[0].onkeydown = function() {
-		//获取事件对象  
+		// 获取事件对象  
 		var elem = event.relatedTarget || event.srcElement || event.target || event.currentTarget;
-		//判断按键为backSpace键  
+		// 判断按键为backSpace键  
 		if (event.keyCode == 8) {
-			//判断是否需要阻止按下键盘的事件默认传递  
+			// 判断是否需要阻止按下键盘的事件默认传递  
 			var name = elem.nodeName;
+			var className = elem.className;
+			if (className.indexOf('note-editable') != -1)
+			{
+				return true;
+			}
 			if (name != 'INPUT' && name != 'TEXTAREA') {
 				return _stopIt(event);
 			}
