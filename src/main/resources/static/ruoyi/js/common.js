@@ -500,6 +500,7 @@ window.onload = function() {
 			// 判断是否需要阻止按下键盘的事件默认传递  
 			var name = elem.nodeName;
 			var className = elem.className;
+			// 屏蔽特定的样式名称
 			if (className.indexOf('note-editable') != -1)
 			{
 				return true;
