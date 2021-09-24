@@ -58,7 +58,11 @@ public class IndexController extends BaseController
         mmap.put("user", user);
         mmap.put("sideTheme", configService.selectConfigByKey("sys.index.sideTheme"));
         mmap.put("skinName", configService.selectConfigByKey("sys.index.skinName"));
-        mmap.put("ignoreFooter", configService.selectConfigByKey("sys.index.ignoreFooter"));
+        Boolean footer = Convert.toBool(configService.selectConfigByKey("sys.index.footer"));
+        Boolean tagsView = Convert.toBool(configService.selectConfigByKey("sys.index.tagsView"));
+        mmap.put("footer", footer);
+        mmap.put("tagsView", tagsView);
+        mmap.put("mainClass", contentMainClass(footer, tagsView));
         mmap.put("copyrightYear", ruoYiConfig.getCopyrightYear());
         mmap.put("demoEnabled", ruoYiConfig.isDemoEnabled());
         mmap.put("isDefaultModifyPwd", initPasswordIsModify(user.getPwdUpdateDate()));
@@ -132,7 +136,26 @@ public class IndexController extends BaseController
         mmap.put("version", ruoYiConfig.getVersion());
         return "main";
     }
-    
+
+    // content-main class
+    public String contentMainClass(Boolean footer, Boolean tagsView)
+    {
+        String mainClass = "";
+        if (!footer && !tagsView)
+        {
+            return "tagsview-footer-hide";
+        }
+        else if (!footer)
+        {
+            return "footer-hide";
+        }
+        else if (!tagsView)
+        {
+            return "tagsview-hide";
+        }
+        return mainClass;
+    }
+
     // 检查初始密码是否提醒修改
     public boolean initPasswordIsModify(Date pwdUpdateDate)
     {
