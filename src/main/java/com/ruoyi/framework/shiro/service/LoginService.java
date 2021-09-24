@@ -104,7 +104,7 @@ public class LoginService
         passwordService.validate(user, password);
 
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
-        recordLoginInfo(user);
+        recordLoginInfo(user.getUserId());
         return user;
     }
 
@@ -130,9 +130,13 @@ public class LoginService
 
     /**
      * 记录登录信息
+     *
+     * @param userId 用户ID
      */
-    public void recordLoginInfo(User user)
+    public void recordLoginInfo(Long userId)
     {
+        User user = new User();
+        user.setUserId(userId);
         user.setLoginIp(ShiroUtils.getIp());
         user.setLoginDate(DateUtils.getNowDate());
         userService.updateUserInfo(user);

@@ -58,8 +58,8 @@ public class IndexController extends BaseController
         mmap.put("user", user);
         mmap.put("sideTheme", configService.selectConfigByKey("sys.index.sideTheme"));
         mmap.put("skinName", configService.selectConfigByKey("sys.index.skinName"));
-        Boolean footer = Convert.toBool(configService.selectConfigByKey("sys.index.footer"));
-        Boolean tagsView = Convert.toBool(configService.selectConfigByKey("sys.index.tagsView"));
+        Boolean footer = Convert.toBool(configService.selectConfigByKey("sys.index.footer"), true);
+        Boolean tagsView = Convert.toBool(configService.selectConfigByKey("sys.index.tagsView"), true);
         mmap.put("footer", footer);
         mmap.put("tagsView", tagsView);
         mmap.put("mainClass", contentMainClass(footer, tagsView));
@@ -140,7 +140,6 @@ public class IndexController extends BaseController
     // content-main class
     public String contentMainClass(Boolean footer, Boolean tagsView)
     {
-        String mainClass = "";
         if (!footer && !tagsView)
         {
             return "tagsview-footer-hide";
@@ -153,7 +152,7 @@ public class IndexController extends BaseController
         {
             return "tagsview-hide";
         }
-        return mainClass;
+        return StringUtils.EMPTY;
     }
 
     // 检查初始密码是否提醒修改
