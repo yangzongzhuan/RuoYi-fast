@@ -67,6 +67,14 @@ public interface IGenTableService
     public void deleteGenTableByIds(String ids);
 
     /**
+     * 创建表
+     *
+     * @param sql 创建表语句
+     * @return 结果
+     */
+    public int createTable(String sql);
+
+    /**
      * 导入表结构
      * 
      * @param tableList 导入表列表

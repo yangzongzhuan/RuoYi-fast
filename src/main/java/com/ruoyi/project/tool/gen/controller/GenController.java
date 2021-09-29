@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.alibaba.druid.DbType;
+import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.sql.ast.SQLStatement;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateTableStatement;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -106,6 +111,15 @@ public class GenController extends BaseController
     }
 
     /**
+     * 创建表结构
+     */
+    @GetMapping("/createTable")
+    public String createTable()
+    {
+        return prefix + "/createTable";
+    }
+
+    /**
      * 导入表结构（保存）
      */
     @RequiresPermissions("tool:gen:list")
@@ -173,6 +187,37 @@ public class GenController extends BaseController
         return AjaxResult.success();
     }
 
+    @RequiresRoles("admin")
+    @Log(title = "创建表", businessType = BusinessType.OTHER)
+    @PostMapping("/createTable")
+    @ResponseBody
+    public AjaxResult create(String sql)
+    {
+        List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, DbType.mysql);
+        List<String> tableNames = new ArrayList<>();
+        for (SQLStatement sqlStatement : sqlStatements)
+        {
+            if (sqlStatement instanceof MySqlCreateTableStatement)
+            {
+                MySqlCreateTableStatement createTableStatement = (MySqlCreateTableStatement) sqlStatement;
+                String tableName = createTableStatement.getTableName();
+                tableName = tableName.replaceAll("`", "");
+
+                int msg = genTableService.createTable(createTableStatement.toString());
+                if (msg == 0)
+                {
+                    tableNames.add(tableName);
+                }
+            }
+            else
+            {
+                return AjaxResult.error("请输入建表语句");
+            }
+        }
+        List<GenTable> tableList = genTableService.selectDbTableListByNames((tableNames.toArray(new String[tableNames.size()])));
+        genTableService.importGenTable(tableList);
+        return AjaxResult.success();
+    }
     /**
      * 预览代码
      */
@@ -196,7 +241,7 @@ public class GenController extends BaseController
         byte[] data = genTableService.downloadCode(tableName);
         genCode(response, data);
     }
-    
+
     /**
      * 生成代码（自定义路径）
      */

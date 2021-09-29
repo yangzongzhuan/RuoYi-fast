@@ -151,6 +151,18 @@ public class GenTableServiceImpl implements IGenTableService
     }
 
     /**
+     * 创建表
+     *
+     * @param sql 创建表语句
+     * @return 结果
+     */
+    @Override
+    public int createTable(String sql)
+    {
+        return genTableMapper.createTable(sql);
+    }
+
+    /**
      * 导入表结构
      * 
      * @param tableList 导入表列表
@@ -275,7 +287,7 @@ public class GenTableServiceImpl implements IGenTableService
             }
         }
     }
-    
+
     /**
      * 同步数据库
      * 
