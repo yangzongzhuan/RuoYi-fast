@@ -1,7 +1,7 @@
 package com.ruoyi.common.exception.base;
 
-import org.springframework.util.StringUtils;
 import com.ruoyi.common.utils.MessageUtils;
+import com.ruoyi.common.utils.StringUtils;
 
 /**
  * 基础异常
