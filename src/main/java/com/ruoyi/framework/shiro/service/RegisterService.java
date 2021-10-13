@@ -31,7 +31,7 @@ public class RegisterService
     public String register(User user)
     {
         String msg = "", loginName = user.getLoginName(), password = user.getPassword();
-        
+
         if (ShiroConstants.CAPTCHA_ERROR.equals(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA)))
         {
             msg = "验证码错误";
