@@ -105,7 +105,7 @@ public class IndexController extends BaseController
         User user = getSysUser();
         if (StringUtils.isNull(user))
         {
-            return AjaxResult.error("服务器超时，请重新登陆");
+            return AjaxResult.error("服务器超时，请重新登录");
         }
         if (passwordService.matches(user, password))
         {
