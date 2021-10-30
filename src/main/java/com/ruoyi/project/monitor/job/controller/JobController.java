@@ -195,7 +195,7 @@ public class JobController extends BaseController
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), Constants.JOB_ERROR_STR))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串存在违规");
+            return error("修改任务'" + job.getJobName() + "'失败，目标字符串存在违规");
         }
         job.setUpdateBy(getLoginName());
         return toAjax(jobService.updateJob(job));
