@@ -38,7 +38,7 @@ public class HttpUtils
      */
     public static String sendGet(String url)
     {
-        return sendGet(url, StringUtils.EMPTY, Constants.UTF8);
+        return sendGet(url, StringUtils.EMPTY);
     }
 
     /**
