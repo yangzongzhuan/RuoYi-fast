@@ -140,6 +140,7 @@ public class UserController extends BaseController
     /**
      * 修改用户
      */
+    @RequiresPermissions("system:user:edit")
     @GetMapping("/edit/{userId}")
     public String edit(@PathVariable("userId") Long userId, ModelMap mmap)
     {
@@ -204,6 +205,7 @@ public class UserController extends BaseController
     /**
      * 进入授权角色页
      */
+    @RequiresPermissions("system:user:edit")
     @GetMapping("/authRole/{userId}")
     public String authRole(@PathVariable("userId") Long userId, ModelMap mmap)
     {

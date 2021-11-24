@@ -114,6 +114,7 @@ public class MenuController extends BaseController
     /**
      * 修改菜单
      */
+    @RequiresPermissions("system:menu:edit")
     @GetMapping("/edit/{menuId}")
     public String edit(@PathVariable("menuId") Long menuId, ModelMap mmap)
     {

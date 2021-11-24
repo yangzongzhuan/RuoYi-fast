@@ -93,6 +93,7 @@ public class DictTypeController extends BaseController
     /**
      * 修改字典类型
      */
+    @RequiresPermissions("system:dict:edit")
     @GetMapping("/edit/{dictId}")
     public String edit(@PathVariable("dictId") Long dictId, ModelMap mmap)
     {

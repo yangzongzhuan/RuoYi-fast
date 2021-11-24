@@ -94,6 +94,7 @@ public class ConfigController extends BaseController
     /**
      * 修改参数配置
      */
+    @RequiresPermissions("system:config:edit")
     @GetMapping("/edit/{configId}")
     public String edit(@PathVariable("configId") Long configId, ModelMap mmap)
     {

@@ -104,6 +104,7 @@ public class RoleController extends BaseController
     /**
      * 修改角色
      */
+    @RequiresPermissions("system:role:edit")
     @GetMapping("/edit/{roleId}")
     public String edit(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
@@ -137,6 +138,7 @@ public class RoleController extends BaseController
     /**
      * 角色分配数据权限
      */
+    @RequiresPermissions("system:role:edit")
     @GetMapping("/authDataScope/{roleId}")
     public String authDataScope(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
@@ -264,6 +266,7 @@ public class RoleController extends BaseController
     /**
      * 选择用户
      */
+    @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/selectUser/{roleId}")
     public String selectUser(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
