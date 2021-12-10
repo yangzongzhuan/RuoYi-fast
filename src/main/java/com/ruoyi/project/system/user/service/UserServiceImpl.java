@@ -2,11 +2,13 @@ package com.ruoyi.project.system.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
@@ -446,16 +448,11 @@ public class UserServiceImpl implements IUserService
     public String selectUserRoleGroup(Long userId)
     {
         List<Role> list = roleMapper.selectRolesByUserId(userId);
-        StringBuffer idsStr = new StringBuffer();
-        for (Role role : list)
+        if (CollectionUtils.isEmpty(list))
         {
-            idsStr.append(role.getRoleName()).append(",");
+            return StringUtils.EMPTY;
         }
-        if (StringUtils.isNotEmpty(idsStr.toString()))
-        {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
+        return list.stream().map(Role::getRoleName).collect(Collectors.joining(","));
     }
 
     /**
@@ -468,16 +465,11 @@ public class UserServiceImpl implements IUserService
     public String selectUserPostGroup(Long userId)
     {
         List<Post> list = postMapper.selectPostsByUserId(userId);
-        StringBuffer idsStr = new StringBuffer();
-        for (Post post : list)
+        if (CollectionUtils.isEmpty(list))
         {
-            idsStr.append(post.getPostName()).append(",");
+            return StringUtils.EMPTY;
         }
-        if (StringUtils.isNotEmpty(idsStr.toString()))
-        {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
+        return list.stream().map(Post::getPostName).collect(Collectors.joining(","));
     }
 
     /**
