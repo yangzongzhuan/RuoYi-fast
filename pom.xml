@@ -39,6 +39,7 @@
         <poi.version>4.1.2</poi.version>
         <oshi.version>5.8.2</oshi.version>
         <jna.version>5.9.0</jna.version>
+        <log4j2.version>2.15.0</log4j2.version>
     </properties>
 
     <dependencies>
