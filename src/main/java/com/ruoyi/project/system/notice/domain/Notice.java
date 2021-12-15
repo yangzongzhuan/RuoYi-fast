@@ -1,9 +1,10 @@
 package com.ruoyi.project.system.notice.domain;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.xss.Xss;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
@@ -45,6 +46,7 @@ public class Notice extends BaseEntity
         this.noticeTitle = noticeTitle;
     }
 
+    @Xss(message = "公告标题不能包含脚本字符")
     @NotBlank(message = "公告标题不能为空")
     @Size(min = 0, max = 50, message = "公告标题不能超过50个字符")
     public String getNoticeTitle()

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ruoyi.common.xss.Xss;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel.Type;
@@ -163,6 +164,7 @@ public class User extends BaseEntity
         this.roleId = roleId;
     }
 
+    @Xss(message = "登录账号不能包含脚本字符")
     @NotBlank(message = "登录账号不能为空")
     @Size(min = 0, max = 30, message = "登录账号长度不能超过30个字符")
     public String getLoginName()
@@ -175,6 +177,7 @@ public class User extends BaseEntity
         this.loginName = loginName;
     }
 
+    @Xss(message = "用户昵称不能包含脚本字符")
     @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
     public String getUserName()
     {
