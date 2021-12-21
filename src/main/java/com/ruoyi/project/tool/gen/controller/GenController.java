@@ -23,6 +23,7 @@ import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateTableStatement;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -194,31 +195,34 @@ public class GenController extends BaseController
     @ResponseBody
     public AjaxResult create(String sql)
     {
-        List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, DbType.mysql);
-        List<String> tableNames = new ArrayList<>();
-        for (SQLStatement sqlStatement : sqlStatements)
+        try
         {
-            if (sqlStatement instanceof MySqlCreateTableStatement)
+            SqlUtil.filterKeyword(sql);
+            List<SQLStatement> sqlStatements = SQLUtils.parseStatements(sql, DbType.mysql);
+            List<String> tableNames = new ArrayList<>();
+            for (SQLStatement sqlStatement : sqlStatements)
             {
-                MySqlCreateTableStatement createTableStatement = (MySqlCreateTableStatement) sqlStatement;
-                String tableName = createTableStatement.getTableName();
-                tableName = tableName.replaceAll("`", "");
-
-                int msg = genTableService.createTable(createTableStatement.toString());
-                if (msg == 0)
+                if (sqlStatement instanceof MySqlCreateTableStatement)
                 {
-                    tableNames.add(tableName);
+                    MySqlCreateTableStatement createTableStatement = (MySqlCreateTableStatement) sqlStatement;
+                    if (genTableService.createTable(createTableStatement.toString()))
+                    {
+                        String tableName = createTableStatement.getTableName().replaceAll("`", "");
+                        tableNames.add(tableName);
+                    }
                 }
             }
-            else
-            {
-                return AjaxResult.error("请输入建表语句");
-            }
+            List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames.toArray(new String[tableNames.size()]));
+            genTableService.importGenTable(tableList);
+            return AjaxResult.success();
         }
-        List<GenTable> tableList = genTableService.selectDbTableListByNames((tableNames.toArray(new String[tableNames.size()])));
-        genTableService.importGenTable(tableList);
-        return AjaxResult.success();
+        catch (Exception e)
+        {
+            logger.error(e.getMessage(), e);
+            return AjaxResult.error("创建表结构异常" + e.getMessage());
+        }
     }
+
     /**
      * 预览代码
      */
