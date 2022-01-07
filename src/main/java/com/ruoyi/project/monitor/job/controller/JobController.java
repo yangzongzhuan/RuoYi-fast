@@ -203,7 +203,7 @@ public class JobController extends BaseController
         }
         else if (!ScheduleUtils.whiteList(job.getInvokeTarget()))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不在白名单内");
+            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不在白名单内");
         }
         job.setUpdateBy(getLoginName());
         return toAjax(jobService.updateJob(job));
