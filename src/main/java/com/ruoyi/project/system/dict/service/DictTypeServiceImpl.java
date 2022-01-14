@@ -1,7 +1,10 @@
 package com.ruoyi.project.system.dict.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -139,11 +142,12 @@ public class DictTypeServiceImpl implements IDictTypeService
     @Override
     public void loadingDictCache()
     {
-        List<DictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
-        for (DictType dict : dictTypeList)
+        DictData dictData = new DictData();
+        dictData.setStatus("0");
+        Map<String, List<DictData>> dictDataMap = dictDataMapper.selectDictDataList(dictData).stream().collect(Collectors.groupingBy(DictData::getDictType));
+        for (Map.Entry<String, List<DictData>> entry : dictDataMap.entrySet())
         {
-            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
-            DictUtils.setDictCache(dict.getDictType(), dictDatas);
+            DictUtils.setDictCache(entry.getKey(), entry.getValue().stream().sorted(Comparator.comparing(DictData::getDictSort)).collect(Collectors.toList()));
         }
     }
 
