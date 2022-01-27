@@ -162,6 +162,7 @@ public class UserController extends BaseController
     public AjaxResult editSave(@Validated User user)
     {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
@@ -191,6 +192,7 @@ public class UserController extends BaseController
     public AjaxResult resetPwdSave(User user)
     {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         if (userService.resetUserPwd(user) > 0)
         {
             if (ShiroUtils.getUserId().longValue() == user.getUserId().longValue())
@@ -226,6 +228,7 @@ public class UserController extends BaseController
     @ResponseBody
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
     {
+        userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return success();
@@ -284,6 +287,7 @@ public class UserController extends BaseController
     public AjaxResult changeStatus(User user)
     {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         return toAjax(userService.changeStatus(user));
     }
 }

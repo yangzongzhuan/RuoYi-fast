@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService
 
     @Autowired
     private PasswordService passwordService;
-    
+
     @Autowired
     protected Validator validator;
 
@@ -196,6 +196,7 @@ public class UserServiceImpl implements IUserService
         for (Long userId : userIds)
         {
             checkUserAllowed(new User(userId));
+            checkUserDataScope(userId);
         }
         // 删除用户与角色关联
         userRoleMapper.deleteUserRole(userIds);

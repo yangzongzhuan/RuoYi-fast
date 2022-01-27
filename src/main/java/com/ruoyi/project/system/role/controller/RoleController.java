@@ -123,6 +123,7 @@ public class RoleController extends BaseController
     public AjaxResult editSave(@Validated Role role)
     {
         roleService.checkRoleAllowed(role);
+        roleService.checkRoleDataScope(role.getRoleId());
         if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
         {
             return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
@@ -156,6 +157,7 @@ public class RoleController extends BaseController
     public AjaxResult authDataScopeSave(Role role)
     {
         roleService.checkRoleAllowed(role);
+        roleService.checkRoleDataScope(role.getRoleId());
         if (roleService.authDataScope(role) > 0)
         {
             setSysUser(userService.selectUserById(getUserId()));
@@ -212,6 +214,7 @@ public class RoleController extends BaseController
     public AjaxResult changeStatus(Role role)
     {
         roleService.checkRoleAllowed(role);
+        roleService.checkRoleDataScope(role.getRoleId());
         return toAjax(roleService.changeStatus(role));
     }
 
@@ -296,6 +299,7 @@ public class RoleController extends BaseController
     @ResponseBody
     public AjaxResult selectAuthUserAll(Long roleId, String userIds)
     {
+        roleService.checkRoleDataScope(roleId);
         return toAjax(roleService.insertAuthUsers(roleId, userIds));
     }
 }

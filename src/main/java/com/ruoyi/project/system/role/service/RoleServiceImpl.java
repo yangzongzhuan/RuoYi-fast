@@ -158,6 +158,7 @@ public class RoleServiceImpl implements IRoleService
         for (Long roleId : roleIds)
         {
             checkRoleAllowed(new Role(roleId));
+            checkRoleDataScope(roleId);
             Role role = selectRoleById(roleId);
             if (countUserRoleByRoleId(roleId) > 0)
             {
