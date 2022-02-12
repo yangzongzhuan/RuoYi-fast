@@ -132,6 +132,6 @@ public class TreeUtils
      */
     private static boolean hasChild(List<Menu> list, Menu t)
     {
-        return getChildList(list, t).size() > 0 ? true : false;
+        return getChildList(list, t).size() > 0;
     }
 }
