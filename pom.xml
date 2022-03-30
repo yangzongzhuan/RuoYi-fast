@@ -28,7 +28,7 @@
         <thymeleaf.extras.shiro.version>2.1.0</thymeleaf.extras.shiro.version>
         <mybatis.spring.boot.starter.version>2.2.2</mybatis.spring.boot.starter.version>
         <pagehelper.spring.boot.starter.version>1.4.1</pagehelper.spring.boot.starter.version>
-        <fastjson.version>1.2.79</fastjson.version>
+        <fastjson.version>1.2.80</fastjson.version>
         <druid.version>1.2.8</druid.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
