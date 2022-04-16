@@ -372,21 +372,17 @@
 
         function addRow() {
             var count = $("#" + table.options.id).bootstrapTable('getData').length;
-            sub.editRow();
-        	
-            $("#" + table.options.id).bootstrapTable('insertRow', {
-                index: count,
-                row: {
-                    index: $.table.serialNumber(count),
+            var row = {
+                index: $.table.serialNumber(count),
 #foreach($column in $subTable.columns)
 #set($javaField=$column.javaField)
 #if($column.pk || $javaField == ${subTableFkclassName})
 #else
-                    ${javaField}: "",
+                ${javaField}: "",
 #end
 #end
-                }
-            });
+            }
+            sub.addRow(row);
         }
 #end
     </script>
