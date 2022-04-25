@@ -28,7 +28,7 @@ public class Dept extends BaseEntity
     private String deptName;
 
     /** 显示顺序 */
-    private String orderNum;
+    private Integer orderNum;
 
     /** 负责人 */
     private String leader;
@@ -93,13 +93,13 @@ public class Dept extends BaseEntity
         this.deptName = deptName;
     }
 
-    @NotBlank(message = "显示顺序不能为空")
-    public String getOrderNum()
+    @NotNull(message = "显示顺序不能为空")
+    public Integer getOrderNum()
     {
         return orderNum;
     }
 
-    public void setOrderNum(String orderNum)
+    public void setOrderNum(Integer orderNum)
     {
         this.orderNum = orderNum;
     }
