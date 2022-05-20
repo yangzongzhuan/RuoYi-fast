@@ -6,8 +6,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.Set;
-import org.apache.commons.lang3.ArrayUtils;
 import com.ruoyi.common.utils.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * 类型转换器
@@ -562,17 +562,12 @@ public class Convert
         switch (valueStr)
         {
             case "true":
-                return true;
-            case "false":
-                return false;
             case "yes":
-                return true;
             case "ok":
-                return true;
-            case "no":
-                return false;
             case "1":
                 return true;
+            case "false":
+            case "no":
             case "0":
                 return false;
             default:
