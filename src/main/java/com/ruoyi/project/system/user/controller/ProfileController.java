@@ -15,6 +15,7 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
+import com.ruoyi.common.utils.file.MimeTypeUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.config.RuoYiConfig;
@@ -166,7 +167,7 @@ public class ProfileController extends BaseController
         {
             if (!file.isEmpty())
             {
-                String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file);
+                String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
                 currentUser.setAvatar(avatar);
                 if (userService.updateUserInfo(currentUser) > 0)
                 {
