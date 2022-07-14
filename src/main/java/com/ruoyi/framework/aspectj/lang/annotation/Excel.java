@@ -104,12 +104,12 @@ public @interface Excel
     public boolean isStatistics() default false;
 
     /**
-     * 导出类型（0数字 1字符串）
+     * 导出类型（0数字 1字符串 2图片）
      */
     public ColumnType cellType() default ColumnType.STRING;
 
     /**
-     * 字体颜色
+     * 导出字体颜色
      */
     public IndexedColors color() default IndexedColors.BLACK;
 
