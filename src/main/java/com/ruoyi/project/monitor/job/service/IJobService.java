@@ -74,7 +74,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public void run(Job job) throws SchedulerException;
+    public boolean run(Job job) throws SchedulerException;
 
     /**
      * 新增任务

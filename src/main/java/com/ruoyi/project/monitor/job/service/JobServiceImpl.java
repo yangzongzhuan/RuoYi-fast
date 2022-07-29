@@ -176,14 +176,21 @@ public class JobServiceImpl implements IJobService
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void run(Job job) throws SchedulerException
+    public boolean run(Job job) throws SchedulerException
     {
+        boolean result = false;
         Long jobId = job.getJobId();
         Job tmpObj = selectJobById(job.getJobId());
         // 参数
         JobDataMap dataMap = new JobDataMap();
         dataMap.put(ScheduleConstants.TASK_PROPERTIES, tmpObj);
-        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, tmpObj.getJobGroup()), dataMap);
+        JobKey jobKey = ScheduleUtils.getJobKey(jobId, tmpObj.getJobGroup());
+        if (scheduler.checkExists(jobKey))
+        {
+            result = true;
+            scheduler.triggerJob(jobKey, dataMap);
+        }
+        return result;
     }
 
     /**
