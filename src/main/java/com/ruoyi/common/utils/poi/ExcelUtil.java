@@ -699,7 +699,7 @@ public class ExcelUtil<T>
                 subList = getListCellValue(vo);
                 subMergedLastRowNum = subMergedLastRowNum + subList.size();
             }
-            
+
             int column = 0;
             for (Object[] os : fields)
             {
@@ -1020,7 +1020,7 @@ public class ExcelUtil<T>
                 }
                 else if (value instanceof BigDecimal && -1 != attr.scale())
                 {
-                    cell.setCellValue((((BigDecimal) value).setScale(attr.scale(), attr.roundingMode())).toString());
+                    cell.setCellValue((((BigDecimal) value).setScale(attr.scale(), attr.roundingMode())).doubleValue());
                 }
                 else if (!attr.handler().equals(ExcelHandlerAdapter.class))
                 {
@@ -1093,7 +1093,7 @@ public class ExcelUtil<T>
         for (String item : convertSource)
         {
             String[] itemArray = item.split("=");
-            if (StringUtils.containsAny(separator, propertyValue))
+            if (StringUtils.containsAny(propertyValue, separator))
             {
                 for (String value : propertyValue.split(separator))
                 {
@@ -1130,7 +1130,7 @@ public class ExcelUtil<T>
         for (String item : convertSource)
         {
             String[] itemArray = item.split("=");
-            if (StringUtils.containsAny(separator, propertyValue))
+            if (StringUtils.containsAny(propertyValue, separator))
             {
                 for (String value : propertyValue.split(separator))
                 {
