@@ -1,5 +1,6 @@
 package com.ruoyi.project.system.role.domain;
 
+import java.util.Set;
 import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -51,6 +52,9 @@ public class Role extends BaseEntity
 
     /** 部门组（数据权限） */
     private Long[] deptIds;
+
+    /** 角色菜单权限 */
+    private Set<String> permissions;
 
     public Role()
     {
@@ -175,6 +179,16 @@ public class Role extends BaseEntity
     public void setDeptIds(Long[] deptIds)
     {
         this.deptIds = deptIds;
+    }
+
+    public Set<String> getPermissions()
+    {
+        return permissions;
+    }
+
+    public void setPermissions(Set<String> permissions)
+    {
+        this.permissions = permissions;
     }
 
     @Override

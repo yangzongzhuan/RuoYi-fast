@@ -1,5 +1,7 @@
 package com.ruoyi.framework.shiro.service;
 
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.Constants;
@@ -17,6 +19,8 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
+import com.ruoyi.project.system.menu.service.IMenuService;
+import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserStatus;
 import com.ruoyi.project.system.user.service.IUserService;
@@ -34,6 +38,9 @@ public class LoginService
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IMenuService menuService;
 
     /**
      * 登录
@@ -104,6 +111,7 @@ public class LoginService
         passwordService.validate(user, password);
 
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        setRolePermission(user);
         recordLoginInfo(user.getUserId());
         return user;
     }
@@ -127,6 +135,25 @@ public class LoginService
         return true;
     }
     */
+
+    /**
+     * 设置角色权限
+     *
+     * @param user 用户信息
+     */
+    public void setRolePermission(User user)
+    {
+        List<Role> roles = user.getRoles();
+        if (!roles.isEmpty() && roles.size() > 1)
+        {
+            // 多角色设置permissions属性，以便数据权限匹配权限
+            for (Role role : roles)
+            {
+                Set<String> rolePerms = menuService.selectPermsByRoleId(role.getRoleId());
+                role.setPermissions(rolePerms);
+            }
+        }
+    }
 
     /**
      * 记录登录信息

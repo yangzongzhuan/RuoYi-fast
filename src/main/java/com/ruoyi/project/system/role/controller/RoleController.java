@@ -18,7 +18,9 @@ import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.system.dept.service.IDeptService;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.service.IRoleService;
 import com.ruoyi.project.system.user.domain.User;
@@ -41,6 +43,9 @@ public class RoleController extends BaseController
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IDeptService deptService;
 
     @RequiresPermissions("system:role:view")
     @GetMapping()
@@ -301,5 +306,17 @@ public class RoleController extends BaseController
     {
         roleService.checkRoleDataScope(roleId);
         return toAjax(roleService.insertAuthUsers(roleId, userIds));
+    }
+
+    /**
+     * 加载角色部门（数据权限）列表树
+     */
+    @RequiresPermissions("system:role:edit")
+    @GetMapping("/deptTreeData")
+    @ResponseBody
+    public List<Ztree> deptTreeData(Role role)
+    {
+        List<Ztree> ztrees = deptService.roleDeptTreeData(role);
+        return ztrees;
     }
 }

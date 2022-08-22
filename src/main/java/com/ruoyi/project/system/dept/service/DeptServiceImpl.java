@@ -1,7 +1,6 @@
 package com.ruoyi.project.system.dept.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,18 +69,12 @@ public class DeptServiceImpl implements IDeptService
     public List<Ztree> selectDeptTreeExcludeChild(Dept dept)
     {
         Long excludeId = dept.getExcludeId();
-        List<Dept> deptList = deptMapper.selectDeptList(dept);
-        Iterator<Dept> it = deptList.iterator();
-        while (it.hasNext())
+        List<Dept> depts = deptMapper.selectDeptList(dept);
+        if (excludeId.intValue() > 0)
         {
-            Dept d = (Dept) it.next();
-            if (d.getDeptId().intValue() == excludeId
-                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), excludeId + ""))
-            {
-                it.remove();
-            }
+            depts.removeIf(d -> d.getDeptId().intValue() == excludeId || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), excludeId + ""));
         }
-        List<Ztree> ztrees = initZtree(deptList);
+        List<Ztree> ztrees = initZtree(depts);
         return ztrees;
     }
 
@@ -96,7 +89,7 @@ public class DeptServiceImpl implements IDeptService
     {
         Long roleId = role.getRoleId();
         List<Ztree> ztrees = new ArrayList<Ztree>();
-        List<Dept> deptList = selectDeptList(new Dept());
+        List<Dept> deptList = SpringUtils.getAopProxy(this).selectDeptList(new Dept());
         if (StringUtils.isNotNull(roleId))
         {
             List<String> roleDeptList = deptMapper.selectRoleDeptTree(roleId);

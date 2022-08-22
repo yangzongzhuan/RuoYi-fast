@@ -24,7 +24,10 @@ import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.system.dept.domain.Dept;
+import com.ruoyi.project.system.dept.service.IDeptService;
 import com.ruoyi.project.system.post.service.IPostService;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.service.IRoleService;
@@ -47,6 +50,9 @@ public class UserController extends BaseController
 
     @Autowired
     private IRoleService roleService;
+
+    @Autowired
+    private IDeptService deptService;
 
     @Autowired
     private IPostService postService;
@@ -289,5 +295,30 @@ public class UserController extends BaseController
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
         return toAjax(userService.changeStatus(user));
+    }
+
+    /**
+     * 加载部门列表树
+     */
+    @RequiresPermissions("system:user:list")
+    @GetMapping("/deptTreeData")
+    @ResponseBody
+    public List<Ztree> deptTreeData()
+    {
+        List<Ztree> ztrees = deptService.selectDeptTree(new Dept());
+        return ztrees;
+    }
+
+    /**
+     * 选择部门树
+     * 
+     * @param deptId 部门ID
+     */
+    @RequiresPermissions("system:user:list")
+    @GetMapping("/selectDeptTree/{deptId}")
+    public String selectDeptTree(@PathVariable("deptId") Long deptId, ModelMap mmap)
+    {
+        mmap.put("dept", deptService.selectDeptById(deptId));
+        return prefix + "/deptTree";
     }
 }
