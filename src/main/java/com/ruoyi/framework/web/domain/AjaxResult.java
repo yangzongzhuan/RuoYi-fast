@@ -198,7 +198,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public boolean isError()
     {
-        return Objects.equals(Type.SUCCESS, this.get(CODE_TAG));
+        return Objects.equals(Type.ERROR.value, this.get(CODE_TAG));
     }
 
     /**
@@ -214,5 +214,4 @@ public class AjaxResult extends HashMap<String, Object>
         super.put(key, value);
         return this;
     }
-
 }
