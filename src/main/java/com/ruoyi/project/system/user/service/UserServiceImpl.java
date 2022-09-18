@@ -358,16 +358,17 @@ public class UserServiceImpl implements IUserService
     }
 
     /**
-     * 校验登录名称是否唯一
+     * 校验用户名称是否唯一
      * 
-     * @param loginName 用户名
-     * @return
+     * @param user 用户信息
+     * @return 结果
      */
     @Override
-    public String checkLoginNameUnique(String loginName)
+    public String checkLoginNameUnique(User user)
     {
-        int count = userMapper.checkLoginNameUnique(loginName);
-        if (count > 0)
+        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        User info = userMapper.checkLoginNameUnique(user.getLoginName());
+        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue())
         {
             return UserConstants.USER_NAME_NOT_UNIQUE;
         }
