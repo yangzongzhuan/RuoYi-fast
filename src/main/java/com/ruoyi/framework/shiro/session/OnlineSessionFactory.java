@@ -6,7 +6,6 @@ import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SessionFactory;
 import org.apache.shiro.web.session.mgt.WebSessionContext;
 import org.springframework.stereotype.Component;
-import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.IpUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.project.monitor.online.domain.OnlineSession;
@@ -41,7 +40,7 @@ public class OnlineSessionFactory implements SessionFactory
             HttpServletRequest request = (HttpServletRequest) sessionContext.getServletRequest();
             if (request != null)
             {
-                UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+                UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
                 // 获取客户端操作系统
                 String os = userAgent.getOperatingSystem().getName();
                 // 获取客户端浏览器
