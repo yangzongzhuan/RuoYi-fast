@@ -113,6 +113,12 @@ public class ConfigServiceImpl implements IConfigService
     public int updateConfig(Config config)
     {
         config.setUpdateBy(ShiroUtils.getLoginName());
+        Config temp = configMapper.selectConfigById(config.getConfigId());
+        if (!StringUtils.equals(temp.getConfigKey(), config.getConfigKey()))
+        {
+            CacheUtils.remove(getCacheName(), getCacheKey(temp.getConfigKey()));
+        }
+        
         int row = configMapper.updateConfig(config);
         if (row > 0)
         {

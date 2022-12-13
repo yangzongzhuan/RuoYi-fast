@@ -19,6 +19,14 @@ public interface ConfigMapper
     public Config selectConfig(Config config);
 
     /**
+     * 通过ID查询配置
+     * 
+     * @param configId 参数ID
+     * @return 参数配置信息
+     */
+    public Config selectConfigById(Long configId);
+
+    /**
      * 查询参数配置列表
      * 
      * @param config 参数配置信息
