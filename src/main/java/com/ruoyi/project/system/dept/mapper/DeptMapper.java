@@ -12,7 +12,7 @@ import com.ruoyi.project.system.dept.domain.Dept;
 public interface DeptMapper
 {
     /**
-     * 查询部门人数
+     * 查询下级部门数量
      * 
      * @param dept 部门信息
      * @return 结果

@@ -144,7 +144,7 @@ public class DeptServiceImpl implements IDeptService
     }
 
     /**
-     * 查询部门人数
+     * 根据父部门ID查询下级部门数量
      * 
      * @param parentId 部门ID
      * @return 结果
