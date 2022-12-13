@@ -26,8 +26,7 @@
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <shiro.version>1.10.1</shiro.version>
         <thymeleaf.extras.shiro.version>2.1.0</thymeleaf.extras.shiro.version>
-        <mybatis.spring.boot.starter.version>2.2.2</mybatis.spring.boot.starter.version>
-        <pagehelper.spring.boot.starter.version>1.4.3</pagehelper.spring.boot.starter.version>
+        <pagehelper.spring.boot.starter.version>1.4.6</pagehelper.spring.boot.starter.version>
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.15</druid.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -84,13 +83,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <!-- SpringBoot集成mybatis框架 -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis.spring.boot.starter.version}</version>
         </dependency>
 
         <!-- pagehelper 分页插件 -->
