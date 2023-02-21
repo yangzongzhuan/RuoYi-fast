@@ -146,7 +146,7 @@ public interface IUserService
      * @param user 用户信息
      * @return 结果
      */
-    public String checkLoginNameUnique(User user);
+    public boolean checkLoginNameUnique(User user);
 
     /**
      * 校验手机号码是否唯一
@@ -154,7 +154,7 @@ public interface IUserService
      * @param user 用户信息
      * @return 结果
      */
-    public String checkPhoneUnique(User user);
+    public boolean checkPhoneUnique(User user);
 
     /**
      * 校验email是否唯一
@@ -162,7 +162,7 @@ public interface IUserService
      * @param user 用户信息
      * @return 结果
      */
-    public String checkEmailUnique(User user);
+    public boolean checkEmailUnique(User user);
 
     /**
      * 校验用户是否允许操作

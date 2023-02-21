@@ -152,15 +152,15 @@ public class PostServiceImpl implements IPostService
      * @return 结果
      */
     @Override
-    public String checkPostNameUnique(Post post)
+    public boolean checkPostNameUnique(Post post)
     {
         Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
         Post info = postMapper.checkPostNameUnique(post.getPostName());
         if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue())
         {
-            return UserConstants.POST_NAME_NOT_UNIQUE;
+            return UserConstants.NOT_UNIQUE;
         }
-        return UserConstants.POST_NAME_UNIQUE;
+        return UserConstants.UNIQUE;
     }
 
     /**
@@ -170,14 +170,14 @@ public class PostServiceImpl implements IPostService
      * @return 结果
      */
     @Override
-    public String checkPostCodeUnique(Post post)
+    public boolean checkPostCodeUnique(Post post)
     {
         Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
         Post info = postMapper.checkPostCodeUnique(post.getPostCode());
         if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue())
         {
-            return UserConstants.POST_CODE_NOT_UNIQUE;
+            return UserConstants.NOT_UNIQUE;
         }
-        return UserConstants.POST_CODE_UNIQUE;
+        return UserConstants.UNIQUE;
     }
 }

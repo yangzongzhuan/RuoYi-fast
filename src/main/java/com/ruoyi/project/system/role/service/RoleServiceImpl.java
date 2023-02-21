@@ -280,15 +280,15 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public String checkRoleNameUnique(Role role)
+    public boolean checkRoleNameUnique(Role role)
     {
         Long roleId = StringUtils.isNull(role.getRoleId()) ? -1L : role.getRoleId();
         Role info = roleMapper.checkRoleNameUnique(role.getRoleName());
         if (StringUtils.isNotNull(info) && info.getRoleId().longValue() != roleId.longValue())
         {
-            return UserConstants.ROLE_NAME_NOT_UNIQUE;
+            return UserConstants.NOT_UNIQUE;
         }
-        return UserConstants.ROLE_NAME_UNIQUE;
+        return UserConstants.UNIQUE;
     }
 
     /**
@@ -298,15 +298,15 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public String checkRoleKeyUnique(Role role)
+    public boolean checkRoleKeyUnique(Role role)
     {
         Long roleId = StringUtils.isNull(role.getRoleId()) ? -1L : role.getRoleId();
         Role info = roleMapper.checkRoleKeyUnique(role.getRoleKey());
         if (StringUtils.isNotNull(info) && info.getRoleId().longValue() != roleId.longValue())
         {
-            return UserConstants.ROLE_KEY_NOT_UNIQUE;
+            return UserConstants.NOT_UNIQUE;
         }
-        return UserConstants.ROLE_KEY_UNIQUE;
+        return UserConstants.UNIQUE;
     }
 
     /**

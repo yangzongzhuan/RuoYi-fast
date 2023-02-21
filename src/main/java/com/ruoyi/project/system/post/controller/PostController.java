@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -97,11 +96,11 @@ public class PostController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated Post post)
     {
-        if (UserConstants.POST_NAME_NOT_UNIQUE.equals(postService.checkPostNameUnique(post)))
+        if (!postService.checkPostNameUnique(post))
         {
             return error("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
-        else if (UserConstants.POST_CODE_NOT_UNIQUE.equals(postService.checkPostCodeUnique(post)))
+        else if (!postService.checkPostCodeUnique(post))
         {
             return error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
@@ -128,11 +127,11 @@ public class PostController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated Post post)
     {
-        if (UserConstants.POST_NAME_NOT_UNIQUE.equals(postService.checkPostNameUnique(post)))
+        if (!postService.checkPostNameUnique(post))
         {
             return error("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
-        else if (UserConstants.POST_CODE_NOT_UNIQUE.equals(postService.checkPostCodeUnique(post)))
+        else if (!postService.checkPostCodeUnique(post))
         {
             return error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
@@ -144,7 +143,7 @@ public class PostController extends BaseController
      */
     @PostMapping("/checkPostNameUnique")
     @ResponseBody
-    public String checkPostNameUnique(Post post)
+    public boolean checkPostNameUnique(Post post)
     {
         return postService.checkPostNameUnique(post);
     }
@@ -154,7 +153,7 @@ public class PostController extends BaseController
      */
     @PostMapping("/checkPostCodeUnique")
     @ResponseBody
-    public String checkPostCodeUnique(Post post)
+    public boolean checkPostCodeUnique(Post post)
     {
         return postService.checkPostCodeUnique(post);
     }

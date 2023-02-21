@@ -98,7 +98,7 @@ public interface IRoleService
      * @param role 角色信息
      * @return 结果
      */
-    public String checkRoleNameUnique(Role role);
+    public boolean checkRoleNameUnique(Role role);
 
     /**
      * 校验角色权限是否唯一
@@ -106,7 +106,7 @@ public interface IRoleService
      * @param role 角色信息
      * @return 结果
      */
-    public String checkRoleKeyUnique(Role role);
+    public boolean checkRoleKeyUnique(Role role);
 
     /**
      * 校验角色是否允许操作

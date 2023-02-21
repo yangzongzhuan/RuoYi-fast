@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.security.AuthorizationUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -103,7 +102,7 @@ public class MenuController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated Menu menu)
     {
-        if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu)))
+        if (!menuService.checkMenuNameUnique(menu))
         {
             return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
@@ -131,7 +130,7 @@ public class MenuController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated Menu menu)
     {
-        if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu)))
+        if (!menuService.checkMenuNameUnique(menu))
         {
             return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
@@ -153,7 +152,7 @@ public class MenuController extends BaseController
      */
     @PostMapping("/checkMenuNameUnique")
     @ResponseBody
-    public String checkMenuNameUnique(Menu menu)
+    public boolean checkMenuNameUnique(Menu menu)
     {
         return menuService.checkMenuNameUnique(menu);
     }

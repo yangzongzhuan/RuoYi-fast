@@ -95,7 +95,7 @@ public interface IDictTypeService
      * @param dictType 字典类型
      * @return 结果
      */
-    public String checkDictTypeUnique(DictType dictType);
+    public boolean checkDictTypeUnique(DictType dictType);
 
     /**
      * 查询字典类型树

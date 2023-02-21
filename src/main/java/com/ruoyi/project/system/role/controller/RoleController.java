@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.AuthorizationUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -93,11 +92,11 @@ public class RoleController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated Role role)
     {
-        if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (!roleService.checkRoleNameUnique(role))
         {
             return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
-        else if (UserConstants.ROLE_KEY_NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        else if (!roleService.checkRoleKeyUnique(role))
         {
             return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
@@ -129,11 +128,11 @@ public class RoleController extends BaseController
     {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
-        if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (!roleService.checkRoleNameUnique(role))
         {
             return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
-        else if (UserConstants.ROLE_KEY_NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        else if (!roleService.checkRoleKeyUnique(role))
         {
             return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
@@ -185,7 +184,7 @@ public class RoleController extends BaseController
      */
     @PostMapping("/checkRoleNameUnique")
     @ResponseBody
-    public String checkRoleNameUnique(Role role)
+    public boolean checkRoleNameUnique(Role role)
     {
         return roleService.checkRoleNameUnique(role);
     }
@@ -195,7 +194,7 @@ public class RoleController extends BaseController
      */
     @PostMapping("/checkRoleKeyUnique")
     @ResponseBody
-    public String checkRoleKeyUnique(Role role)
+    public boolean checkRoleKeyUnique(Role role)
     {
         return roleService.checkRoleKeyUnique(role);
     }

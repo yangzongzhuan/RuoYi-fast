@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -83,7 +82,7 @@ public class DictTypeController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated DictType dict)
     {
-        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict)))
+        if (!dictTypeService.checkDictTypeUnique(dict))
         {
             return error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
@@ -110,7 +109,7 @@ public class DictTypeController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated DictType dict)
     {
-        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict)))
+        if (!dictTypeService.checkDictTypeUnique(dict))
         {
             return error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
@@ -157,7 +156,7 @@ public class DictTypeController extends BaseController
      */
     @PostMapping("/checkDictTypeUnique")
     @ResponseBody
-    public String checkDictTypeUnique(DictType dictType)
+    public boolean checkDictTypeUnique(DictType dictType)
     {
         return dictTypeService.checkDictTypeUnique(dictType);
     }

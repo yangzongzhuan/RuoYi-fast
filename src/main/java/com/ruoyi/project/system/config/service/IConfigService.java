@@ -78,5 +78,5 @@ public interface IConfigService
      * @param config 参数信息
      * @return 结果
      */
-    public String checkConfigKeyUnique(Config config);
+    public boolean checkConfigKeyUnique(Config config);
 }

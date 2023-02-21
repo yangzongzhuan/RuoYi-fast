@@ -106,7 +106,7 @@ public interface IDeptService
      * @param dept 部门信息
      * @return 结果
      */
-    public String checkDeptNameUnique(Dept dept);
+    public boolean checkDeptNameUnique(Dept dept);
 
     /**
      * 校验部门是否有数据权限
