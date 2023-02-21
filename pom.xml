@@ -30,7 +30,6 @@
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.16</druid.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <commons.fileupload.version>1.4</commons.fileupload.version>
         <bitwalker.version>1.21</bitwalker.version>
         <velocity.version>2.3</velocity.version>
         <kaptcha.version>2.3.3</kaptcha.version>
@@ -116,13 +115,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
-        </dependency>
-
-        <!-- 文件上传工具类 -->
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>${commons.fileupload.version}</version>
         </dependency>
 
         <!-- Shiro核心框架 -->
