@@ -54,7 +54,7 @@ public class RegisterService
         {
             msg = "账户长度必须在2到20个字符之间";
         }
-        else if (userService.checkLoginNameUnique(user))
+        else if (!userService.checkLoginNameUnique(user))
         {
             msg = "保存用户'" + loginName + "'失败，注册账号已存在";
         }
