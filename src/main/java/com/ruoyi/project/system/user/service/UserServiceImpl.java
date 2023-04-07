@@ -517,8 +517,9 @@ public class UserServiceImpl implements IUserService
                 else if (isUpdateSupport)
                 {
                     BeanValidators.validateWithException(validator, user);
-                    checkUserAllowed(user);
-                    checkUserDataScope(user.getUserId());
+                    checkUserAllowed(u);
+                    checkUserDataScope(u.getUserId());
+                    user.setUserId(u.getUserId());
                     user.setUpdateBy(operName);
                     this.updateUser(user);
                     successNum++;
