@@ -59,12 +59,12 @@ public @interface Excel
     public int roundingMode() default BigDecimal.ROUND_HALF_EVEN;
 
     /**
-     * 导出时在excel中每个列的高度 单位为字符
+     * 导出时在excel中每个列的高度
      */
     public double height() default 14;
 
     /**
-     * 导出时在excel中每个列的宽 单位为字符
+     * 导出时在excel中每个列的宽度
      */
     public double width() default 16;
 
