@@ -26,7 +26,7 @@
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <shiro.version>1.13.0</shiro.version>
         <thymeleaf.extras.shiro.version>2.1.0</thymeleaf.extras.shiro.version>
-        <pagehelper.spring.boot.starter.version>1.4.6</pagehelper.spring.boot.starter.version>
+        <pagehelper.spring.boot.starter.version>1.4.7</pagehelper.spring.boot.starter.version>
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.16</druid.version>
         <commons.io.version>2.11.0</commons.io.version>
