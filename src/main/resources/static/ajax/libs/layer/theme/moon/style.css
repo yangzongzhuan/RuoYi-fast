@@ -138,7 +138,7 @@ body .layer-ext-moon .layui-layer-title span.layui-layer-tabnow{
 /** 图标字体 **/
 @font-face {
   font-family: 'layui-icon';
-  src: url('/fonts/iconfont.woff?v=282') format('woff');
+  src: url('../../../../../fonts/iconfont.woff?v=282') format('woff');
 }
 
 .layui-icon{
