@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.Md5Utils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanValidators;
 import com.ruoyi.common.utils.security.ShiroUtils;
@@ -217,6 +219,7 @@ public class UserServiceImpl implements IUserService
     {
         user.randomSalt();
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
+        user.setPwdUpdateDate(DateUtils.getNowDate());
         user.setCreateBy(ShiroUtils.getLoginName());
         // 新增用户信息
         int rows = userMapper.insertUser(user);
@@ -508,7 +511,7 @@ public class UserServiceImpl implements IUserService
                 if (StringUtils.isNull(u))
                 {
                     BeanValidators.validateWithException(validator, user);
-                    user.setPassword(password);
+                    user.setPassword(Md5Utils.hash(user.getLoginName() + password));
                     user.setCreateBy(operName);
                     userMapper.insertUser(user);
                     successNum++;
