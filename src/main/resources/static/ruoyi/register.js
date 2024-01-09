@@ -15,10 +15,13 @@ $.validator.setDefaults({
 });
 
 function register() {
-    $.modal.loading($("#btnSubmit").data("loading"));
     var username = $.common.trim($("input[name='username']").val());
     var password = $.common.trim($("input[name='password']").val());
     var validateCode = $("input[name='validateCode']").val();
+    if($.common.isEmpty(validateCode) && captchaEnabled) {
+        $.modal.msg("请输入验证码");
+        return false;
+    }
     $.ajax({
         type: "post",
         url: ctx + "register",
@@ -26,6 +29,9 @@ function register() {
             "loginName": username,
             "password": password,
             "validateCode": validateCode
+        },
+        beforeSend: function () {
+            $.modal.loading($("#btnSubmit").data("loading"));
         },
         success: function(r) {
             if (r.code == web_status.SUCCESS) {
