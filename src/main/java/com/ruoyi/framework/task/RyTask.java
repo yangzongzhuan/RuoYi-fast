@@ -1,4 +1,4 @@
-package com.ruoyi.project.monitor.job.task;
+package com.ruoyi.framework.task;
 
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
