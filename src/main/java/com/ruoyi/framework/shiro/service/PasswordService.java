@@ -36,7 +36,7 @@ public class PasswordService
     @PostConstruct
     public void init()
     {
-        loginRecordCache = cacheManager.getCache(ShiroConstants.LOGINRECORDCACHE);
+        loginRecordCache = cacheManager.getCache(ShiroConstants.LOGIN_RECORD_CACHE);
     }
 
     public void validate(User user, String password)
