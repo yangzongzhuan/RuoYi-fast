@@ -335,7 +335,7 @@ public class DeptServiceImpl implements IDeptService
     @Override
     public void checkDeptDataScope(Long deptId)
     {
-        if (!User.isAdmin(ShiroUtils.getUserId()))
+        if (!User.isAdmin(ShiroUtils.getUserId()) && StringUtils.isNotNull(deptId))
         {
             Dept dept = new Dept();
             dept.setDeptId(deptId);

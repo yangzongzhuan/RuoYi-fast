@@ -329,16 +329,19 @@ public class RoleServiceImpl implements IRoleService
      * @param roleId 角色id
      */
     @Override
-    public void checkRoleDataScope(Long roleId)
+    public void checkRoleDataScope(Long... roleIds)
     {
         if (!User.isAdmin(ShiroUtils.getUserId()))
         {
-            Role role = new Role();
-            role.setRoleId(roleId);
-            List<Role> roles = SpringUtils.getAopProxy(this).selectRoleList(role);
-            if (StringUtils.isEmpty(roles))
+            for (Long roleId : roleIds)
             {
-                throw new ServiceException("没有权限访问角色数据！");
+                Role role = new Role();
+                role.setRoleId(roleId);
+                List<Role> roles = SpringUtils.getAopProxy(this).selectRoleList(role);
+                if (StringUtils.isEmpty(roles))
+                {
+                    throw new ServiceException("没有权限访问角色数据！");
+                }
             }
         }
     }

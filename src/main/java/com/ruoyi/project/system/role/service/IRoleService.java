@@ -120,7 +120,7 @@ public interface IRoleService
      * 
      * @param roleId 角色id
      */
-    public void checkRoleDataScope(Long roleId);
+    public void checkRoleDataScope(Long... roleId);
 
     /**
      * 通过角色ID查询角色使用数量
