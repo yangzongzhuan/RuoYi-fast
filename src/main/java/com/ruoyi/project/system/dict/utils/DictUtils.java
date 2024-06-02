@@ -89,8 +89,11 @@ public class DictUtils
     {
         StringBuilder propertyString = new StringBuilder();
         List<DictData> datas = getDictCache(dictType);
-
-        if (StringUtils.containsAny(dictValue, separator) && StringUtils.isNotEmpty(datas))
+        if (StringUtils.isNull(datas))
+        {
+            return StringUtils.EMPTY;
+        }
+        if (StringUtils.containsAny(dictValue, separator))
         {
             for (DictData dict : datas)
             {
@@ -118,16 +121,6 @@ public class DictUtils
     }
 
     /**
-     * 删除指定字典缓存
-     * 
-     * @param key 字典键
-     */
-    public static void removeDictCache(String key)
-    {
-        CacheUtils.remove(getCacheName(), getCacheKey(key));
-    }
-
-    /**
      * 根据字典类型和字典标签获取字典值
      * 
      * @param dictType 字典类型
@@ -139,8 +132,11 @@ public class DictUtils
     {
         StringBuilder propertyString = new StringBuilder();
         List<DictData> datas = getDictCache(dictType);
-
-        if (StringUtils.containsAny(dictLabel, separator) && StringUtils.isNotEmpty(datas))
+        if (StringUtils.isNull(datas))
+        {
+            return StringUtils.EMPTY;
+        }
+        if (StringUtils.containsAny(dictLabel, separator))
         {
             for (DictData dict : datas)
             {
@@ -165,6 +161,58 @@ public class DictUtils
             }
         }
         return StringUtils.stripEnd(propertyString.toString(), separator);
+    }
+
+    /**
+     * 根据字典类型获取字典所有值
+     *
+     * @param dictType 字典类型
+     * @return 字典值
+     */
+    public static String getDictValues(String dictType)
+    {
+        StringBuilder propertyString = new StringBuilder();
+        List<DictData> datas = getDictCache(dictType);
+        if (StringUtils.isNull(datas))
+        {
+            return StringUtils.EMPTY;
+        }
+        for (DictData dict : datas)
+        {
+            propertyString.append(dict.getDictValue()).append(SEPARATOR);
+        }
+        return StringUtils.stripEnd(propertyString.toString(), SEPARATOR);
+    }
+
+    /**
+     * 根据字典类型获取字典所有标签
+     *
+     * @param dictType 字典类型
+     * @return 字典值
+     */
+    public static String getDictLabels(String dictType)
+    {
+        StringBuilder propertyString = new StringBuilder();
+        List<DictData> datas = getDictCache(dictType);
+        if (StringUtils.isNull(datas))
+        {
+            return StringUtils.EMPTY;
+        }
+        for (DictData dict : datas)
+        {
+            propertyString.append(dict.getDictLabel()).append(SEPARATOR);
+        }
+        return StringUtils.stripEnd(propertyString.toString(), SEPARATOR);
+    }
+
+    /**
+     * 删除指定字典缓存
+     * 
+     * @param key 字典键
+     */
+    public static void removeDictCache(String key)
+    {
+        CacheUtils.remove(getCacheName(), getCacheKey(key));
     }
 
     /**
