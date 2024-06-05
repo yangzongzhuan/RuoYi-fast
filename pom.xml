@@ -272,6 +272,7 @@
                         <exclude>**/*.min.js</exclude>
                         <exclude>**/*.min.css</exclude>
                         <exclude>**/fileinput.js</exclude>
+                        <exclude>**/validate/**</exclude>
                         <exclude>**/bootstrap-table/**</exclude>
                     </excludes>
                 </configuration>

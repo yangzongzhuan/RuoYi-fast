@@ -14,7 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.html.EscapeUtil;
 import com.ruoyi.common.utils.security.PermissionUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.web.domain.AjaxResult;
 
 /**
@@ -114,8 +117,13 @@ public class GlobalExceptionHandler
     public AjaxResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
+        String value = Convert.toStr(e.getValue());
+        if (StringUtils.isNotEmpty(value))
+        {
+            value = EscapeUtil.clean(value);
+        }
         log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI, e);
-        return AjaxResult.error(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), e.getValue()));
+        return AjaxResult.error(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), value));
     }
 
     /**
