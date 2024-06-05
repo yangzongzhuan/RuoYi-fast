@@ -98,6 +98,8 @@ public class ExcelUtil<T>
     public static final String FORMULA_REGEX_STR = "=|-|\\+|@";
 
     public static final String[] FORMULA_STR = { "=", "-", "+", "@" };
+    //增加对自定义公式支持 {C}{R}=当前单元格, {C-1}{R}=当前单元的左边单元格, {C+1}{R}=当前单元的右边单元格, {C}{R-1}=当前单元的上面单元格, {C}{R+1}=当前单元的下面单元格
+    public static final String[] FORMULA_Define = { "{", "}" };
 
     /**
      * 用于dictType属性数据存储，避免重复查缓存
@@ -957,6 +959,109 @@ public class ExcelUtil<T>
     }
 
     /**
+     * @author csx
+     * 
+     * @Description 将单元格数字列转换成文本列标识，1->A,2->B
+     * @Param iCol
+     * @Return 单元格列字符标识
+     */
+    public static String getColumn(int iCol)
+    {
+        String retCol="";
+        if (iCol>0) {
+            do {
+                if (retCol.length() > 0) {
+                    iCol--;
+                }
+                retCol = ((char) (iCol % 26 + (int) 'A')) + retCol;
+                iCol = (int) ((iCol - iCol % 26) / 26);
+            } while (iCol > 0);
+        } else {
+            retCol = "A"; //防止出错默认返回A列
+        }
+        return retCol;
+    }
+
+    /**
+     * @author csx
+     * 
+     * @Description 自动替换公式内部的字段：
+     * 
+     * {C}=当前列，{C+1}=后一列，{R-1}=前一列
+     * {R}=当前行，{R+1}=下一行，{R-1}=上一行
+     * 
+     * @Param formula 自定义公式
+     * @Param Col 数值列标识
+     * @Param Row 行，从下标从0开始
+     * 
+     * @Return 自动替换自定义公式的内容
+     */
+    public static String autoFormula(String formula, int Col, int Row) 
+    {
+        formula = formula.replace("{C}", getColumn(Col));
+        formula = formula.replace("{R}", String.valueOf(Row+1));
+        try {
+            int iFixFst = 0, iFixEnd=0, iInterval=0, iFst=0, iEnd=0;
+            String fixCalc = "", tempInv="", Symbol="";
+            iFixFst = formula.indexOf("{C");
+            iFixEnd = formula.indexOf("}", iFixFst+2);
+            while (iFixFst!=-1 && iFixEnd!=-1)
+            {
+                fixCalc = formula.substring(iFixFst, iFixEnd+1);
+                Symbol = "-";
+                iFst = fixCalc.indexOf(Symbol);
+                if (iFst==-1) {
+                    Symbol = "+";
+                    iFst = fixCalc.indexOf(Symbol);
+                }
+                if (iFst!=-1) {
+                    iFst += 1;
+                    iEnd = fixCalc.length()-1;
+                    tempInv = fixCalc.substring(iFst, iEnd).trim();
+                    iInterval = Integer.parseInt(tempInv);
+                    if ("-".equals(Symbol)) {
+                        formula = formula.replace(fixCalc, getColumn(Col-iInterval));
+                    } else {
+                        formula = formula.replace(fixCalc, getColumn(Col+iInterval));
+                    }
+                }
+                iFixFst = formula.indexOf("{C", iFixFst+1);
+                iFixEnd = formula.indexOf("}", iFixFst+2);
+            }
+    
+
+            iFixFst = formula.indexOf("{R");
+            iFixEnd = formula.indexOf("}", iFixFst+2);
+            while (iFixFst!=-1 && iFixEnd!=-1)
+            {
+                fixCalc = formula.substring(iFixFst, iFixEnd+1);
+                Symbol = "-";
+                iFst = fixCalc.indexOf(Symbol);
+                if (iFst==-1) {
+                    Symbol = "+";
+                    iFst = fixCalc.indexOf(Symbol);
+                }
+                if (iFst!=-1) {
+                    iFst += 1;
+                    iEnd = fixCalc.length()-1;
+                    tempInv = fixCalc.substring(iFst, iEnd).trim();
+                    iInterval = Integer.parseInt(tempInv);
+                    if ("-".equals(Symbol)) {
+                        formula = formula.replace(fixCalc, String.valueOf(Row-iInterval+1));
+                    } else {
+                        formula = formula.replace(fixCalc, String.valueOf(Row+iInterval+1));
+                    }
+                }
+                iFixFst = formula.indexOf("{R", iFixFst+1);
+                iFixEnd = formula.indexOf("}", iFixFst+2);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return formula;
+    }
+
+    /**
      * 设置单元格信息
      * 
      * @param value 单元格值
@@ -971,7 +1076,11 @@ public class ExcelUtil<T>
             // 对于任何以表达式触发字符 =-+@开头的单元格，直接使用tab字符作为前缀，防止CSV注入。
             if (StringUtils.startsWithAny(cellValue, FORMULA_STR))
             {
-                cellValue = RegExUtils.replaceFirst(cellValue, FORMULA_REGEX_STR, "\t$0");
+                if (StringUtils.containsAnyIgnoreCase(cellValue, FORMULA_Define)) { //自定义公式支持
+                    cellValue = autoFormula(cellValue, cell.getColumnIndex(), cell.getRowIndex());
+                } else {
+                    cellValue = RegExUtils.replaceFirst(cellValue, FORMULA_REGEX_STR, "\t$0");
+                }
             }
             if (value instanceof Collection && StringUtils.equals("[]", cellValue))
             {
