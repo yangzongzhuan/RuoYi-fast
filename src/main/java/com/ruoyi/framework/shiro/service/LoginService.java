@@ -158,9 +158,9 @@ public class LoginService
     public void setRolePermission(User user)
     {
         List<Role> roles = user.getRoles();
-        if (!roles.isEmpty() && roles.size() > 1)
+        if (!roles.isEmpty())
         {
-            // 多角色设置permissions属性，以便数据权限匹配权限
+            // 设置permissions属性，以便数据权限匹配权限
             for (Role role : roles)
             {
                 Set<String> rolePerms = menuService.selectPermsByRoleId(role.getRoleId());
