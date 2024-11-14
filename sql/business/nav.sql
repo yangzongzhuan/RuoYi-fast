@@ -4,7 +4,7 @@ CREATE TABLE `business_nav_config` (
                                        `nav_name` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT '导航名称',
                                        `nav_icon` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT '导航图标',
                                        `nav_url` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT '导航地址',
-                                       `sort` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '导航排序',
+                                       `sort` char(4) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '导航排序',
                                        `status` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '状态（0正常 1停用）',
                                        `del_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
                                        `create_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '创建者',

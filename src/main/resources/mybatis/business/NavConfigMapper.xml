@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="navName != null  and navName != ''"> and nav_name like concat('%', #{navName}, '%')</if>
             <if test="navIcon != null  and navIcon != ''"> and nav_icon = #{navIcon}</if>
+            <if test="navUrl != null  and navUrl != ''"> and nav_icon = #{navUrl}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
              and del_flag = 0
              order by sort
@@ -44,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="navName != null and navName != ''">nav_name,</if>
             <if test="navIcon != null and navIcon != ''">nav_icon,</if>
+            <if test="navUrl != null and navUrl != ''">nav_url,</if>
             <if test="sort != null">sort,</if>
             <if test="status != null">status,</if>
             <if test="delFlag != null">del_flag,</if>
@@ -56,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="navName != null and navName != ''">#{navName},</if>
             <if test="navIcon != null and navIcon != ''">#{navIcon},</if>
+            <if test="navUrl != null and navUrl != ''">#{navUrl},</if>
             <if test="sort != null">#{sort},</if>
             <if test="status != null">#{status},</if>
             <if test="delFlag != null">#{delFlag},</if>
@@ -72,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="navName != null and navName != ''">nav_name = #{navName},</if>
             <if test="navIcon != null and navIcon != ''">nav_icon = #{navIcon},</if>
+            <if test="navUrl != null and navUrl != ''">nav_url = #{navUrl},</if>
             <if test="sort != null">sort = #{sort},</if>
             <if test="status != null">status = #{status},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
