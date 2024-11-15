@@ -30,6 +30,10 @@ public class NavConfig extends BaseEntity
     @Excel(name = "导航地址")
     private String navUrl;
 
+    /** 类型 */
+    @Excel(name = "导航地址", readConverterExp = "1=外网,1=内网")
+    private Integer type;
+
     /** 导航排序 */
     @Excel(name = "导航排序")
     private String sort;
@@ -109,12 +113,21 @@ public class NavConfig extends BaseEntity
         this.navUrl = navUrl;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("navName", getNavName())
             .append("navIcon", getNavIcon())
+            .append("type", getType())
             .append("sort", getSort())
             .append("status", getStatus())
             .append("delFlag", getDelFlag())

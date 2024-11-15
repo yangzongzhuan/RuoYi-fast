@@ -23,6 +23,10 @@
                                 <input type="text" name="navUrl"/>
                             </li>
                             <li>
+                                <label>类型（外网：1，内网：2）：</label>
+                                <input type="text" name="type"/>
+                            </li>
+                            <li>
                                 <label>导航排序：</label>
                                 <input type="text" name="sort"/>
                             </li>
@@ -88,7 +92,10 @@
                     field: 'navUrl',
                     title: '导航链接'
                 },
-
+                {
+                    field: 'type',
+                    title: '类型（外网：1，内网：2）'
+                },
                 {
                     field: 'sort',
                     title: '导航排序'

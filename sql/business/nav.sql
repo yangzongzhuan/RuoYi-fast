@@ -1,20 +1,20 @@
 
 CREATE TABLE `business_nav_config` (
-                                       `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                                       `nav_name` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT '导航名称',
-                                       `nav_icon` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT '导航图标',
-                                       `nav_url` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT '导航地址',
-                                       `sort` char(4) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '导航排序',
-                                       `status` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '状态（0正常 1停用）',
-                                       `del_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-                                       `create_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '创建者',
+                                       `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                       `nav_name` varchar(30) NOT NULL COMMENT '导航名称',
+                                       `nav_icon` varchar(30) NOT NULL COMMENT '导航图标',
+                                       `nav_url` varchar(255) NOT NULL COMMENT '导航地址',
+                                       `type` tinyint(1) NOT NULL DEFAULT '2' COMMENT '类型：1-外网；2-内网',
+                                       `sort` int(4) DEFAULT '0' COMMENT '导航排序',
+                                       `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1停用）',
+                                       `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                                       `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
                                        `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                                       `update_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新者',
+                                       `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
                                        `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-                                       `remark` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
-                                       PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='导航配置表';
-
+                                       `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                       PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COMMENT='导航配置表';
 
 
 -- 菜单 SQL
