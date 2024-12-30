@@ -108,6 +108,7 @@ public class UserController extends BaseController
     /**
      * 新增用户
      */
+    @RequiresPermissions("system:user:add")
     @GetMapping("/add")
     public String add(ModelMap mmap)
     {
