@@ -77,6 +77,7 @@ public class RoleController extends BaseController
     /**
      * 新增角色
      */
+    @RequiresPermissions("system:role:add")
     @GetMapping("/add")
     public String add()
     {

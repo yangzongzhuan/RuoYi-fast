@@ -52,7 +52,7 @@ var table = {
                     toolbar: "toolbar",
                     loadingFontSize: 13,
                     striped: false,
-                    escape: false,
+                    escape: true,
                     firstLoad: true,
                     showFooter: false,
                     search: false,
@@ -144,6 +144,7 @@ var table = {
                     rowStyle: options.rowStyle,                         // 通过自定义函数设置行样式
                     footerStyle: options.footerStyle,                   // 通过自定义函数设置页脚样式
                     headerStyle: options.headerStyle,                   // 通过自定义函数设置标题样式
+                    selectItemName: options.selectItemName,             // 自定义radio/checkbox的name值
                     columns: options.columns,                           // 显示列信息（*）
                     data: options.data,                                 // 被加载的数据
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
@@ -260,7 +261,6 @@ var table = {
                             type: 1,
                             closeBtn: true,
                             shadeClose: true,
-                            area: ['auto', 'auto'],
                             content: "<img src='" + src + "' height='" + height + "' width='" + width + "'/>"
                         });
                     } else if ($.common.equals("blank", target)) {
@@ -920,6 +920,7 @@ var table = {
                     fix: false,
                     area: [_width + 'px', _height + 'px'],
                     content: _url,
+                    closeBtn: $.common.isEmpty(options.closeBtn) ? 1 : options.closeBtn,
                     shadeClose: $.common.isEmpty(options.shadeClose) ? true : options.shadeClose,
                     skin: options.skin,
                     // options.btn设置为0表示不显示按钮
@@ -1319,16 +1320,17 @@ var table = {
                 if (result.code == web_status.SUCCESS) {
                     var parent = activeWindow();
                     if ($.common.isEmpty(parent.table)) {
-                    	$.modal.msgSuccessReload(result.msg);
+                        $.modal.msgSuccessReload(result.msg);
                     } else if (parent.table.options.type == table_type.bootstrapTable) {
-                        $.modal.close();
                         parent.$.modal.msgSuccess(result.msg);
                         parent.$.table.refresh();
                     } else if (parent.table.options.type == table_type.bootstrapTreeTable) {
-                        $.modal.close();
                         parent.$.modal.msgSuccess(result.msg);
                         parent.$.treeTable.refresh();
+                    } else {
+                        parent.$.modal.msgSuccess(result.msg);
                     }
+                    $.modal.close();
                 } else if (result.code == web_status.WARNING) {
                     $.modal.alertWarning(result.msg)
                 }  else {

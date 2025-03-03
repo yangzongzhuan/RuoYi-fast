@@ -54,6 +54,7 @@ public class DeptController extends BaseController
     /**
      * 新增部门
      */
+    @RequiresPermissions("system:dept:add")
     @GetMapping("/add/{parentId}")
     public String add(@PathVariable("parentId") Long parentId, ModelMap mmap)
     {
@@ -161,9 +162,9 @@ public class DeptController extends BaseController
      * @param deptId 部门ID
      * @param excludeId 排除ID
      */
+    @RequiresPermissions("system:dept:list")
     @GetMapping(value = { "/selectDeptTree/{deptId}", "/selectDeptTree/{deptId}/{excludeId}" })
-    public String selectDeptTree(@PathVariable("deptId") Long deptId,
-            @PathVariable(value = "excludeId", required = false) Long excludeId, ModelMap mmap)
+    public String selectDeptTree(@PathVariable("deptId") Long deptId, @PathVariable(value = "excludeId", required = false) Long excludeId, ModelMap mmap)
     {
         mmap.put("dept", deptService.selectDeptById(deptId));
         mmap.put("excludeId", excludeId);
@@ -173,6 +174,7 @@ public class DeptController extends BaseController
     /**
      * 加载部门列表树（排除下级）
      */
+    @RequiresPermissions("system:dept:list")
     @GetMapping("/treeData/{excludeId}")
     @ResponseBody
     public List<Ztree> treeDataExcludeChild(@PathVariable(value = "excludeId", required = false) Long excludeId)

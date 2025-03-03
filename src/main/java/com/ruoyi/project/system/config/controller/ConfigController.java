@@ -68,6 +68,7 @@ public class ConfigController extends BaseController
     /**
      * 新增参数配置
      */
+    @RequiresPermissions("system:config:add")
     @GetMapping("/add")
     public String add()
     {

@@ -65,6 +65,7 @@ public class DictDataController extends BaseController
     /**
      * 新增字典类型
      */
+    @RequiresPermissions("system:dict:add")
     @GetMapping("/add/{dictType}")
     public String add(@PathVariable("dictType") String dictType, ModelMap mmap)
     {

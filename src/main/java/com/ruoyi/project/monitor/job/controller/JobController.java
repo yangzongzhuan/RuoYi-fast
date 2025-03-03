@@ -118,6 +118,7 @@ public class JobController extends BaseController
     /**
      * 新增调度
      */
+    @RequiresPermissions("monitor:job:add")
     @GetMapping("/add")
     public String add()
     {
@@ -229,12 +230,11 @@ public class JobController extends BaseController
     }
 
     /**
-     * 查询cron表达式近5次的执行时间
+     * 查询cron表达式近10次的执行时间
      */
     @GetMapping("/queryCronExpression")
     @ResponseBody
-    public AjaxResult queryCronExpression(
-            @RequestParam(value = "cronExpression", required = false) String cronExpression)
+    public AjaxResult queryCronExpression(@RequestParam(value = "cronExpression", required = false) String cronExpression)
     {
         if (jobService.checkCronExpressionIsValid(cronExpression))
         {

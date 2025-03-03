@@ -56,6 +56,7 @@ public class NoticeController extends BaseController
     /**
      * 新增公告
      */
+    @RequiresPermissions("system:notice:add")
     @GetMapping("/add")
     public String add()
     {
