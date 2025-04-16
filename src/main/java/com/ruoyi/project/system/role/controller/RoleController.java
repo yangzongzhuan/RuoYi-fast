@@ -148,6 +148,7 @@ public class RoleController extends BaseController
     @GetMapping("/authDataScope/{roleId}")
     public String authDataScope(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
+        roleService.checkRoleDataScope(roleId);
         mmap.put("role", roleService.selectRoleById(roleId));
         return prefix + "/dataScope";
     }
@@ -230,6 +231,7 @@ public class RoleController extends BaseController
     @GetMapping("/authUser/{roleId}")
     public String authUser(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
+        roleService.checkRoleDataScope(roleId);
         mmap.put("role", roleService.selectRoleById(roleId));
         return prefix + "/authUser";
     }
