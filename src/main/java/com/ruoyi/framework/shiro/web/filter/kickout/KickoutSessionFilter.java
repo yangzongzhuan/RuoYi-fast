@@ -24,7 +24,7 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.system.user.domain.User;
 
 /**
- * 登录帐号控制过滤器
+ * 登录账号控制过滤器
  * 
  * @author ruoyi
  */
