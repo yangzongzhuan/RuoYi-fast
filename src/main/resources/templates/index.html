@@ -237,7 +237,7 @@
             </button>
             <nav class="page-tabs menuTabs">
                 <div class="page-tabs-content">
-                    <a href="javascript:;" class="active menuTab" th:data-id="@{/system/main}">首页</a>
+                    <a href="javascript:;" class="menuTab" th:data-id="@{/system/main}">首页</a>
                 </div>
             </nav>
             <button class="roll-nav roll-right tabRight">
@@ -285,7 +285,7 @@ var historyPath = storage.get("historyPath");
 // 是否页签与菜单联动
 var isLinkage = true;
 // 是否页签切换滚动到顶部
-var isScrollToTop = false;
+var isScrollToTop = true;
 
 // 本地主题优先，未设置取系统配置
 if($.common.isNotEmpty(skin)){
@@ -330,12 +330,19 @@ function applyPath(url) {
 	}
 }
 
+// 默认激活页签
+function tabActive() {
+    $('.menuTab[data-id="' + ctx + 'system/main"]').addClass('active');
+}
+
 $(function() {
 	var lockPath = storage.get('lockPath');
 	if($.common.equals("history", mode) && window.performance.navigation.type == 1) {
 		var url = storage.get('publicPath');
 	    if ($.common.isNotEmpty(url)) {
 	    	applyPath(url);
+	    } else {
+	        tabActive();
 	    }
 	} else if($.common.isNotEmpty(lockPath)) {
 	    applyPath(lockPath);
@@ -349,6 +356,7 @@ $(function() {
 	    	if($.common.equals("history", mode)) {
 	    		storage.set('publicPath', "");
 	    	}
+	        tabActive();
 	    }
 	}
 	
