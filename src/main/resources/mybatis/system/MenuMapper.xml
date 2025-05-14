@@ -188,4 +188,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 
+	<update id="updateMenuSort" parameterType="Menu">
+	    update sys_menu
+	    set order_num = #{orderNum}
+	    where menu_id = #{menuId}
+	</update>
+
 </mapper> 

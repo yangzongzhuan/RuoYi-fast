@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.TreeUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.menu.mapper.MenuMapper;
@@ -323,6 +326,31 @@ public class MenuServiceImpl implements IMenuService
     {
         menu.setUpdateBy(ShiroUtils.getLoginName());
         return menuMapper.updateMenu(menu);
+    }
+
+    /**
+     * 保存菜单排序
+     * 
+     * @param menuIds 菜单ID
+     * @param orderNums 排序ID
+     */
+    @Transactional
+    public void updateMenuSort(String[] menuIds, String[] orderNums)
+    {
+        try
+        {
+            for (int i = 0; i < menuIds.length; i++)
+            {
+                Menu menu = new Menu();
+                menu.setMenuId(Convert.toLong(menuIds[i]));
+                menu.setOrderNum(orderNums[i]);
+                menuMapper.updateMenuSort(menu);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("保存排序异常，请联系管理员");
+        }
     }
 
     /**
