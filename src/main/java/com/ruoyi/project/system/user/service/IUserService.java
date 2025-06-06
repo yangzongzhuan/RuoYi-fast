@@ -125,6 +125,15 @@ public interface IUserService
     public int updateUserInfo(User user);
 
     /**
+     * 修改用户头像
+     * 
+     * @param userId 用户ID
+     * @param avatar 头像地址
+     * @return 结果
+     */
+    public boolean updateUserAvatar(Long userId, String avatar);
+
+    /**
      * 用户授权角色
      * 
      * @param userId 用户ID

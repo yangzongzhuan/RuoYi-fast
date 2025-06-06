@@ -1,7 +1,8 @@
 package com.ruoyi.project.system.user.mapper;
 
-import com.ruoyi.project.system.user.domain.User;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import com.ruoyi.project.system.user.domain.User;
 
 /**
  * 用户表 数据层
@@ -89,6 +90,15 @@ public interface UserMapper
      * @return 结果
      */
     public int updateUser(User user);
+
+    /**
+     * 修改用户头像
+     * 
+     * @param userId 用户ID
+     * @param avatar 头像地址
+     * @return 结果
+     */
+    public int updateUserAvatar(@Param("userId") Long userId, @Param("avatar") String avatar);
 
     /**
      * 新增用户信息
