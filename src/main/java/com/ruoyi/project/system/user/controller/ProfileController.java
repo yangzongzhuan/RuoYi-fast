@@ -156,11 +156,11 @@ public class ProfileController extends BaseController
     @ResponseBody
     public AjaxResult updateAvatar(@RequestParam("avatarfile") MultipartFile file)
     {
-        User currentUser = getSysUser();
         try
         {
             if (!file.isEmpty())
             {
+                User currentUser = getSysUser();
                 String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION, true);
                 if (userService.updateUserAvatar(currentUser.getUserId(), avatar))
                 {
