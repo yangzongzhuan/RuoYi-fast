@@ -179,10 +179,6 @@ public class LoginService
      */
     public void recordLoginInfo(Long userId)
     {
-        User user = new User();
-        user.setUserId(userId);
-        user.setLoginIp(ShiroUtils.getIp());
-        user.setLoginDate(DateUtils.getNowDate());
-        userService.updateUserInfo(user);
+        userService.updateLoginInfo(userId, ShiroUtils.getIp(), DateUtils.getNowDate());
     }
 }

@@ -1,8 +1,9 @@
 package com.ruoyi.project.system.user.service;
 
+import java.util.Date;
+import java.util.List;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserRole;
-import java.util.List;
 
 /**
  * 用户 业务层
@@ -132,6 +133,16 @@ public interface IUserService
      * @return 结果
      */
     public boolean updateUserAvatar(Long userId, String avatar);
+
+	/**
+     * 更新用户登录信息（IP和登录时间）
+     * 
+     * @param userId 用户ID
+     * @param loginIp 登录IP地址
+     * @param loginDate 登录时间
+     * @return 结果
+     */
+    public void updateLoginInfo(Long userId, String loginIp, Date loginDate);
 
     /**
      * 用户授权角色

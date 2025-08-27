@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.user.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
@@ -297,6 +298,19 @@ public class UserServiceImpl implements IUserService
     public boolean updateUserAvatar(Long userId, String avatar)
     {
         return userMapper.updateUserAvatar(userId, avatar) > 0;
+    }
+
+    /**
+     * 更新用户登录信息（IP和登录时间）
+     * 
+     * @param userId 用户ID
+     * @param loginIp 登录IP地址
+     * @param loginDate 登录时间
+     * @return 结果
+     */
+    public void updateLoginInfo(Long userId, String loginIp, Date loginDate)
+    {
+        userMapper.updateLoginInfo(userId, loginIp, loginDate);
     }
 
     /**
