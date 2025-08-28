@@ -337,8 +337,8 @@ public class UserServiceImpl implements IUserService
     public int resetUserPwd(User user)
     {
         user.randomSalt();
-        user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
-        return updateUserInfo(user);
+        String password = passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt());
+        return userMapper.resetUserPwd(user.getUserId(), password, user.getSalt());
     }
 
     /**
@@ -558,6 +558,7 @@ public class UserServiceImpl implements IUserService
                     checkUserDataScope(u.getUserId());
                     deptService.checkDeptDataScope(user.getDeptId());
                     user.setUserId(u.getUserId());
+                    user.setDeptId(u.getDeptId());
                     user.setUpdateBy(operName);
                     userMapper.updateUser(user);
                     successNum++;
@@ -603,6 +604,6 @@ public class UserServiceImpl implements IUserService
     @Override
     public int changeStatus(User user)
     {
-        return userMapper.updateUser(user);
+        return userMapper.updateUserStatus(user.getUserId(), user.getStatus());
     }
 }
