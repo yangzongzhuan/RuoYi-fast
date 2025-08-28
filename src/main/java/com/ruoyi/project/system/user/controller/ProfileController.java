@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
@@ -88,7 +87,6 @@ public class ProfileController extends BaseController
             return error("新密码不能与旧密码相同");
         }
         user.setPassword(newPassword);
-        user.setPwdUpdateDate(DateUtils.getNowDate());
         if (userService.resetUserPwd(user) > 0)
         {
             setSysUser(userService.selectUserById(user.getUserId()));
