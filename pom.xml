@@ -28,7 +28,7 @@
         <thymeleaf.extras.shiro.version>2.1.0</thymeleaf.extras.shiro.version>
         <pagehelper.spring.boot.starter.version>1.4.7</pagehelper.spring.boot.starter.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <druid.version>1.2.23</druid.version>
+        <druid.version>1.2.27</druid.version>
         <commons.io.version>2.19.0</commons.io.version>
         <bitwalker.version>1.21</bitwalker.version>
         <velocity.version>2.3</velocity.version>
