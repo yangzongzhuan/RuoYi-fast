@@ -166,7 +166,7 @@ public class DictTypeController extends BaseController
      * 选择字典树
      */
     @GetMapping("/selectDictTree/{columnId}/{dictType}")
-    public String selectDeptTree(@PathVariable("columnId") Long columnId, @PathVariable("dictType") String dictType, ModelMap mmap)
+    public String selectDictTree(@PathVariable("columnId") Long columnId, @PathVariable("dictType") String dictType, ModelMap mmap)
     {
         mmap.put("columnId", columnId);
         mmap.put("dict", dictTypeService.selectDictTypeByType(dictType));
