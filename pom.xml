@@ -30,7 +30,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.27</druid.version>
         <commons.io.version>2.19.0</commons.io.version>
-        <bitwalker.version>1.21</bitwalker.version>
+        <yauaa.version>7.32.0</yauaa.version>
         <velocity.version>2.3</velocity.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <swagger.version>3.0.0</swagger.version>
@@ -158,9 +158,9 @@
 
         <!-- 解析客户端操作系统、浏览器等 -->
         <dependency>
-            <groupId>eu.bitwalker</groupId>
-            <artifactId>UserAgentUtils</artifactId>
-            <version>${bitwalker.version}</version>
+            <groupId>nl.basjes.parse.useragent</groupId>
+            <artifactId>yauaa</artifactId>
+            <version>${yauaa.version}</version>
         </dependency>
 
         <!-- Spring框架基本的核心工具 -->
