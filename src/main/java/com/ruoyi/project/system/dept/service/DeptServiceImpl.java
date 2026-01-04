@@ -17,7 +17,6 @@ import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.dept.domain.Dept;
 import com.ruoyi.project.system.dept.mapper.DeptMapper;
 import com.ruoyi.project.system.role.domain.Role;
-import com.ruoyi.project.system.user.domain.User;
 
 /**
  * 部门管理 服务实现
@@ -335,7 +334,7 @@ public class DeptServiceImpl implements IDeptService
     @Override
     public void checkDeptDataScope(Long deptId)
     {
-        if (!User.isAdmin(ShiroUtils.getUserId()) && StringUtils.isNotNull(deptId))
+        if (!ShiroUtils.isAdmin() && StringUtils.isNotNull(deptId))
         {
             Dept dept = new Dept();
             dept.setDeptId(deptId);

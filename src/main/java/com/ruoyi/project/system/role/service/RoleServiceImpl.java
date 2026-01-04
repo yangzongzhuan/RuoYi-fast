@@ -21,7 +21,6 @@ import com.ruoyi.project.system.role.domain.RoleMenu;
 import com.ruoyi.project.system.role.mapper.RoleDeptMapper;
 import com.ruoyi.project.system.role.mapper.RoleMapper;
 import com.ruoyi.project.system.role.mapper.RoleMenuMapper;
-import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserRole;
 import com.ruoyi.project.system.user.mapper.UserRoleMapper;
 
@@ -331,7 +330,7 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public void checkRoleDataScope(Long... roleIds)
     {
-        if (!User.isAdmin(ShiroUtils.getUserId()))
+        if (!ShiroUtils.isAdmin())
         {
             for (Long roleId : roleIds)
             {

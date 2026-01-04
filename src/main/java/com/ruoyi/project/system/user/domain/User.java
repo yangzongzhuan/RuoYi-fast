@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.xss.Xss;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel.ColumnType;
@@ -126,12 +127,7 @@ public class User extends BaseEntity
 
     public boolean isAdmin()
     {
-        return isAdmin(this.userId);
-    }
-
-    public static boolean isAdmin(Long userId)
-    {
-        return userId != null && 1L == userId;
+        return ShiroUtils.isAdmin(this.userId);
     }
 
     public Long getDeptId()

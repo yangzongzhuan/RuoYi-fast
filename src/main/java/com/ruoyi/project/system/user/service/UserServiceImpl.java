@@ -469,7 +469,7 @@ public class UserServiceImpl implements IUserService
     @Override
     public void checkUserDataScope(Long userId)
     {
-        if (!User.isAdmin(ShiroUtils.getUserId()))
+        if (!ShiroUtils.isAdmin())
         {
             User user = new User();
             user.setUserId(userId);

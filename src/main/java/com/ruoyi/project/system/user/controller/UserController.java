@@ -153,7 +153,7 @@ public class UserController extends BaseController
         userService.checkUserDataScope(userId);
         List<Role> roles = roleService.selectRolesByUserId(userId);
         mmap.put("user", userService.selectUserById(userId));
-        mmap.put("roles", User.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        mmap.put("roles", ShiroUtils.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         mmap.put("posts", postService.selectPostsByUserId(userId));
         return prefix + "/edit";
     }
@@ -241,7 +241,7 @@ public class UserController extends BaseController
         // 获取用户所属的角色列表
         List<Role> roles = roleService.selectRolesByUserId(userId);
         mmap.put("user", user);
-        mmap.put("roles", User.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        mmap.put("roles", ShiroUtils.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         return prefix + "/authRole";
     }
 
