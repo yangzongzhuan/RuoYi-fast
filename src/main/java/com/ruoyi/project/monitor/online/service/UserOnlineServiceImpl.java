@@ -49,7 +49,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
      * 通过会话序号删除信息
      * 
      * @param sessionId 会话ID
-     * @return 在线用户信息
+     * @return
      */
     @Override
     public void deleteOnlineById(String sessionId)
@@ -65,7 +65,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
      * 通过会话序号删除信息
      * 
      * @param sessions 会话ID集合
-     * @return 在线用户信息
+     * @return
      */
     @Override
     public void batchDeleteOnline(List<String> sessions)
@@ -94,7 +94,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
     /**
      * 查询会话集合
      * 
-     * @param pageUtilEntity 分页参数
+     * @param userOnline 会话信息
      */
     @Override
     public List<UserOnline> selectUserOnlineList(UserOnline userOnline)
@@ -140,7 +140,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
     /**
      * 查询会话集合
      * 
-     * @param online 会话信息
+     * @param expiredDate 过期时间
      */
     @Override
     public List<UserOnline> selectOnlineByExpired(Date expiredDate)
