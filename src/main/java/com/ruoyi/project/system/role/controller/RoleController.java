@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.AuthorizationUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -20,6 +21,7 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.dept.service.IDeptService;
+import com.ruoyi.project.system.menu.service.IMenuService;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.service.IRoleService;
 import com.ruoyi.project.system.user.domain.User;
@@ -45,6 +47,9 @@ public class RoleController extends BaseController
 
     @Autowired
     private IDeptService deptService;
+
+    @Autowired
+    private IMenuService menuService;
 
     @RequiresPermissions("system:role:view")
     @GetMapping()
@@ -320,5 +325,28 @@ public class RoleController extends BaseController
     {
         List<Ztree> ztrees = deptService.roleDeptTreeData(role);
         return ztrees;
+    }
+
+    /**
+     * 查看角色详情
+     */
+    @RequiresPermissions("system:role:list")
+    @GetMapping("/view/{roleId}")
+    public String view(@PathVariable("roleId") Long roleId, ModelMap mmap)
+    {
+        roleService.checkRoleDataScope(roleId);
+        Role role = roleService.selectRoleById(roleId);
+        mmap.put("role", role);
+        // 菜单权限
+        mmap.put("menuTree", menuService.roleMenuTreeData(role));
+        // 数据权限部门：仅自定义数据权限时传已勾选部门节点
+        if (Constants.Dept.DATA_SCOPE_CUSTOM.equals(role.getDataScope()))
+        {
+            List<Ztree> deptTree = deptService.roleDeptTreeData(role);
+            mmap.put("deptTree", deptTree);
+        }
+        // 关联用户数量
+        mmap.put("userCount", roleService.countUserRoleByRoleId(roleId));
+        return prefix + "/view";
     }
 }
