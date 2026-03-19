@@ -1,5 +1,7 @@
 package com.ruoyi.framework.manager.factory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +57,20 @@ public class AsyncFactory
                 online.setOs(session.getOs());
                 online.setStatus(session.getStatus());
                 online.setSession(session);
+                // 序列化 OnlineSession，重启后可从 DB 恢复会话
+                try
+                {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ObjectOutputStream oos = new ObjectOutputStream(bos);
+                    oos.writeObject(session);
+                    oos.close();
+                    online.setSessionData(bos.toByteArray());
+                }
+                catch (Exception e)
+                {
+                    // 序列化失败不影响正常流程，仅记录日志
+                    LoggerFactory.getLogger(AsyncFactory.class).warn("serialize OnlineSession failed", e);
+                }
                 SpringUtils.getBean(IUserOnlineService.class).saveOnline(online);
 
             }

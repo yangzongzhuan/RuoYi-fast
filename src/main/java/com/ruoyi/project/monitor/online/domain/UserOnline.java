@@ -51,6 +51,9 @@ public class UserOnline extends BaseEntity
     /** 备份的当前用户会话 */
     private OnlineSession session;
 
+    /** 序列化的Session数据\uff0c用于服务重吏后恢复会话 */
+    private byte[] sessionData;
+
     public String getSessionId()
     {
         return sessionId;
@@ -169,6 +172,16 @@ public class UserOnline extends BaseEntity
     public void setSession(OnlineSession session)
     {
         this.session = session;
+    }
+
+    public byte[] getSessionData()
+    {
+        return sessionData;
+    }
+
+    public void setSessionData(byte[] sessionData)
+    {
+        this.sessionData = sessionData;
     }
 
     @Override
