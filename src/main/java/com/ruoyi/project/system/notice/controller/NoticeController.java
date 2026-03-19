@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
+import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.notice.domain.Notice;
 import com.ruoyi.project.system.notice.service.INoticeService;
+import com.ruoyi.project.system.notice.service.INoticeReadService;
 
 /**
  * 公告 信息操作处理
@@ -32,6 +35,9 @@ public class NoticeController extends BaseController
 
     @Autowired
     private INoticeService noticeService;
+
+    @Autowired
+    private INoticeReadService noticeReadService;
 
     @RequiresPermissions("system:notice:view")
     @GetMapping()
@@ -110,6 +116,46 @@ public class NoticeController extends BaseController
     }
 
     /**
+     * 首页顶部公告列表（返回全部正常公告，带当前用户已读标记，最多5条）
+     */
+    @GetMapping("/listTop")
+    @ResponseBody
+    public AjaxResult listTop()
+    {
+        Long userId = ShiroUtils.getSysUser().getUserId();
+        List<Notice> list = noticeReadService.selectNoticeListWithReadStatus(userId, 5);
+        long unreadCount = list.stream().filter(n -> !n.getIsRead()).count();
+        AjaxResult result = AjaxResult.success(list);
+        result.put("unreadCount", unreadCount);
+        return result;
+    }
+
+    /**
+     * 标记公告已读
+     */
+    @PostMapping("/markRead")
+    @ResponseBody
+    public AjaxResult markRead(Long noticeId)
+    {
+        Long userId = ShiroUtils.getSysUser().getUserId();
+        noticeReadService.markRead(noticeId, userId);
+        return success();
+    }
+
+    /**
+     * 批量标记已读
+     */
+    @PostMapping("/markReadAll")
+    @ResponseBody
+    public AjaxResult markReadAll(String ids)
+    {
+        Long userId = ShiroUtils.getSysUser().getUserId();
+        Long[] noticeIds = Convert.toLongArray(ids);
+        noticeReadService.markReadBatch(userId, noticeIds);
+        return success();
+    }
+
+    /**
      * 删除公告
      */
     @RequiresPermissions("system:notice:remove")
@@ -118,6 +164,7 @@ public class NoticeController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
+        noticeReadService.deleteByNoticeIds(ids);
         return toAjax(noticeService.deleteNoticeByIds(ids));
     }
 }
