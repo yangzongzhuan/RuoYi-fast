@@ -127,6 +127,19 @@ public class DeptController extends BaseController
     }
 
     /**
+     * 保存部门排序
+     */
+    @Log(title = "保存部门排序", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:dept:edit")
+    @PostMapping("/updateSort")
+    @ResponseBody
+    public AjaxResult updateSort(@RequestParam String[] deptIds, @RequestParam String[] orderNums)
+    {
+        deptService.updateDeptSort(deptIds, orderNums);
+        return success();
+    }
+
+    /**
      * 删除
      */
     @Log(title = "部门管理", businessType = BusinessType.DELETE)
@@ -184,16 +197,5 @@ public class DeptController extends BaseController
         dept.setExcludeId(excludeId);
         List<Ztree> ztrees = deptService.selectDeptTreeExcludeChild(dept);
         return ztrees;
-    }
-
-    /**
-     * 保存部门排序
-     */
-    @PostMapping("/updateSort")
-    @ResponseBody
-    public AjaxResult updateSort(@RequestParam String[] deptIds, @RequestParam String[] orderNums)
-    {
-        deptService.updateDeptSort(deptIds, orderNums);
-        return success();
     }
 }
