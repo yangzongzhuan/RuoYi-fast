@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.notice.service;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.text.Convert;
@@ -69,5 +70,14 @@ public class NoticeReadServiceImpl implements INoticeReadService
     public void deleteByNoticeIds(String ids)
     {
         noticeReadMapper.deleteByNoticeIds(Convert.toStrArray(ids));
+    }
+
+    /**
+     * 查询已阅读某公告的用户列表
+     */
+    @Override
+    public List<Map<String, Object>> selectReadUsersByNoticeId(Long noticeId, String searchValue)
+    {
+        return noticeReadMapper.selectReadUsersByNoticeId(noticeId, searchValue);
     }
 }

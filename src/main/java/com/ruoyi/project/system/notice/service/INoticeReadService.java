@@ -1,7 +1,8 @@
 package com.ruoyi.project.system.notice.service;
 
-import com.ruoyi.project.system.notice.domain.Notice;
 import java.util.List;
+import java.util.Map;
+import com.ruoyi.project.system.notice.domain.Notice;
 
 /**
  * 公告已读记录 服务层
@@ -49,4 +50,13 @@ public interface INoticeReadService
      * @param ids 公告ID字符串（逗号分隔）
      */
     public void deleteByNoticeIds(String ids);
+
+    /**
+     * 查询已阅读某公告的用户列表
+     *
+     * @param noticeId  公告ID
+     * @param searchValue 搜索值
+     * @return 已读用户列表
+     */
+    public List<Map<String, Object>> selectReadUsersByNoticeId(Long noticeId, String searchValue);
 }

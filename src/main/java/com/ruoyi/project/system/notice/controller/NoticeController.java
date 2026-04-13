@@ -107,7 +107,6 @@ public class NoticeController extends BaseController
     /**
      * 查询公告详细
      */
-    @RequiresPermissions("system:notice:list")
     @GetMapping("/view/{noticeId}")
     public String view(@PathVariable("noticeId") Long noticeId, ModelMap mmap)
     {
@@ -153,6 +152,30 @@ public class NoticeController extends BaseController
         Long[] noticeIds = Convert.toLongArray(ids);
         noticeReadService.markReadBatch(userId, noticeIds);
         return success();
+    }
+
+    /**
+     * 已读用户页面
+     */
+    @RequiresPermissions("system:notice:list")
+    @GetMapping("/readUsers/{noticeId}")
+    public String readUsers(@PathVariable("noticeId") Long noticeId, ModelMap mmap)
+    {
+        mmap.put("notice", noticeService.selectNoticeById(noticeId));
+        return prefix + "/readUsers";
+    }
+
+    /**
+     * 已读用户列表数据
+     */
+    @RequiresPermissions("system:notice:list")
+    @PostMapping("/readUsers/list")
+    @ResponseBody
+    public TableDataInfo readUsersList(Long noticeId, String searchValue)
+    {
+        startPage();
+        List<?> list = noticeReadService.selectReadUsersByNoticeId(noticeId, searchValue);
+        return getDataTable(list);
     }
 
     /**

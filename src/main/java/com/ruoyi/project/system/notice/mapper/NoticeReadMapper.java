@@ -1,9 +1,10 @@
 package com.ruoyi.project.system.notice.mapper;
 
-import com.ruoyi.project.system.notice.domain.NoticeRead;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import com.ruoyi.project.system.notice.domain.Notice;
+import com.ruoyi.project.system.notice.domain.NoticeRead;
 
 /**
  * 公告已读记录 数据层
@@ -62,4 +63,13 @@ public interface NoticeReadMapper
      * @return 结果
      */
     public int deleteByNoticeIds(@Param("noticeIds") String[] noticeIds);
+
+    /**
+     * 查询已阅读某公告的用户列表
+     *
+     * @param noticeId 公告ID
+     * @param searchValue 搜索值
+     * @return 已读用户列表
+     */
+    public List<Map<String, Object>> selectReadUsersByNoticeId(@Param("noticeId") Long noticeId, @Param("searchValue") String searchValue);
 }
