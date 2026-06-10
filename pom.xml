@@ -29,13 +29,13 @@
         <pagehelper.spring.boot.starter.version>1.4.7</pagehelper.spring.boot.starter.version>
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.28</druid.version>
-        <commons.io.version>2.21.0</commons.io.version>
+        <commons.io.version>2.22.0</commons.io.version>
         <yauaa.version>7.32.0</yauaa.version>
         <velocity.version>2.3</velocity.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <swagger.version>3.0.0</swagger.version>
         <poi.version>4.1.2</poi.version>
-        <oshi.version>6.10.0</oshi.version>
+        <oshi.version>7.3.0</oshi.version>
         <!-- override dependency version -->
         <tomcat.version>9.0.112</tomcat.version>
         <logback.version>1.2.13</logback.version>
