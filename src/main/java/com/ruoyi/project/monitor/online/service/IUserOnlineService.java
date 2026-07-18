@@ -45,7 +45,7 @@ public interface IUserOnlineService
     /**
      * 查询会话集合
      * 
-     * @param userOnline 分页参数
+     * @param userOnline 会话信息
      * @return 会话集合
      */
     public List<UserOnline> selectUserOnlineList(UserOnline userOnline);
