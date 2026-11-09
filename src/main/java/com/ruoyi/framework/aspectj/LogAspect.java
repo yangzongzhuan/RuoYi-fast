@@ -16,8 +16,8 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.support.spring.PropertyPreFilters;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.filter.PropertyPreFilter;
 import com.ruoyi.common.utils.ExceptionUtil;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -40,7 +40,7 @@ import com.ruoyi.project.system.user.domain.User;
 public class LogAspect
 {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
-    
+
     /** 排除敏感属性字段 */
     public static final String[] EXCLUDE_PROPERTIES = { "password", "oldPassword", "newPassword", "confirmPassword" };
 
@@ -141,9 +141,9 @@ public class LogAspect
      * 
      * @param log 日志
      * @param operLog 操作日志
-     * @throws Exception
+     * @param jsonResult 返回参数
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperLog operLog, Object jsonResult) throws Exception
+    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperLog operLog, Object jsonResult)
     {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
@@ -160,22 +160,22 @@ public class LogAspect
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult))
         {
-            operLog.setJsonResult(StringUtils.substring(JSONObject.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
         }
     }
 
     /**
      * 获取请求的参数，放到log中
      * 
-     * @param operLog
-     * @param request
+     * @param operLog 操作日志
+     * @param excludeParamNames 排除参数 
      */
     private void setRequestValue(JoinPoint joinPoint, OperLog operLog, String[] excludeParamNames)
     {
         Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
         if (StringUtils.isNotEmpty(map))
         {
-            String params = JSONObject.toJSONString(map, excludePropertyPreFilter(excludeParamNames));
+            String params = JSON.toJSONString(map, excludePropertyPreFilter(excludeParamNames));
             operLog.setOperParam(StringUtils.substring(params, 0, PARAM_MAX_LENGTH));
         }
         else
@@ -192,9 +192,10 @@ public class LogAspect
     /**
      * 忽略敏感属性
      */
-    public PropertyPreFilters.MySimplePropertyPreFilter excludePropertyPreFilter(String[] excludeParamNames)
+    public PropertyPreFilter excludePropertyPreFilter(String[] excludeParamNames)
     {
-        return new PropertyPreFilters().addFilter().addExcludes(ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
+        String[] excludes = ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames);
+        return (writer, source, name) -> !ArrayUtils.contains(excludes, name);
     }
 
     /**
@@ -211,7 +212,7 @@ public class LogAspect
                 {
                     try
                     {
-                        Object jsonObj = JSONObject.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
+                        String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
                         params.append(jsonObj).append(" ");
                         if (params.length() >= PARAM_MAX_LENGTH)
                         {
