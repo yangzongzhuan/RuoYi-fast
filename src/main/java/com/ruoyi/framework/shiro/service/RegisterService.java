@@ -11,6 +11,7 @@ import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
+import com.ruoyi.framework.web.domain.model.RegisterBody;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.service.IUserService;
 
@@ -28,9 +29,11 @@ public class RegisterService
     /**
      * 注册
      */
-    public String register(User user)
+    public String register(RegisterBody registerBody)
     {
-        String msg = "", loginName = user.getLoginName(), password = user.getPassword();
+        String msg = "", loginName = registerBody.getUsername(), password = registerBody.getPassword();
+        User user = new User();
+        user.setLoginName(loginName);
 
         if (ShiroConstants.CAPTCHA_ERROR.equals(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA)))
         {
@@ -62,6 +65,7 @@ public class RegisterService
         {
             user.setPwdUpdateDate(DateUtils.getNowDate());
             user.setUserName(loginName);
+            user.setPassword(password);
             boolean regFlag = userService.registerUser(user);
             if (!regFlag)
             {

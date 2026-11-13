@@ -18,6 +18,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.model.LoginBody;
 import com.ruoyi.framework.web.service.ConfigService;
 
 /**
@@ -54,9 +55,9 @@ public class LoginController extends BaseController
 
     @PostMapping("/login")
     @ResponseBody
-    public AjaxResult ajaxLogin(String username, String password, Boolean rememberMe)
+    public AjaxResult ajaxLogin(LoginBody loginBody)
     {
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        UsernamePasswordToken token = new UsernamePasswordToken(loginBody.getUsername(), loginBody.getPassword(), loginBody.getRememberMe());
         Subject subject = SecurityUtils.getSubject();
         try
         {

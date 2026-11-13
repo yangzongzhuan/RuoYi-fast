@@ -9,8 +9,8 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.shiro.service.RegisterService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.model.RegisterBody;
 import com.ruoyi.project.system.config.service.IConfigService;
-import com.ruoyi.project.system.user.domain.User;
 
 /**
  * 注册验证
@@ -34,13 +34,13 @@ public class RegisterController extends BaseController
 
     @PostMapping("/register")
     @ResponseBody
-    public AjaxResult ajaxRegister(User user)
+    public AjaxResult ajaxRegister(RegisterBody registerBody)
     {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
         {
             return error("当前系统没有开启注册功能！");
         }
-        String msg = registerService.register(user);
+        String msg = registerService.register(registerBody);
         return StringUtils.isEmpty(msg) ? success() : error(msg);
     }
 }
