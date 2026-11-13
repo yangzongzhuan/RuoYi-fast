@@ -136,6 +136,10 @@ public class MenuController extends BaseController
         {
             return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
+        else if (menuService.checkParentCycle(menu))
+        {
+            return error("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己或自己的子菜单");
+        }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(menuService.updateMenu(menu));
     }

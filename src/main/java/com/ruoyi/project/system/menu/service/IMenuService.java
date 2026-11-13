@@ -3,7 +3,6 @@ package com.ruoyi.project.system.menu.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.role.domain.Role;
@@ -140,4 +139,12 @@ public interface IMenuService
      * @return 结果
      */
     public boolean checkMenuNameUnique(Menu menu);
+
+    /**
+     * 校验上级菜单是否为自己或自己的子菜单
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public boolean checkParentCycle(Menu menu);
 }
