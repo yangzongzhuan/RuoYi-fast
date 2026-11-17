@@ -82,6 +82,10 @@ public class DictDataController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated DictData dict)
     {
+        if (!dictDataService.checkDictDataUnique(dict))
+        {
+            return error("新增字典数据'" + dict.getDictValue() + "'失败，字典值在该字典类型内已存在");
+        }
         return toAjax(dictDataService.insertDictData(dict));
     }
 
@@ -105,6 +109,10 @@ public class DictDataController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated DictData dict)
     {
+        if (!dictDataService.checkDictDataUnique(dict))
+        {
+            return error("修改字典数据'" + dict.getDictValue() + "'失败，字典值在该字典类型内已存在");
+        }
         return toAjax(dictDataService.updateDictData(dict));
     }
 

@@ -104,6 +104,7 @@ public class Dept extends BaseEntity
         this.orderNum = orderNum;
     }
 
+    @Size(min = 0, max = 20, message = "负责人长度不能超过20个字符")
     public String getLeader()
     {
         return leader;
